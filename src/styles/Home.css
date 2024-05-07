@@ -2,10 +2,10 @@
 
 
 .home-container{
-    display: inline-grid;
+    display: grid;
     grid-template-columns: auto auto;
     margin-top: 8%;
-    column-gap: 100px;
+    column-gap: 40px;
 }
 
 .home-container p{
