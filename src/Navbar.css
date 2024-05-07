@@ -1,0 +1,44 @@
+.links a{
+    text-decoration: none;
+    color:rgb(65, 146, 89);
+}
+
+.navbar .links a:hover {
+    background-color: rgb(65, 146, 89); /* Example background color on hover */
+  }
+  
+.navbar .links a:last-child {
+    margin-right: 0;
+}
+
+.navbar .links{
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: 5%;
+    gap: 120px;
+}
+
+.navbar h1{
+    margin-left: 10%;
+    font-size: 2.0rem;
+}
+
+.navbar {
+    background-color: rgb(87, 196, 120);
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.title-link a{
+    text-decoration: none;
+    font-size: 2.0rem;
+    color: black;
+    font-weight: bold;
+}
+
+.title-link{
+    margin-left: 5%;
+}
