@@ -1,6 +1,3 @@
-import '../Navbar.css';
-
-
 const About = () => {
     return (
     <p>"hi!"</p>
