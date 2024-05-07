@@ -1,5 +1,6 @@
 import './App.css';
-import './Navbar.css';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
 import Navbar from './Navbar';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
         <h1>App Component</h1>
       </div>
     </div>
+
   );
 }
 
