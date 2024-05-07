@@ -12,14 +12,6 @@ function App() {
           <Route path="/about" element={<About />} />
         </Routes>
     </BrowserRouter>
-    // <div className="App">
-    //    <Navbar></Navbar>
-    //    <Home></Home>
-    //   {/* <div className="content">
-    //     <h1>App Component</h1>
-    //   </div> */}
-    // </div>
-
   );
 }
 

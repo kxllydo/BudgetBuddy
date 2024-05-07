@@ -16,7 +16,7 @@ const Home = () => {
             </div>
 
             <div className = "dashboard">
-                <img src="https://i.ibb.co/sJmFfMK/image.png" height = "120%" alt = "dashboard"></img>
+                <img src="https://i.ibb.co/g44hqGF/Untitled-design-removebg-preview.png" height = "120%" alt = "dashboard"></img>
             </div>
         </div>
         </body>
