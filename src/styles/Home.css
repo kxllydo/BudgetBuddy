@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+
+.home-container{
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    margin-top: 8%;
+    column-gap: 100px;
+}
+
+.home-container p{
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    text-align: left;
+    margin-top: 15%;
+    margin-left: 20%;
+}
+
+.start{
+    text-align: left;
+    margin-left: 20%;
+}
+
+.start a{
+    background-color: rgb(41, 106, 33);
+    padding: 8px 10px;
+    color: white;
+    text-decoration: none;
+    border-radius: 14px;
+
+}
