@@ -1,6 +1,8 @@
 const About = () => {
     return (
-    <p>"hi!"</p>
+    <div className = "home-container">
+        <p> hi wassp</p>
+    </div>
     );
 };
 
