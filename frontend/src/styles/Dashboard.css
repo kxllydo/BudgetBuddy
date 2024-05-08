@@ -1,0 +1,59 @@
+.dash-container{
+    display: grid;
+    grid-template-columns: 0.7fr 6fr;
+}
+
+.dashboard-body{
+    background-color: white;
+    display:grid;
+    grid-template-columns: 1.5fr 1.2fr;
+    gap: 28px;
+    margin: 2.5% 2.5%;
+}
+
+
+.graph{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background-color: pink;
+    border-radius: 25px;
+}
+
+.pie-chart{
+    background-color: pink;
+    border-radius: 25px;
+}
+
+.spent{
+    background-color: pink;
+    border-radius: 25px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.category1{
+    background-color: purple;
+    border-radius: 25px;
+    justify-content: flex-start;
+    height: 45%;
+
+}
+
+.category2{
+    background-color: purple;
+    border-radius: 25px;
+    justify-content: flex-end;
+    height: 45%;
+
+}
+
+.category{
+    font-size: 25px;
+    margin-left: 5%;
+}
+
+.cost{
+    margin-left: 5%;
+    font-size: 40px;
+}
