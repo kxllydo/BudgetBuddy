@@ -1,4 +1,56 @@
 .App {
+  margin: 0px;
+
+}
+
+.App img {
+  position: absolute;
+  z-index: -1;
+
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.login-box form {
+  backdrop-filter: blur(20px);
+  padding: 1%;
+  padding-left: 2%;
+  padding-right: 2%;
+
+  background-color: rgba(0, 255, 0, .4);
+}
+
+form h1 {
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+form input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: yellow;
+}
+
+form label {
+  
+  background-color: blue;
+}
+
+form button {
+  margin-top: 25px;
+  text-align: center;
+}
+
+/*
+.App {
   text-align: center;
 }
 
@@ -36,3 +88,4 @@
     transform: rotate(360deg);
   }
 }
+*/
