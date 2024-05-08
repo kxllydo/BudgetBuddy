@@ -1,5 +1,5 @@
 import './styles/App.css';
-import Navbar from './pages/Navbar';
+import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import About from'./pages/About';
@@ -10,6 +10,7 @@ function App() {
       <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
         </Routes>
     </BrowserRouter>
   );
