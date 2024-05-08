@@ -24,7 +24,7 @@ const RegisterForm = () => {
                 </div>
 
                 <div class = "wrong-account-page">
-                    <a href = "/login.html"><strong>Already have an account?</strong> Sign in.</a>
+                    <a href = "/login"><strong>Already have an account?</strong> Sign in.</a>
                 </div>
             </form>
         </div>

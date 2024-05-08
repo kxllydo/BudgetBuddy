@@ -1,6 +1,8 @@
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 
+import Navbar from "./Navbar";
+
 import "../styles/AccountForm.css";
 
 const FormField = (props) => {
@@ -41,7 +43,7 @@ const LoginForm = () => {
                 </FormField>
 
                 <div class = "forgot-password">
-                    <a href = "/"><strong>Forgot Password?</strong></a>
+                    <a href = "/forgot-password"><strong>Forgot Password?</strong></a>
                 </div>
 
                 <div class = "form-button">
@@ -49,7 +51,7 @@ const LoginForm = () => {
                 </div>
 
                 <div class = "wrong-account-page">
-                    <a href = "/register.html"><strong>New user?</strong> Register here.</a>
+                    <a href = "/register"><strong>New user?</strong> Register here.</a>
                 </div>
             </form>
         </div>
@@ -59,6 +61,7 @@ const LoginForm = () => {
 const Login = ()  => {
     return (
         <div class = "account-body-wrapper">
+            <Navbar />
             <div class = "left-half"></div>
             <div class = "right-half"><LoginForm /></div>
         </div>

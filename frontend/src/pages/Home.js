@@ -13,7 +13,7 @@ const Home = () => {
                 <p>Keeping record of your expenses just became easier with Stekelly</p>
                 <br></br>
                 <div className = "start">
-                    <Link to = "/"> Get Started</Link>
+                    <Link to = "/register"> Get Started</Link>
                 </div>
             </div>
 
