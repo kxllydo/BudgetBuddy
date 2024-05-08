@@ -1,7 +1,8 @@
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 
-import { FormField } from "./Login.jsx";
+import { FormField } from "./Login";
+import Navbar from "./Navbar";
 
 import "../styles/AccountForm.css";
 
@@ -34,6 +35,7 @@ const RegisterForm = () => {
 const Register = () => {
     return (
         <div class = "account-body-wrapper">
+            <Navbar />
             <div class = "left-half"></div>
             <div class = "right-half"><RegisterForm /></div>
         </div>
