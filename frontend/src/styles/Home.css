@@ -4,8 +4,8 @@
 .home-container{
     display: grid;
     grid-template-columns: auto auto;
-    margin-top: 8%;
-    column-gap: 40px;
+    margin-top: 6%;
+    column-gap: 25px;
 }
 
 .home-container h1{
@@ -20,11 +20,13 @@
     color: white;
     text-decoration: none;
     border-radius: 14px;
+    font-size: 23px;
 
 }
 
 .slogan{
     margin-left: 10%;
+    margin-right: 10%;
     margin-top: 10%;
     text-align: left;
 
