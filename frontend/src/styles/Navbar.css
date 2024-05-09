@@ -28,7 +28,6 @@
     background-color: rgb(87, 196, 120);
     height: 100px;
     display: flex;
-    position: fixed;
     width: 100vw;
     flex-direction: row;
     align-items: center;
