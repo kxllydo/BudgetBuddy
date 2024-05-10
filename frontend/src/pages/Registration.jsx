@@ -18,7 +18,9 @@ const RegisterForm = () => {
                 <FormField type = "password" id = "password" name = "password" placeholder = "Enter a password" required>
                     <RiLockPasswordFill class = "account-form-icon" />
                 </FormField>
-                <FormField type = "password" id = "password2" name = "password2" placeholder = "Confirm your password" required></FormField>
+                <FormField type = "password" id = "password2" name = "password2" placeholder = "Confirm your password" required>
+                    
+                </FormField>
 
                 <div class = "form-button">
                     <button>Register</button>
@@ -34,10 +36,12 @@ const RegisterForm = () => {
 
 const Register = () => {
     return (
-        <div class = "account-body-wrapper">
-            <Navbar />
-            <div class = "left-half"></div>
-            <div class = "right-half"><RegisterForm /></div>
+        <div>
+            <Navbar></Navbar>
+            <div class = "account-body-wrapper">
+                <div class = "left-half"></div>
+                <div class = "right-half"><RegisterForm /></div>
+            </div>       
         </div>
     );
 }
