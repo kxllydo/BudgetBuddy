@@ -15,22 +15,27 @@
 
 
 .graph{
-    background-color: pink;
+    background-color: white;
     border-radius: 25px;
     grid-column-start: 1;
     grid-column-end: 4;
+    box-shadow: 3px 3px 3px 3px rgb(206, 205, 205);
+
 }
 
 .pie-chart{
-    background-color: pink;
+    background-color: white;
     border-radius: 25px;
+    box-shadow: 3px 3px 3px 3px rgb(206, 205, 205);
 }
 
 .line-graph{
-    background-color:pink;
+    background-color:white;
     grid-column-start: 3;
     grid-column-end: 5;
     grid-row-start: 2;
+    border-radius: 25px;
+    box-shadow: 3px 3px 3px 3px rgb(206, 205, 205);
 
 }
 
