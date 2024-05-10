@@ -45,7 +45,6 @@
 }
 
 .spent{
-    background-color: pink;
     border-radius: 25px;
     display:flex;
     flex-direction: column;

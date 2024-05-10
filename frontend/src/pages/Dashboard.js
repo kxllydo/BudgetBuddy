@@ -1,6 +1,8 @@
 import Sidebar from "./Sidebar";
 import "../styles/Dashboard.css";
 import PieChartComponent from "./Piechart";
+import SimpleBarChart from "./Barchart";
+import SimpleLineChart from "./Linechart";
 
 const Dashboard = () => {
     return(
@@ -8,9 +10,7 @@ const Dashboard = () => {
             <Sidebar />
             <div className = 'dashboard-body'>
                 <div className = "graph">
-                    <h1>hi</h1>
-                    <h2>h iihir</h2>
-                    <h2>h iihir</h2>
+                    <SimpleBarChart />
                 </div>
 
                 <div className = "pie-chart">
@@ -19,6 +19,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="line-graph">
+                    <SimpleLineChart />
                 </div>
 
                 <div className = "spent">
