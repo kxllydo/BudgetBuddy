@@ -13,20 +13,25 @@
     margin: 2.5% 2.5%;
 }
 
+.pie-header{
+    margin-left: 5%;
+    color:  rgb(81, 130, 81);
+    font-weight: bold;
+}
 
 .graph{
     background-color: white;
     border-radius: 25px;
     grid-column-start: 1;
     grid-column-end: 4;
-    box-shadow: 3px 3px 3px 3px rgb(206, 205, 205);
+    box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
 
 }
 
 .pie-chart{
     background-color: white;
     border-radius: 25px;
-    box-shadow: 3px 3px 3px 3px rgb(206, 205, 205);
+    box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
 }
 
 .line-graph{
@@ -35,12 +40,11 @@
     grid-column-end: 5;
     grid-row-start: 2;
     border-radius: 25px;
-    box-shadow: 3px 3px 3px 3px rgb(206, 205, 205);
+    box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
 
 }
 
 .spent{
-    background-color: pink;
     border-radius: 25px;
     display:flex;
     flex-direction: column;
@@ -51,19 +55,19 @@
 }
 
 .category1{
-    background-color: purple;
+    background-color: white;
     border-radius: 25px;
     justify-content: flex-start;
     height: 45%;
-
+    box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
 }
 
 .category2{
-    background-color: purple;
+    background-color: white;
     border-radius: 25px;
     justify-content: flex-end;
     height: 45%;
-
+    box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
 }
 
 .category{
