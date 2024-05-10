@@ -14,6 +14,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className = "pie-chart">
+                    <p className = "pie-header">Categorized Spending</p>
                     <PieChartComponent />
                 </div>
 
