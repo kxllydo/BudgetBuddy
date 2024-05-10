@@ -16,8 +16,11 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path = "/login" element = {<Login />} />
           <Route path = "/register" element = {<Register />} />
-          <Route path="/dashboard" element={<Dashboard/>} />
           <Route path = "/forgot-password" element = {<ForgotPassword />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path = "/reports" element = {<Home />} />
+          <Route path = "/activity" element = {<Home />} />
+          <Route path = "*" element = {<Home />} />
         </Routes>
     </BrowserRouter>
   );
