@@ -7,17 +7,18 @@
 
 .dashboard-body{
     display:grid;
-    grid-template-columns: 1.5fr 1.2fr;
-    gap: 28px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 25px;
     margin: 2.5% 2.5%;
 }
 
 
 .graph{
-    grid-column-start: 1;
-    grid-column-end: 3;
     background-color: pink;
     border-radius: 25px;
+    grid-column-start: 1;
+    grid-column-end: 4;
 }
 
 .pie-chart{
@@ -25,6 +26,13 @@
     border-radius: 25px;
 }
 
+.line-graph{
+    background-color:pink;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 2;
+
+}
 
 .spent{
     background-color: pink;
@@ -32,6 +40,9 @@
     display:flex;
     flex-direction: column;
     justify-content: space-between;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
 }
 
 .category1{

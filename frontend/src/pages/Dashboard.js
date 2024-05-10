@@ -11,12 +11,13 @@ const Dashboard = () => {
                     <h1>hi</h1>
                     <h2>h iihir</h2>
                     <h2>h iihir</h2>
-                    <h2>h iihir</h2>
-                    <h2>h iihir</h2>
-
                 </div>
-                <div className="pie-chart">
+
+                <div className = "pie-chart">
                     <PieChartComponent />
+                </div>
+
+                <div className="line-graph">
                 </div>
 
                 <div className = "spent">
