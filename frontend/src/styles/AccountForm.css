@@ -152,6 +152,10 @@
 
             .account-form-wrapper {
                 width: 300px;
+
+                h1 {
+                    font-size: 2rem;
+                }
             }
 
             .left-half {
