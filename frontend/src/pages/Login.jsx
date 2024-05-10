@@ -61,7 +61,7 @@ const LoginForm = () => {
 const Login = ()  => {
     return (
         <div>
-            <Navbar> </Navbar>
+            <Navbar></Navbar>
             <div class = "account-body-wrapper">
                 <div class = "left-half"></div>
                 <div class = "right-half"><LoginForm /></div>
