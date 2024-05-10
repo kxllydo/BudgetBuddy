@@ -1,7 +1,7 @@
 .sidebar{
     display:flex;
     flex-direction: column;
-    background-color: rgb(163, 203, 184);
+    background-color: rgb(81, 130, 81);
     justify-content: space-between;
     height: 100vh;
 }
@@ -11,13 +11,25 @@
     padding: 8px 2px;
     border: none;
     margin: 0% 5% 5% 20%;
-    background-color: rgb(163, 203, 184);
+    /* background-color: rgb(163, 203, 184); */
     text-align: left;
-    font-size: 24px;
+    font-size: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .option {
+        font-size: 16px; /* Decrease font size for smaller screens */
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .option {
+        font-size: 24px; /* Increase font size for larger screens */
+    }
 }
 
 .option:hover {
-    background-color: rgb(145, 179, 163); /* Example background color on hover */
+    background-color: rgb(75, 120, 75); /* Example background color on hover */
 }
 
 .top-options{
@@ -26,7 +38,7 @@
 
 .option > a{
     text-decoration: none;
-    color: black;
+    color:white;
 }
 
 .bottom-options{

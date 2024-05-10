@@ -1,5 +1,7 @@
 import Sidebar from "./Sidebar";
 import "../styles/Dashboard.css";
+import PieChartComponent from "./Piechart";
+
 const Dashboard = () => {
     return(
         <div className = "dash-container">
@@ -13,8 +15,8 @@ const Dashboard = () => {
                     <h2>h iihir</h2>
 
                 </div>
-                <div className = "pie-chart">
-
+                <div className="pie-chart">
+                    <PieChartComponent />
                 </div>
 
                 <div className = "spent">

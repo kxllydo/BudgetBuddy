@@ -1,10 +1,11 @@
 .dash-container{
     display: grid;
-    grid-template-columns: 0.7fr 6fr;
+    grid-template-columns: 1fr 5.5fr;
+    background-color: rgb(235, 242, 233);
+
 }
 
 .dashboard-body{
-    background-color: white;
     display:grid;
     grid-template-columns: 1.5fr 1.2fr;
     gap: 28px;
@@ -23,6 +24,7 @@
     background-color: pink;
     border-radius: 25px;
 }
+
 
 .spent{
     background-color: pink;
@@ -49,11 +51,23 @@
 }
 
 .category{
-    font-size: 25px;
+    font-size: 16px;
     margin-left: 5%;
+}
+
+@media screen and (min-width: 1300px) {
+    .category {
+        font-size: 25px; /* Increase font size for larger screens */
+    }
 }
 
 .cost{
     margin-left: 5%;
-    font-size: 40px;
+    font-size: 25px;
+}
+
+@media screen and (min-width: 1300px) {
+    .cost {
+        font-size: 40px; /* Increase font size for larger screens */
+    }
 }
