@@ -1,10 +1,12 @@
 .links a{
     text-decoration: none;
-    color:rgb(65, 146, 89);
+    color:rgb(25, 64, 36);
+    padding: 6px 6px;
+    border-radius: 10px;
 }
 
 .navbar .links a:hover {
-    background-color: rgb(65, 146, 89); /* Example background color on hover */
+    background-color: rgb(88, 169, 112); /* Example background color on hover */
   }
   
 .navbar .links a:last-child {
