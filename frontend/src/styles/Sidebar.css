@@ -1,9 +1,21 @@
+:root {
+    --sidebar-width: 15vw;
+}
+
+.sidebar-page{
+    margin-left: var(--sidebar-width);
+    width: calc(100vw - var(--sidebar-width));
+    min-height: 100vh;
+}
+
 .sidebar{
     display:flex;
     flex-direction: column;
     background-color: rgb(81, 130, 81);
     justify-content: space-between;
     height: 100vh;
+    position: fixed;
+    width: var(--sidebar-width);
 }
 
 .option {
