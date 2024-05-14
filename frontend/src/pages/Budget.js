@@ -1,6 +1,8 @@
 import "../styles/Budget.css";
 import Sidebar from "./Sidebar";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { Link } from 'react-router-dom';
+
 
 const ProgressPie = () => {
     const data = [
@@ -43,45 +45,51 @@ function progressBar (width){
 const BudgetCategories = () => {
     return(
         <div className="budget-summary">
-            <h1> Budget by Category</h1>
+            <div className="budget-category-header">
+                <h1> Budget by Category</h1>
+                <div className = "add-category">
+                    <Link to = "/">Add Category</Link>
+                </div>
+            </div>
+     
             <div className="categories">
                 <div className="budget-category">
-                    <p>groceries</p>
+                    <p>Food</p>
                     <div className = "total-bar">
                         <div className = "progress-bar">
-                            hi
+                            <br></br>
                         </div>
                     </div>
                 </div>
                 <div className="budget-category">
-                    <p>groceries</p>
+                    <p>Transportation</p>
                     <div className = "total-bar">
                         <div className = "progress-bar">
-                            hi
-                        </div>
-                    </div><p>groceries</p>
-                </div>
-                <div className="budget-category">
-                    <p>groceries</p>
-                    <div className = "total-bar">
-                        <div className = "progress-bar">
-                            hi
+                            <br></br>
                         </div>
                     </div>
                 </div>
                 <div className="budget-category">
-                    <p>groceries</p>
+                    <p>Utilities</p>
                     <div className = "total-bar">
                         <div className = "progress-bar">
-                            hi
+                            <br></br>
                         </div>
                     </div>
                 </div>
                 <div className="budget-category">
-                    <p>groceries</p>
+                    <p>Shopping</p>
                     <div className = "total-bar">
                         <div className = "progress-bar">
-                            hi
+                            <br></br>
+                        </div>
+                    </div>
+                </div>
+                <div className="budget-category">
+                    <p>Travel</p>
+                    <div className = "total-bar">
+                        <div className = "progress-bar">
+                            <br></br>
                         </div>
                     </div>
                 </div>
