@@ -16,7 +16,7 @@ const FormField = (props) => {
         return null;
 
     return (
-        <div class = "account-form-field-wrapper">
+        <div className = "account-form-field-wrapper">
             <input 
                 type = {props.type}
                 id = {"account-form-"+props.id}
@@ -31,26 +31,26 @@ const FormField = (props) => {
 
 const LoginForm = () => {
     return (
-        <div class = "account-form-wrapper">
+        <div className = "account-form-wrapper">
             <h1>Sign In</h1>
 
             <form>
                 <FormField type = "text" id = "username" name = "username" placeholder = "Enter a username" required>
-                    <FaUser class = "account-form-icon" />
+                    <FaUser className = "account-form-icon" />
                 </FormField>
                 <FormField type = "password" id = "password" name = "password" placeholder = "Enter a password" required>
-                    <RiLockPasswordFill class = "account-form-icon" />
+                    <RiLockPasswordFill className = "account-form-icon" />
                 </FormField>
 
-                <div class = "forgot-password">
+                <div className = "forgot-password">
                     <a href = "/forgot-password"><strong>Forgot Password?</strong></a>
                 </div>
 
-                <div class = "form-button">
+                <div className = "form-button">
                     <button>Login</button>
                 </div>
 
-                <div class = "wrong-account-page">
+                <div className = "wrong-account-page">
                     <a href = "/register"><strong>New user?</strong> Register here.</a>
                 </div>
             </form>
@@ -62,9 +62,9 @@ const Login = ()  => {
     return (
         <div>
             <Navbar></Navbar>
-            <div class = "account-body-wrapper">
-                <div class = "left-half"></div>
-                <div class = "right-half"><LoginForm /></div>
+            <div className = "account-body-wrapper">
+                <div className = "left-half"></div>
+                <div className = "right-half"><LoginForm /></div>
             </div>
         </div>
     );
