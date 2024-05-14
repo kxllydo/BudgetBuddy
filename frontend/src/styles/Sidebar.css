@@ -4,6 +4,8 @@
     background-color: rgb(81, 130, 81);
     justify-content: space-between;
     height: 100vh;
+    position: fixed;
+    width: 15vw;
 }
 
 .option {

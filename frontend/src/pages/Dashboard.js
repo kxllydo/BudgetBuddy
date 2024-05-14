@@ -96,6 +96,19 @@ const PieChartComponent = () => {
 
 const Dashboard = () => {
     return(
+        <>
+            <Sidebar />
+            <div className = "dash-container">
+                <div className = "dashboard-body">
+                    
+                </div>
+            </div>
+        </>
+    );
+}
+
+const Dashbo2ard = () => {
+    return(
         <div className = "dash-container">
             <Sidebar />
             <div className = 'dashboard-body'>
