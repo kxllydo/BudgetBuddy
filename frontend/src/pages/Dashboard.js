@@ -98,7 +98,7 @@ const Dashboard = () => {
     return(
         <>
             <Sidebar />
-            <div className = "dash-container">
+            <div className = "dash-container sidebar-page">
                 <div className = "dashboard-body">
                     <div className = "graph">
                         <SimpleBarChart />

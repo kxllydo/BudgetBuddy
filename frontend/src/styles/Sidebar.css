@@ -2,6 +2,12 @@
     --sidebar-width: 15vw;
 }
 
+.sidebar-page{
+    margin-left: var(--sidebar-width);
+    width: calc(100vw - var(--sidebar-width));
+    min-height: 100vh;
+}
+
 .sidebar{
     display:flex;
     flex-direction: column;
