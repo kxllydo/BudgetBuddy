@@ -6,6 +6,7 @@ import About from'./pages/About';
 import Login from "./pages/Login";
 import Register from "./pages/Registration";
 import ForgotPassword from "./pages/ForgotPassword";
+import Budget from "./pages/Budget";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path = "/reports" element = {<Home />} />
           <Route path = "/activity" element = {<Home />} />
+          <Route path ="/budget" element = {<Budget/>} />
           <Route path = "*" element = {<Home />} />
         </Routes>
     </BrowserRouter>

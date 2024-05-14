@@ -21,12 +21,17 @@
     .option {
         font-size: 16px; /* Decrease font size for smaller screens */
     }
+
+    .sidebar{
+        height: 100%;
+    }
 }
 
 @media screen and (min-width: 1300px) {
     .option {
         font-size: 24px; /* Increase font size for larger screens */
     }
+
 }
 
 .option:hover {
