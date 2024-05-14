@@ -1,0 +1,60 @@
+.linked-data-sources-container {
+    grid-column: 1 / 5;
+    grid-row: 1 / 2;
+}
+
+.data-source-container {
+    grid-column: 1 / 5;
+    grid-row: 2 / 3;
+}
+
+.activity-container {
+    display: flex;
+    flex-flow: column;
+
+    .activity-container-header {
+        display: flex;
+        flex: 0 1 auto;
+        width: 100%;
+
+        .activity-container-title-wrapper {
+            flex: 1 0 auto;
+            display: flex;
+            max-width: 100%;
+        }
+
+        button {
+            background-color: var(--theme-color);
+            color: var(--sub-theme-color);
+
+            border: 0px;
+            border-radius: 20px;
+            padding: 0px 0px;
+            width: 200px;
+
+            font-size: 1rem;
+
+            cursor: pointer;
+        }
+    }
+
+    .activity-container-body {
+        flex: 1 1 auto;
+        
+        margin-top: 20px;
+        height: auto;
+        width: 100%;
+        background-color: pink;
+    }
+}
+
+/*.the_div_you_want_to_scroll {
+    display: grid;
+    align-items: center;
+    grid-auto-flow: row;
+    grid-auto-rows: 25%; /* play with this to change height of the children, 50% will fill half */
+    /*grid-template-columns: unset; /* do not set template columns and rows */
+    /*grid-template-rows: unset;
+    overflow: scroll;
+}
+*/
