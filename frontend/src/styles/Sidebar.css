@@ -1,3 +1,7 @@
+:root {
+    --sidebar-width: 15vw;
+}
+
 .sidebar{
     display:flex;
     flex-direction: column;
@@ -5,7 +9,7 @@
     justify-content: space-between;
     height: 100vh;
     position: fixed;
-    width: 15vw;
+    width: var(--sidebar-width);
 }
 
 .option {
