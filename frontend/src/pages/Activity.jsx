@@ -8,7 +8,7 @@ const Activity = () => {
         <>
             <div className = "dash-container">
                 <Sidebar />
-                <div className = "dashboard-body">
+                <div className = "dashboard-body act-body">
 
                     <div className = "activity-container linked-data-sources-container">
                         <div className = "activity-container-header">
@@ -32,7 +32,168 @@ const Activity = () => {
                         </div>
 
                         <div className = "activity-container-body">
-                            
+                        
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1><h1>blah</h1>                        <h1>blah</h1>
+                        <h1>blah</h1>
+
+                        <h1>blah</h1>
+                        <h1>blah</h1><h1>blah</h1>
                         </div>
                     </div>
                 </div>
