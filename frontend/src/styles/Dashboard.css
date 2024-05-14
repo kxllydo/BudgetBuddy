@@ -5,6 +5,12 @@
 
 }
 
+.help{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
 .dashboard-body{
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
