@@ -96,7 +96,7 @@ const PieChartComponent = () => {
             <Tooltip />
             <Legend layout="vertical" align="right" verticalAlign="middle"/>
             </PieChart>
-    )
+    );
 };
 
 const Dashboard = () => {
