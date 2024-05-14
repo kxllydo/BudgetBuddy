@@ -23,6 +23,9 @@ const Sidebar = () => {
                     </div>
                     <Link to ="/reports">Reports</Link>
                 </div>
+                <div className="option">
+                    <Link to = "/budget">Budget</Link>
+                </div>
             </div>
 
             <div className = "bottom-options">
