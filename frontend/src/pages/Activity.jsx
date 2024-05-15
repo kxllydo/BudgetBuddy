@@ -6,6 +6,17 @@ import "../styles/Activity.css";
 const Activity = () => {
     return (
         <>
+            <Sidebar />
+            <div className = "sidebar-page activity-page">
+                
+            </div>
+        </>
+    )
+}
+
+const Activit3y = () => {
+    return (
+        <>
             <div className = "dash-container">
                 <Sidebar />
                 <div className = "dashboard-body act-body">

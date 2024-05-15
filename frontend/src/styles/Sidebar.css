@@ -12,6 +12,8 @@
     padding-right: 2.5vw !important;
     width: calc(100vw - var(--sidebar-width) - 5vw) !important;
     min-height: 100vh !important;
+    background-color: var(--sub3-theme-color);
+    overflow-x: hidden;
 }
 
 .sidebar {
