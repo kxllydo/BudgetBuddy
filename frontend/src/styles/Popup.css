@@ -1,5 +1,5 @@
 .popup-background {
-    display: flex;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -10,6 +10,10 @@
 
     justify-content: center;
     align-items: center;
+}
+
+.popup-background.show {
+    display: flex !important;
 }
 
 .popup {

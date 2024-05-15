@@ -5,6 +5,46 @@
     gap: 5vh;
 }
 
+.activity-holder-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 5vh;
+
+    h1 {
+        margin: 0px;
+    }
+
+    button {
+        margin: 0px;
+        padding: 0.5vh 1.5vw;
+        border-radius: 20px;
+        border: 0px;
+
+        background-color: var(--theme-color);
+        color: white;
+        font-size: 1.125rem;
+        cursor: pointer;
+    }
+}
+
+.linked-cards-display-holder {
+    .activity-no-linked-cards {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .activity-has-linked-cards {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+    }
+}
+
 /*
 .linked-data-sources-container {
     grid-column: 1 / 5;
