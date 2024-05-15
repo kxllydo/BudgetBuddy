@@ -119,32 +119,36 @@ const AddCategoryForm = () => {
 
             { state === "goal" && (
                 <div>
-                <div className="format-option-pair">
-                    <label htmlFor="expenseCap" className = "budget-popup-label">Expense Cap:</label>
-                    <input type="text" id="expenseCap" name="expenseCap" />
-                </div>
+                    <div className="format-option-pair">
+                        <label htmlFor="expenseCap" className = "budget-popup-label">Expense Cap:</label>
+                        <input type="text" id="expenseCap" name="expenseCap" />
+                    </div>
 
-                <div className="format-option-pair">
-                    <label htmlFor="cap-categories" className = "budget-popup-label">Category</label>
-                    <select name="cap-categories" className = "choices" id="cap-categories">
-                        <label htmlFor="choices">Add a </label>
-                        <option value = "groceries"> Grocreries</option>
-                        <option value = "bill"> Bill</option>
-                        <option value = "food"> Food</option>
-                    </select>
-                </div>
-                <input type="submit" value="Submit" className = "popup-submit"/>
+                    <div className="format-option-pair">
+                        <label htmlFor="cap-categories" className = "budget-popup-label">Category</label>
+                        <select name="cap-categories" className = "choices" id="cap-categories">
+                            <label htmlFor="choices">Add a </label>
+                            <option value = "groceries"> Grocreries</option>
+                            <option value = "bill"> Bill</option>
+                            <option value = "food"> Food</option>
+                        </select>
+                    </div>
+                    <div className="popup-submit-div">
+                    <input type="submit" value="Submit" className = "popup-submit"/>
+                    </div>
                 </div>
             )}
 
             
-            {state == "category" && (
+            {state === "category" && (
             <div>
                 <div className="format-option-pair">
                     <label htmlFor="category-input" className = "budget-popup-label">Category Name:</label>
                     <input type = "text" id = "category-input" name = "category-input"></input>
                 </div>
-                <input type="submit" value="Submit" className= "popup-submit" />
+                <div className="popup-submit-div">
+                    <input type="submit" value="Submit" className = "popup-submit"/>
+                    </div>
             </div>
             )}
         </div>
