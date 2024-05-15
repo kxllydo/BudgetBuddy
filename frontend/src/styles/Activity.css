@@ -94,8 +94,7 @@
             flex-direction: column;
             flex-wrap: nowrap;
             align-items: center;
-            margin-top: 1.5%;
-
+            margin-top: 1.5vh;
 
             input {
                 background-color: white;
@@ -103,6 +102,7 @@
                 border-radius: 10px;
                 height: 1.5rem;
                 width: 50%;
+                margin-top: 1vh;
             }
 
             button {
@@ -126,6 +126,53 @@
         h1 {
             margin-top: 0px;
             text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+
+            width: 60%;
+            margin-left: 20%;
+            margin-right: auto;
+        }
+
+        .my-activity-form-field {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 1vh;
+            
+            label {
+                justify-self: flex-start;
+                align-self: center;
+            }
+
+            input, select {
+                justify-self: flex-end;
+                align-self: center;
+            }
+        }
+
+        button {
+            margin: 0px;
+            margin-top: 1.5%;
+            padding: 0.5vh 1.5vw;
+            border-radius: 20px;
+            border: 0px;
+
+            background-color: var(--theme-color);
+            color: white;
+            font-size: 1.125rem;
+            cursor: pointer;
+            margin-top: 2vh;
+            align-self: center;
         }
     }
 }
