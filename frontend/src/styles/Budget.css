@@ -7,7 +7,7 @@
 .budget-body{
     display:grid;
     margin-right: 4%;
-    grid-template-rows: 0.5fr 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr;
     gap: 20px 1px;
     margin-left: calc(var(--sidebar-width) + 3%);
     width: calc(100vw - var(--sidebar-width) - 6%);
@@ -96,13 +96,48 @@
     font-size: 20px;
 }
 
-.add-category {
+#add-category {
+    cursor: pointer;
+    background-color:  rgb(81, 130, 81);
+    color: white;
+    border-radius: 24px;
+    border: none;
+    padding: 7px 10px;
+}
+
+
+.category-button{
     margin-right: 3.5%;
 }
-.add-category > a{
-    text-decoration: none;
-    padding: 5px 10px;
-    background-color:  rgb(81, 130, 81);
-    border-radius: 24px;
-    color: white;
+
+#category-form-container{
+    background-color: rgb(190, 126, 126);
+    grid-row-start: 2;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin-left: 18%;
+    margin-right: 18%;
+}
+
+.choices{
+    background-color: orange;
+    width: 120px;
+    border-radius: 10px;
+    height: 20px;
+}
+
+.format-option-pair{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin: 0% 0% 5% 5%;
+}
+
+.budget-popup-label{
+    margin-right: 10px;
+}
+
+.popup-submit{
+    margin: 10% 45% 0 43%;
 }
