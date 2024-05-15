@@ -47,6 +47,18 @@ const MyActivity = () => {
             {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
             {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
             {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
+            {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"},
             {"date": "10/24/24", "category": "Food", "merchant": "Dunkin'", "price": "$100.20"}
         ];
     }
@@ -85,7 +97,11 @@ const MyActivity = () => {
         );
     }
 
-    return acts;
+    return (
+        <DisplayHolder className = {(data.length === 0 && "activity-no-activity") || "activity-has-activity"}>
+            {acts}
+        </DisplayHolder>  
+    );
 }
 
 const CardsForm = ({open, setOpen}) => {
@@ -124,7 +140,7 @@ const Activity = () => {
                 </DisplayHolder>
 
                 <DisplayHolder className = "activity-display-holder">
-                <div class = "activity-holder-header">
+                    <div class = "activity-holder-header">
                         <h1>My Activity</h1>
                         <button onClick = {() => {setShowActivityForm(true)}}>
                             Add Activity

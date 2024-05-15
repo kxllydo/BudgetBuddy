@@ -30,10 +30,15 @@
 }
 
 .linked-cards-display-holder {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
     .activity-no-linked-cards {
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 100%;
     }
 
     .activity-has-linked-cards {
@@ -42,6 +47,28 @@
         flex-wrap: nowrap;
         justify-content: flex-start;
         align-items: center;
+        height: 100%;
+    }
+}
+
+.activity-display-holder {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    .activity-no-activity {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .activity-has-activity {
+        height: 100%;
+
+        table {
+            width: 100%;
+        }
     }
 }
 
