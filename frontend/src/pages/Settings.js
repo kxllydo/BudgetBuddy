@@ -4,36 +4,36 @@ import React, { useState } from 'react';
 
 
 
-const ChangeEmail = () => {
-    var oldDiv = document.getElementById("change-email-button");
-    var email = document.getElementById("email-form");
+const changeType = (type) => {
+    const id = `change-${type}-button`;
+    const form = `${type}-form`
+    var oldDiv = document.getElementById(id);
+    var email = document.getElementById(form);
     if (oldDiv.style.display = 'block'){
         oldDiv.style.display = 'none';
         email.style.display = 'block';
     }
-
-
 }
 
 
-
-const EmailForm = () => {
+const TypeForm = ({type}) => {
+    const formID = `${type}-form`;
     return (
-        <div className="settings-form" id = "email-form">
+        <div className="settings-form" id = {formID}>
             <div className="settings-input">
                 <div className = "settings-pair">
-                    <label htmlFor="oldEmail" className = "settings-label">Old Email:</label>
+                    <label htmlFor="oldEmail" className = "settings-label">Old {type}:</label>
                     <input type="email" id="oldEmail" className="settings-email-input" />
                 </div>
             </div>
 
             <div className="settings-input">
                 <div className = "settings-pair">
-                    <label htmlFor="newEmail" className = "settings-label">New Email:</label>
+                    <label htmlFor="newEmail" className = "settings-label">New {type}:</label>
                     <input type="email" id="newEmail" className="settings-email-input" />
                 </div>
+                <button type = "submit" className="settings-submit-btn">Submit</button>
             </div>
-            {/* <button type="submit"  */}
         </div>
     )
 }
@@ -52,19 +52,18 @@ const Settings = () => {
                         <h3>Email</h3>
                         <p className="subtext">Change your email</p>
                     </div>
-                    {/* <div className = "settings-input" id = "settings-email"> */}
-                    <button className="settings-button" onClick={ChangeEmail} id = "change-email-button">Change Email</button>
-                        <EmailForm />
-                    {/* </div> */}
+                    <button className="settings-button" onClick={() => changeType("email")} id = "change-email-button">Change Email</button>
+                    <TypeForm type = 'email' />
                 </div>
 
-                <div className="settings-option" id="email-div">
+                <div className="settings-option">
                     <div className = "settings-option-pair">
                         <h3>Password</h3>
                         <p className="subtext">Change your password</p>
                     </div>
                     <div className = "settings-input" id = "settings-password">
-                        <button className="settings-button">Change Password</button>
+                        <button className="settings-button" onClick={() => changeType("password")}id = "change-password-button">Change Password</button>
+                        <TypeForm type = 'password' />
                     </div>
                 </div>
 
@@ -84,5 +83,5 @@ const Settings = () => {
     );
 };
 
-export {EmailForm};
+export {TypeForm};
 export default Settings;
