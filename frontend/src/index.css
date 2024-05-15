@@ -5,9 +5,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --theme-color: rgb(81, 130, 81);
+  --sub-theme-color: white;
+  --sub3-theme-color: rgb(235, 242, 233);
+  --text-color: black;
+  --navbar-size: 75px;
+  
+  --font: "Roboto";
 }

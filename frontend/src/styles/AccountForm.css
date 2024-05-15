@@ -1,13 +1,3 @@
-:root {
-    --theme-color: rgba(0, 100, 0, 1);
-    --sub-theme-color: white;
-    --sub3-theme-color: rgb(240, 240, 240);
-    --text-color: black;
-    --navbar-size: 75px;
-    
-    --font: "Roboto";
-}
-
 .account-body-wrapper {
     display: flex;
     flex-flow: row nowrap;

@@ -1,0 +1,131 @@
+.activity-page {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 40vh auto;
+    gap: 5vh;
+}
+
+.activity-holder-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 5vh;
+
+    h1 {
+        margin: 0px;
+    }
+
+    button {
+        margin: 0px;
+        padding: 0.5vh 1.5vw;
+        border-radius: 20px;
+        border: 0px;
+
+        background-color: var(--theme-color);
+        color: white;
+        font-size: 1.125rem;
+        cursor: pointer;
+    }
+}
+
+.linked-cards-display-holder {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    .activity-no-linked-cards {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
+    }
+
+    .activity-has-linked-cards {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1vw;
+        height: 100%;
+        overflow: auto;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
+    }
+}
+
+.activity-display-holder {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    .activity-no-activity {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
+    }
+
+    .activity-has-activity {
+        height: 100%;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
+
+        table {
+            width: 100%;
+        }
+    }
+}
+
+.linked-cards-form-popup {
+    .popup {
+        h1 {
+            margin-top: 0px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            margin-top: 1.5%;
+
+
+            input {
+                background-color: white;
+                border: 1px solid black;
+                border-radius: 10px;
+                height: 1.5rem;
+                width: 50%;
+            }
+
+            button {
+                margin: 0px;
+                margin-top: 1.5%;
+                padding: 0.5vh 1.5vw;
+                border-radius: 20px;
+                border: 0px;
+
+                background-color: var(--theme-color);
+                color: white;
+                font-size: 1.125rem;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.my-activity-form-popup {
+    .popup {
+        h1 {
+            margin-top: 0px;
+            text-align: center;
+        }
+    }
+}

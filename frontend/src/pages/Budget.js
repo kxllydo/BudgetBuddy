@@ -180,7 +180,7 @@ const Budget = () =>{
     return (
         <div className = "budget-page">
             <Sidebar />
-            <div className = "budget-body">
+            <div className = "budget-body sidebar-page">
                 <div className="progress-tracker">
                     <h1 className = "goals"> Goal: Spend Less than 1k </h1>
                     <ResponsiveContainer>
