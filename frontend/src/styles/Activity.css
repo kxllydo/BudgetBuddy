@@ -39,15 +39,21 @@
         justify-content: center;
         align-items: center;
         height: 100%;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
     }
 
     .activity-has-linked-cards {
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
+        gap: 1vw;
         height: 100%;
+        overflow: auto;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
     }
 }
 
@@ -61,10 +67,14 @@
         justify-content: center;
         align-items: center;
         height: 100%;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
     }
 
     .activity-has-activity {
         height: 100%;
+        background-color: var(--sub3-theme-color);
+        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
 
         table {
             width: 100%;

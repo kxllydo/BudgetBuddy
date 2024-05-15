@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Card from "react-credit-cards-2";
 
 import Sidebar from "./Sidebar";
 import DisplayHolder from "./SidebarPage";
@@ -6,6 +7,7 @@ import Popup from "./Popup";
 
 import "../styles/Dashboard.css";
 import "../styles/Activity.css";
+import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 const LinkedCards = () => {
     let data;
@@ -13,10 +15,14 @@ const LinkedCards = () => {
         data = [];
     } else {
         data = [
-            {"name": "My Amazing Travel Card"},
-            {"name": "My Amazing Cash-back Card"},
-            {"name": "My Super Old Student Discover Card"},
-            {"name": "Not My Card"},
+            {"number": "5101", "name": "My Amazing Travel Card"},
+            {"number": "4999", "name": "My Amazing Cash-back Card"},
+            {"number": "3621", "name": "My Super Old Student Discover Card"},
+            {"number": "3792", "name": "Not My Card"},
+            {"number": "4213", "name": "Not My Card Too"},
+            {"number": "4213", "name": "Not My Card Too"},
+            {"number": "4213", "name": "Not My Card Too"},
+            {"number": "4213", "name": "Not My Card Too"}
         ];
     }
 
@@ -26,9 +32,16 @@ const LinkedCards = () => {
             <div>You currently do not have any cards linked.</div>
         )
     } else {
-        cards = (
-            <div>Annyeonghaseyo!</div>
-        )
+        cards = [];
+        for (let i = 0; i < data.length; i++) {
+            cards.push(
+                <Card
+                    number = {data[i].number}
+                    expiry = "****"
+                    cvc = "***"
+                    name = {data[i].name} />
+            )
+        }
     }
 
     return (
@@ -107,7 +120,7 @@ const MyActivity = () => {
 const CardsForm = ({open, setOpen}) => {
     return (
         <Popup open = {open} setOpen = {setOpen}>
-            <h2>hailo</h2>
+            <div>Add a Card</div>
         </Popup>
     );
 }

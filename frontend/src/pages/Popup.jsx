@@ -14,7 +14,6 @@ const Popup = ({children, className, open, setOpen}) => {
                 className = {"popup-background" + className + (open && " show" || " wasd")}
                 onClick = {() => {setOpen(false);}}>
                 <div onClick = {(event) => {event.stopPropagation()}} className = "popup">
-                    <h1>HELLO</h1>
                     {children}
                 </div>
             </div>
