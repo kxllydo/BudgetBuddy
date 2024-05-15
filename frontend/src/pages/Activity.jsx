@@ -170,7 +170,22 @@ const ActivityForm = ({open, setOpen}) => {
 
             <div>
                 <form>
-                    
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-date">Date</label>
+                        <input type = "date" name = "date" id = "date" placeholder = "Date" />
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-date">Category</label>
+                        <input type = "text" name = "category" id = "category" placeholder = "Category" />
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-date">Merchant</label>
+                        <input type = "text" name = "merchant" id = "merchant" placeholder = "Merchant" />
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-date">Price</label>
+                        <input type = "number" name = "price" id = "price" placeholder = "Price" />
+                    </div>
                 </form>
             </div>
         </Popup>
