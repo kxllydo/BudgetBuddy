@@ -118,17 +118,61 @@ const MyActivity = () => {
 }
 
 const CardsForm = ({open, setOpen}) => {
+    const [state, setState] = useState({
+        number: "", expiry: "", cvc: "", name: "", focus: ""
+    });
+
+    const handleInputChange = (event) => {
+        const {name, value} = event.target;
+        setState((prev) => ({ ...prev, [name]: value }));
+    }
+
+    const handleInputFocus = (event) => {
+        setState((prev) => ({ ...prev, focus: event.target.name }));
+    }
+
     return (
-        <Popup open = {open} setOpen = {setOpen}>
-            <div>Add a Card</div>
+        <Popup className = "linked-cards-form-popup" open = {open} setOpen = {setOpen}>
+            <h1>Add a Card</h1>
+
+            <div>
+                <Card 
+                    number = {state.number}
+                    expiry = {state.expiry}
+                    cvc = {state.cvc}
+                    name = {state.name}
+                    focused = {state.focus} />
+                <form>
+                    <input required type = "number" name = "number"
+                        placeholder = "Card Number" value = {state.number}
+                        onChange = {handleInputChange} onFocus = {handleInputFocus} />
+                    <input required type = "text" name = "name"
+                        placeholder = "Card Name" value = {state.name}
+                        onChange = {handleInputChange} onFocus = {handleInputFocus} />
+                    <input required type = "number" name = "cvc"
+                        placeholder = "Card CVC" value = {state.cvc}
+                        onChange = {handleInputChange} onFocus = {handleInputFocus} />
+                    <input required type = "text" name = "expiry"
+                        placeholder = "Card Expiry" value = {state.expiry}
+                        onChange = {handleInputChange} onFocus = {handleInputFocus} />
+                    
+                    <button>Add Card</button>
+                </form>
+            </div>
         </Popup>
     );
 }
 
 const ActivityForm = ({open, setOpen}) => {
     return (
-        <Popup open = {open} setOpen = {setOpen}>
-            <h2>bailo</h2>
+        <Popup className = "my-activity-form-popup" open = {open} setOpen = {setOpen}>
+            <h1>Add Activity</h1>
+
+            <div>
+                <form>
+                    
+                </form>
+            </div>
         </Popup>
     );
 }

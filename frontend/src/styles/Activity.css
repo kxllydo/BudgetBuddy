@@ -82,69 +82,49 @@
     }
 }
 
-/*
-.linked-data-sources-container {
-    grid-column: 1 / 5;
-    grid-row: 1 / 2;
-}
+.linked-cards-form-popup {
+    .popup {
+        h1 {
+            margin-top: 0px;
+            text-align: center;
+        }
 
-.act-body {
-    display:grid;
-    grid-template-rows: 23vh auto;
-}
-
-.data-source-container {
-    grid-column: 1 / 5;
-    grid-row: 2 / 3;
-}
-
-.activity-container {
-    display: flex;
-    flex-flow: column;
-
-    .activity-container-header {
-        display: flex;
-        flex: 0 1 auto;
-        width: 100%;
-
-        .activity-container-title-wrapper {
-            flex: 1 0 auto;
+        form {
             display: flex;
-            max-width: 100%;
-        }
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            margin-top: 1.5%;
 
-        button {
-            background-color: var(--theme-color);
-            color: var(--sub-theme-color);
+            input {
+                background-color: white;
+                border: 1px solid black;
+                border-radius: 10px;
+                height: 1.5rem;
+                width: 50%;
+            }
 
-            border: 0px;
-            border-radius: 20px;
-            padding: 0px 0px;
-            width: 200px;
+            button {
+                margin: 0px;
+                margin-top: 1.5%;
+                padding: 0.5vh 1.5vw;
+                border-radius: 20px;
+                border: 0px;
 
-            font-size: 1rem;
-
-            cursor: pointer;
+                background-color: var(--theme-color);
+                color: white;
+                font-size: 1.125rem;
+                cursor: pointer;
+            }
         }
     }
+}
 
-    .activity-container-body {
-        flex: 1 1 auto;
-        
-        margin-top: 20px;
-        height: auto;
-        width: 100%;
-        background-color: pink;
+.my-activity-form-popup {
+    .popup {
+        h1 {
+            margin-top: 0px;
+            text-align: center;
+        }
     }
 }
-*/
-/*.the_div_you_want_to_scroll {
-    display: grid;
-    align-items: center;
-    grid-auto-flow: row;
-    grid-auto-rows: 25%; /* play with this to change height of the children, 50% will fill half */
-    /*grid-template-columns: unset; /* do not set template columns and rows */
-    /*grid-template-rows: unset;
-    overflow: scroll;
-}
-*/
