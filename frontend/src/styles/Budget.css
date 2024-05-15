@@ -6,12 +6,8 @@
 
 .budget-body{
     display:grid;
-    margin-right: 4%;
     grid-template-rows: 0.5fr 1fr;
     gap: 20px 1px;
-    margin-left: calc(var(--sidebar-width) + 3%);
-    width: calc(100vw - var(--sidebar-width) - 6%);
-    
 }
 
 .goals{
@@ -35,6 +31,8 @@
 .budget-summary{
     background-color: white;
     border-radius: 20px;
+    overflow-y: auto;
+    margin-bottom: 8%;
     box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
 }
 
