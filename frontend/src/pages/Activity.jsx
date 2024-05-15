@@ -1,4 +1,6 @@
 import Sidebar from "./Sidebar";
+import DisplayHolder from "./SidebarPage";
+import Popup from "./Popup";
 
 import "../styles/Dashboard.css";
 import "../styles/Activity.css";
@@ -8,7 +10,25 @@ const Activity = () => {
         <>
             <Sidebar />
             <div className = "sidebar-page activity-page">
-                
+                <DisplayHolder>
+                    {
+                        /*
+
+                        */
+                    }
+                </DisplayHolder>
+
+                <DisplayHolder>
+                    {
+                        /*
+
+                        */
+                    }
+                </DisplayHolder>
+
+                <Popup>
+                    hey
+                </Popup>
             </div>
         </>
     )

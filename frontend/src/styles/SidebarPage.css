@@ -1,0 +1,22 @@
+.sidebar-page {
+    /*
+        This class refers to the section on the right of the sidebar where all the content is.
+    */
+
+    margin-left: var(--sidebar-width) !important;
+    padding-left: 2.5vw !important;
+    padding-right: 2.5vw !important;
+    width: calc(100vw - var(--sidebar-width) - 5vw) !important;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    min-height: 90vh;
+    background-color: var(--sub3-theme-color);
+    overflow-x: hidden;
+}
+
+.display-container {
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
+    padding: 1.6%;
+}
