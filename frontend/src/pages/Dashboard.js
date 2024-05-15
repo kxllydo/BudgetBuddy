@@ -1,7 +1,7 @@
 import Sidebar from "./Sidebar";
 import "../styles/Dashboard.css";
 import React from 'react';
-import { PieChart,BarChart,LineChart, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 
 const lineData = [
@@ -15,14 +15,17 @@ const lineData = [
   
   const SimpleLineChart = () => {
     return (
-      <LineChart width={550} height={240} data={lineData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-      </LineChart>
+        <ResponsiveContainer width = "100%" height = "100%">
+            <LineChart width={550} height={240} data={lineData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+        </LineChart>
+        </ResponsiveContainer>
+
     );
   };
 
@@ -37,14 +40,16 @@ const barData = [
   
 const SimpleBarChart = () => {
     return (
+        <ResponsiveContainer width = "100%" height = "100%">
         <BarChart width={600} height={240} data={barData} margin={{ top: 45, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="uv" fill="#71b571" />
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="uv" fill="#71b571" />
         </BarChart>
+        </ResponsiveContainer>
     );
 };
 
@@ -72,29 +77,68 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const PieChartComponent = () => {
     return (
-    <PieChart width={340} height={180}>
-      <Pie
-      data={pieData}
-      cx={120}
-      cy={85}
-      labelLine={false}
-      label={renderCustomizedLabel}
-      outerRadius={90}
-      fill="#8884d8"
-      dataKey="value"
-      >
-      {pieData.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
-      ))}
-      </Pie> 
-  
-      <Tooltip />
-      <Legend layout="vertical" align="right" verticalAlign="middle"/>
-    </PieChart>
-    )
+        <PieChart width = {400} height = {180}>
+            <Pie
+                data={pieData}
+                cx="40%"
+                cy="50%"
+                labelLine={false}
+                label={renderCustomizedLabel}
+                outerRadius={90}
+                fill="#8884d8"
+                dataKey="value"
+                >
+                {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
+                ))}
+            </Pie> 
+        
+            <Tooltip />
+            <Legend layout="vertical" align="right" verticalAlign="middle"/>
+            </PieChart>
+    );
 };
 
 const Dashboard = () => {
+    return(
+        <>
+            <Sidebar />
+            <div className = "dash-container sidebar-page">
+                <div className = "dashboard-body">
+                    <div className = "graph">
+                        <SimpleBarChart />
+                    </div>
+
+                    <div className = "pie-chart">
+                        <p className = "pie-header">Categorized Spending</p>
+                        <PieChartComponent />
+                    </div>
+
+                    <div className="line-graph">
+                        <SimpleLineChart />
+                    </div>
+
+                    <div className = "spent">
+                        <div className = "category1">
+                            <p className = "category">Spent the most in food this month</p>
+                            <h1 className = "cost">
+                                $15.11
+                            </h1>
+                        </div>
+                        <div className = "category2">
+                            <p className = "category">Spent the most in food this month</p>
+                            <h1 className = "cost">
+                                $705.11
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+}
+
+const Dashbo2ard = () => {
     return(
         <div className = "dash-container">
             <Sidebar />
@@ -105,11 +149,15 @@ const Dashboard = () => {
 
                 <div className = "pie-chart">
                     <p className = "pie-header">Categorized Spending</p>
+                    <ResponsiveContainer width = "100%" height = "100%">
                     <PieChartComponent />
+                    </ResponsiveContainer>
                 </div>
-
                 <div className="line-graph">
+                    <ResponsiveContainer width = "100%" height = "100%">
                     <SimpleLineChart />
+                    </ResponsiveContainer>
+                    
                 </div>
 
                 <div className = "spent">

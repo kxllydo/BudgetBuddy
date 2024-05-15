@@ -1,15 +1,26 @@
+:root {
+    --sidebar-width: 15vw;
+}
+
+.sidebar-page{
+    margin-left: var(--sidebar-width);
+    width: calc(100vw - var(--sidebar-width));
+    min-height: 100vh;
+}
+
 .sidebar{
     display:flex;
     flex-direction: column;
     background-color: rgb(81, 130, 81);
     justify-content: space-between;
     height: 100vh;
-    position: sticky;
+    position: fixed;
+    width: var(--sidebar-width);
 }
 
 .option {
     border-radius: 10px;
-    padding: 8px 2px;
+    padding: 5px 2px;
     border: none;
     margin: 0% 10% 5% 8%;
     text-align: left;
@@ -22,12 +33,17 @@
     .option {
         font-size: 16px; /* Decrease font size for smaller screens */
     }
+
+    .sidebar{
+        height: 100%;
+    }
 }
 
 @media screen and (min-width: 1300px) {
     .option {
         font-size: 24px; /* Increase font size for larger screens */
     }
+
 }
 
 .option:hover {
@@ -53,6 +69,6 @@
 }
 
 .sidebar-icons > img {
-    width: 40px; /* Set the width to 50 pixels */
-    height: auto; /* Maintain aspect ratio */
+    width: auto; /* Set the width to 50 pixels */
+    height: 45px; /* Maintain aspect ratio */
 }
