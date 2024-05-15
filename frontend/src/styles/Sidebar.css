@@ -64,7 +64,7 @@
 }
 
 
-/* Responsive */
+/* Responsive, make collapsible */
 @media screen and (max-width: 600px) {
     .option {
         font-size: 16px; /* Decrease font size for smaller screens */
