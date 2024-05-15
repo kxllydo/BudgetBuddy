@@ -1,7 +1,7 @@
 import "../styles/Budget.css";
 import Sidebar from "./Sidebar";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 
 const ProgressPie = () => {

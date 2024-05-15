@@ -1,0 +1,76 @@
+.settings-page{
+    display:grid;
+    grid-template-columns: 1fr 5.5fr;
+}
+
+#settings-body{
+    display:grid;
+    gap: 20px 1px;
+    margin-left: calc(var(--sidebar-width));
+    width: calc(100vw - var(--sidebar-width));
+    background-color: rgb(235, 242, 233);
+}
+
+#settings-container{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 15px;
+    margin: 0 3% 0 3%;
+}
+
+#settings-body > h1{
+    margin-left: 3%;
+}
+
+#settings-container > h2 {
+    margin-left: 3%;
+}
+
+.settings-option{
+    display:flex;
+    flex-direction:row;
+    align-items:first baseline;
+    justify-content: space-between;
+    margin-bottom: 1%;
+    margin-left: 3%;
+    margin-right: 3%;
+    border-bottom: 1px solid rgb(203, 208, 205);
+}
+
+.subtext{
+    font-size: 13px;
+}
+
+.settings-button{
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#change-email-button{
+    display: block;
+
+}
+
+.settings-input{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.settings-form {
+    display: none;
+}
+
+.settings-pair{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.settings-email-input{
+    margin-left: 20px;
+    margin-bottom: 3%;
+}
