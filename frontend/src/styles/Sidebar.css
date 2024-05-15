@@ -2,33 +2,69 @@
     --sidebar-width: 15vw;
 }
 
-.sidebar-page{
+.sidebar-page {
+    /*
+        This class refers to the section on the right of the sidebar where all the content is.
+    */
+
     margin-left: var(--sidebar-width);
     width: calc(100vw - var(--sidebar-width));
-    min-height: 100vh;
+    min-width: 100vh;
 }
 
-.sidebar{
-    display:flex;
+.sidebar {
+    display: flex;
+    position: fixed;
     flex-direction: column;
-    background-color: rgb(81, 130, 81);
     justify-content: space-between;
     height: 100vh;
-    position: fixed;
     width: var(--sidebar-width);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background-color: var(--theme-color);
+
+    .top-options {
+        margin-top: 20%;
+    }
+
+    .bottom-options{
+        align-items: flex-end;
+        margin-bottom: 5%;
+        padding-top: 10%;
+        border-top: 1px solid black;
+    }
 }
 
 .option {
-    border-radius: 10px;
-    padding: 5px 2px;
-    border: none;
-    margin: 0% 10% 5% 8%;
-    text-align: left;
-    font-size: 18px;
-    display:flex;
+    display: flex;
     flex-direction: row;
+    align-items: center;
+    margin: 0% 10% 5% 8%;
+    border: 0px;
+    padding: 5px 2px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 1.5rem;
 }
 
+.option:hover {
+    background-color: rgb(75, 120, 75); /* Example background color on hover */
+}
+
+.option > a {
+    text-decoration: none;
+    color: white;
+    margin-left: 7%;
+}
+
+.sidebar-icons > img {
+    width: 45px; /* Set the width to 50 pixels */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+/* Responsive */
 @media screen and (max-width: 600px) {
     .option {
         font-size: 16px; /* Decrease font size for smaller screens */
@@ -44,31 +80,4 @@
         font-size: 24px; /* Increase font size for larger screens */
     }
 
-}
-
-.option:hover {
-    background-color: rgb(75, 120, 75); /* Example background color on hover */
-}
-
-.top-options{
-    margin-top: 20%;
-}
-
-.option > a{
-    text-decoration: none;
-    color:white;
-    margin-top: 5%;
-    margin-left: 7%;
-}
-
-.bottom-options{
-    align-items: flex-end;
-    margin-bottom: 20%;
-    
-    border-top: 1px solid black;
-}
-
-.sidebar-icons > img {
-    width: auto; /* Set the width to 50 pixels */
-    height: 45px; /* Maintain aspect ratio */
 }
