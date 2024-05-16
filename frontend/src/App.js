@@ -8,6 +8,7 @@ import Register from "./pages/Registration";
 import ForgotPassword from "./pages/ForgotPassword";
 import Activity from "./pages/Activity";
 import Budget from "./pages/Budget";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path = "/reports" element = {<Home />} />
           <Route path = "/activity" element = {<Activity />} />
           <Route path ="/budget" element = {<Budget/>} />
+          <Route path = "/settings" element = {<Settings />} />
           <Route path = "*" element = {<Home />} />
         </Routes>
     </BrowserRouter>

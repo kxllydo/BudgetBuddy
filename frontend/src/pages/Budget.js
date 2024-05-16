@@ -1,7 +1,7 @@
 import "../styles/Budget.css";
 import Sidebar from "./Sidebar";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 
 const ProgressPie = () => {
@@ -99,7 +99,7 @@ const AddCategoryForm = () => {
                 </div>
                 <div className="popup-submit-div">
                     <input type="submit" value="Submit" className = "popup-submit"/>
-                    <button type = "button" value = "quit" className = "popup-exit">Exit</button>
+                    <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
 
                 </div>
             </div>
