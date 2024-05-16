@@ -29,13 +29,13 @@
 .option {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-content: center;
     margin: 0% 10% 5% 8%;
     border: 0px;
     padding: 5px 2px;
     border-radius: 10px;
     text-align: left;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 
 .option:hover {
@@ -49,7 +49,7 @@
 }
 
 .sidebar-icons > img {
-    width: 45px; /* Set the width to 50 pixels */
+    width: 30px; /* Set the width to 50 pixels */
     height: auto; /* Maintain aspect ratio */
 }
 
