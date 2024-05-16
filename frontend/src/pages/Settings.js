@@ -3,7 +3,6 @@ import "../styles/Settings.css";
 import React, { useState } from 'react';
 
 
-
 const changeType = (type) => {
     const id = `change-${type}-button`;
     const form = `${type}-form`
@@ -15,6 +14,17 @@ const changeType = (type) => {
     }
 }
 
+const cancel = (type) => {
+    const form = `${type}-form`;
+    const btn = `change-${type}-button`;
+    var formDiv = document.getElementById(form);
+    var btnDiv = document.getElementById(btn);
+
+    if (formDiv.style.display = 'block'){
+        formDiv.style.display = 'none';
+        btnDiv.style.display = 'block';
+    }
+}
 
 const TypeForm = ({type}) => {
     const formID = `${type}-form`;
@@ -32,7 +42,10 @@ const TypeForm = ({type}) => {
                     <label htmlFor="newEmail" className = "settings-label">New {type}:</label>
                     <input type="email" id="newEmail" className="settings-email-input" />
                 </div>
-                <button type = "submit" className="settings-submit-btn">Submit</button>
+                <div className = "settings-pair" style = {{marginLeft: "20%", marginRight:"20%"}}>
+                    <button type = "submit" className="settings-submit-btn">Submit</button>
+                    <button className="settings-cancel-btn" onClick={() => cancel(type)}>Cancel</button>
+                </div>
             </div>
         </div>
     )
