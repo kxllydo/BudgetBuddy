@@ -99,7 +99,7 @@ const AddCategoryForm = () => {
                 </div>
                 <div className="popup-submit-div">
                     <input type="submit" value="Submit" className = "popup-submit"/>
-                    <button type = "button" value = "quit" className = "popup-exit">Exit</button>
+                    <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
 
                 </div>
             </div>
