@@ -41,11 +41,14 @@ const TestingLogin = () => {
 
                 <hr />
 
-                <form>
+                <form id = "tsignup">
                     <h1>signup</h1>
 
                     <label htmlFor = "username2">enter username</label>
                     <input required type = "text" name = "username2" id = "username2" placeholder = "enter username"/>
+                    <br />
+                    <label htmlFor = "email2">enter email</label>
+                    <input required type = "email" name = "email2" id = "email2" placeholder = "enter username"/>
                     <br />
                     <label htmlFor = "password2">enter password</label>
                     <input required type = "password" name = "password2" id = "password2" placeholder = "enter password" />
