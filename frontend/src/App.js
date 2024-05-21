@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Activity from "./pages/Activity";
 import Budget from "./pages/Budget";
 import Settings from "./pages/Settings";
+import TestingLogin from "./pages/TestingLogin";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path = "/activity" element = {<Activity />} />
           <Route path ="/budget" element = {<Budget/>} />
           <Route path = "/settings" element = {<Settings />} />
+          <Route path = "/tl" element = {<TestingLogin />} />
           <Route path = "*" element = {<Home />} />
         </Routes>
     </BrowserRouter>
