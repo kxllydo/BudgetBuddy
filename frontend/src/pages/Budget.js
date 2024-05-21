@@ -47,41 +47,31 @@ const AddCategoryForm = () => {
 
     const newCategory = (event) => {
         setCategory(event.target.value);
-    }
+    };
 
     const exitHandler = () => {
         var popupForm = document.getElementById("category-form-background");
         popupForm.style.display = 'none';
-    }
+    };
 
-    const submitHandler = () => {
+    const submitHandler = (event) => {
+        event.preventDefault();
+        const categoryData = new FormData();
+        categoryData.append('category-input', category);
+        fetch ("http://127.0.0.1:5000/category", {
+            method: 'POST',
+            body: categoryData
+        });
         var popupForm = document.getElementById("category-form-background");
+
         popupForm.style.display = 'none';
 
-        if (category != ''){
-            setVisible(true);
-            const parent = document.getElementById("categories");
-            const budgetCategoryDiv = document.createElement('div');
-            budgetCategoryDiv.className = 'budget-category';
+    };
 
-            const pElement = document.createElement('p');
-            const title = category.charAt(0).toUpperCase() + category.slice(1);
-            pElement.textContent = title;
+    const goalHandler = (event) => {
+        event.preventDefault();
+        const goalData = new FormData(event.target);
 
-            const totalBarDiv = document.createElement('div');
-            totalBarDiv.className = 'total-bar';
-
-            const progressBarDiv = document.createElement('div');
-            progressBarDiv.className = 'progress-bar';
-
-            const brElement = document.createElement('br');
-            progressBarDiv.appendChild(brElement);
-            totalBarDiv.appendChild(progressBarDiv);
-            budgetCategoryDiv.appendChild(pElement);
-            budgetCategoryDiv.appendChild(totalBarDiv);
-            parent.appendChild(budgetCategoryDiv);
-        }
-        setCategory('');
     }
   
     return (
@@ -96,6 +86,28 @@ const AddCategoryForm = () => {
             </div>
 
             { state === "goal" && (
+            //     <div>
+            // //     <form > 
+            // //     {/* //onSubmit={goalHandler}> */}
+            // //     <div className="format-option-pair">
+            // //       <label htmlFor="expenseCap" className="budget-popup-label">Expense Cap:</label>
+            // //       <input type="text" id="cap" name="expenseCap" />
+            // //     </div>
+        
+            // //     <div className="format-option-pair">
+            // //       <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
+            // //       <select name="category" className="choices" id="cap-categories">
+            // //         <option value="groceries">Groceries</option>
+            // //         <option value="bill">Bill</option>
+            // //         <option value="food">Food</option>
+            // //       </select>
+            // //     </div>
+        
+            // //     <div className="popup-submit-div">
+            // //       <input type="submit" value="Submit" className="popup-submit" />
+            // //       <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
+            // //     </div>
+            // //   </form>
                 <div>
                     <div className="format-option-pair">
                         <label htmlFor="expenseCap" className = "budget-popup-label">Expense Cap:</label>
