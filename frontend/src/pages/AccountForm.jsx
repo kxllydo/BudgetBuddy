@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -7,9 +7,9 @@ import { MdEmail } from "react-icons/md";
 import { LayoutWithoutFooter as Layout } from "@components/FrontPage";
 
 import "@styles/AccountForm.css";
+import { useEffect } from "react";
 
 /* Minor Components */
-
 const FormField = ({ id, name, type, placeholder, required, children }) => {
     if (!id || !name || !type || !placeholder)
         return null;
@@ -72,7 +72,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = "/register"><strong>New user?</strong> Register here.</Link>
+                    <Link to = "/register"><strong>New user?</strong> Register Nere.</Link>
                 </div>
             </form>
         </div>
