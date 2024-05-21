@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, NavLink, Link } from 'react-router-dom';
-import "../styles/Home.css"
-import Navbar from "./Navbar"
-import "../styles/Navbar.css"
+
+import Navbar from "@components/Navbar"
+
+import "@styles/Home.css"
+import "@styles/Navbar.css"
 
 const Home = () => {
     return(

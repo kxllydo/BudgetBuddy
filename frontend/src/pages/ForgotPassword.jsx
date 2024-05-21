@@ -1,8 +1,9 @@
 import { FaUser } from "react-icons/fa6";
 
-import Navbar from "./Navbar";
-import { FormField } from "./Login";
-import "../styles/ForgotPassword.css";
+import Navbar from "@components/Navbar";
+import { FormField } from "@pages/Login";
+
+import "@styles/ForgotPassword.css";
 
 const ForgotPasswordForm = () => {
     return (

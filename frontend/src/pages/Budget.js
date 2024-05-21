@@ -1,8 +1,9 @@
-import "../styles/Budget.css";
-import Sidebar from "./Sidebar";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 import React, { useState } from 'react';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
+import Sidebar from "@components/Sidebar";
+
+import "@styles/Budget.css";
 
 const ProgressPie = () => {
     const data = [

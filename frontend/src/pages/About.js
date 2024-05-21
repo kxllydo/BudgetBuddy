@@ -1,5 +1,6 @@
-import Navbar from "./Navbar"
-import "../styles/Navbar.css"
+import Navbar from "@components/Navbar"
+
+import "@styles/Navbar.css"
 
 const About = () => {
     return (

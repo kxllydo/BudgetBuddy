@@ -1,10 +1,10 @@
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 
-import { FormField } from "./Login";
-import Navbar from "./Navbar";
+import { FormField } from "@pages/Login";
+import Navbar from "@components/Navbar";
 
-import "../styles/AccountForm.css";
+import "@styles/AccountForm.css";
 
 const RegisterForm = () => {
     return (
