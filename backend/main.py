@@ -14,10 +14,29 @@
 
 from flask import Flask, jsonify
 from flask_cors import CORS
+import mysql.connector
+import os
+
  
 app = Flask(__name__)
 CORS(app)
  
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASS")
+db_database = os.getenv("DB")
+
+mysql_config = {
+    "host": db_host,
+    "user": db_user,
+    "password": db_password,
+    "database": db_database
+}
+
+db = mysql.connector.connect(**mysql_config)
+cursor = db.cursor()
+
+
 @app.route('/')
 def index():
     mydict = {
