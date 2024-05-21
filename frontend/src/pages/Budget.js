@@ -35,25 +35,54 @@ const ProgressPie = () => {
 };
 
 
-function progressBar (width){
-    const firstBar = document.createElement("div");
-    firstBar.className = "progress-bar";
-    firstBar.style.width = width;
-    const totalBar = document.getElementsByClassName("total-bar");
-    totalBar.appendChild(firstBar);
-}
 
 const AddCategoryForm = () => {
     const [state, setState] = useState("goal");
+    const [category, setCategory] = useState("");
+    const [visible, setVisible] = useState();
 
     const optionHandler = (event) => {
         const selectedState = event.target.value;
         setState(selectedState);
     };
 
+    const newCategory = (event) => {
+        setCategory(event.target.value);
+    }
+
     const exitHandler = () => {
         var popupForm = document.getElementById("category-form-background");
         popupForm.style.display = 'none';
+    }
+
+    const submitHandler = () => {
+        var popupForm = document.getElementById("category-form-background");
+        popupForm.style.display = 'none';
+
+        if (category != ''){
+            setVisible(true);
+            const parent = document.getElementById("categories");
+            const budgetCategoryDiv = document.createElement('div');
+            budgetCategoryDiv.className = 'budget-category';
+
+            const pElement = document.createElement('p');
+            const title = category.charAt(0).toUpperCase() + category.slice(1);
+            pElement.textContent = title;
+
+            const totalBarDiv = document.createElement('div');
+            totalBarDiv.className = 'total-bar';
+
+            const progressBarDiv = document.createElement('div');
+            progressBarDiv.className = 'progress-bar';
+
+            const brElement = document.createElement('br');
+            progressBarDiv.appendChild(brElement);
+            totalBarDiv.appendChild(progressBarDiv);
+            budgetCategoryDiv.appendChild(pElement);
+            budgetCategoryDiv.appendChild(totalBarDiv);
+            parent.appendChild(budgetCategoryDiv);
+        }
+        setCategory('');
     }
   
     return (
@@ -96,10 +125,10 @@ const AddCategoryForm = () => {
             <div>
                 <div className="format-option-pair">
                     <label htmlFor="category-input" className = "budget-popup-label">Category Name:</label>
-                    <input type = "text" id = "category-input" name = "category-input"></input>
+                    <input type = "text" id = "category-input" name = "category-input" onChange={newCategory} required></input>
                 </div>
                 <div className="popup-submit-div">
-                    <input type="submit" value="Submit" className = "popup-submit"/>
+                    <input type="submit" value="Submit" className = "popup-submit" onClick={submitHandler}/>
                     <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
 
                 </div>
@@ -109,6 +138,22 @@ const AddCategoryForm = () => {
         </div>
     );
 };
+
+const CategoryProgressBar = ({name}) => {
+
+    const title = name.charAt(0).toUpperCase() + name.slice(1);
+    return (
+        <div className="budget-category">
+            <p>{title}</p>
+            <div className = "total-bar">
+                <div className = "progress-bar">
+                    <br></br>
+                </div>
+            </div>
+        </div>
+    )
+}
+    
 const BudgetCategories = () => {
     const popupForm = () => {
         var popupForm = document.getElementById("category-form-background");
@@ -128,48 +173,12 @@ const BudgetCategories = () => {
                 </div>
             </div>
 
-
-            <div className="categories">
-                <div className="budget-category">
-                    <p>Food</p>
-                    <div className = "total-bar">
-                        <div className = "progress-bar">
-                            <br></br>
-                        </div>
-                    </div>
-                </div>
-                <div className="budget-category">
-                    <p>Transportation</p>
-                    <div className = "total-bar">
-                        <div className = "progress-bar">
-                            <br></br>
-                        </div>
-                    </div>
-                </div>
-                <div className="budget-category">
-                    <p>Utilities</p>
-                    <div className = "total-bar">
-                        <div className = "progress-bar">
-                            <br></br>
-                        </div>
-                    </div>
-                </div>
-                <div className="budget-category">
-                    <p>Shopping</p>
-                    <div className = "total-bar">
-                        <div className = "progress-bar">
-                            <br></br>
-                        </div>
-                    </div>
-                </div>
-                <div className="budget-category">
-                    <p>Travel</p>
-                    <div className = "total-bar">
-                        <div className = "progress-bar">
-                            <br></br>
-                        </div>
-                    </div>
-                </div>
+            <div id="categories">
+                <CategoryProgressBar name="groceries"/>
+                <CategoryProgressBar name="transportation"/>
+                <CategoryProgressBar name="utilities"/>
+                <CategoryProgressBar name="shopping"/>
+                <CategoryProgressBar name="travel"/>
             </div>
         </div>
     )
@@ -178,6 +187,25 @@ const BudgetCategories = () => {
 
 
 const Budget = () =>{
+    const [data, setData] = useState({});
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setData(data);
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    }, []);
+
+
     return (
         <div className = "budget-page">
             <Sidebar />
@@ -195,5 +223,5 @@ const Budget = () =>{
     );
 };
 
-export {ProgressPie, BudgetCategories, AddCategoryForm};
+export {ProgressPie, BudgetCategories, AddCategoryForm, CategoryProgressBar};
 export default Budget;
