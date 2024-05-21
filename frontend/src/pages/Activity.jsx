@@ -172,20 +172,26 @@ const ActivityForm = ({open, setOpen}) => {
                 <form>
                     <div className = "my-activity-form-field">
                         <label for = "my-activity-date">Date</label>
-                        <input type = "date" name = "date" id = "date" placeholder = "Date" />
+                        <input required type = "date" name = "my-activity-date" id = "my-activity-date" placeholder = "Date" />
                     </div>
                     <div className = "my-activity-form-field">
-                        <label for = "my-activity-date">Category</label>
-                        <input type = "text" name = "category" id = "category" placeholder = "Category" />
+                        <label for = "my-activity-category">Category</label>
+                        <select required name = "my-activity-category" id="my-activity-category">
+                            <option value = "groceries"> Grocreries</option>
+                            <option value = "bill"> Bill</option>
+                            <option value = "food"> Food</option>
+                        </select>
                     </div>
                     <div className = "my-activity-form-field">
-                        <label for = "my-activity-date">Merchant</label>
-                        <input type = "text" name = "merchant" id = "merchant" placeholder = "Merchant" />
+                        <label for = "my-activity-merchant">Merchant</label>
+                        <input required type = "text" name = "my-activity-merchant" id = "my-activity-merchant" placeholder = "Merchant" />
                     </div>
                     <div className = "my-activity-form-field">
-                        <label for = "my-activity-date">Price</label>
-                        <input type = "number" name = "price" id = "price" placeholder = "Price" />
+                        <label for = "my-activity-price">Price</label>
+                        <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" />
                     </div>
+
+                    <button>Add Activity</button>
                 </form>
             </div>
         </Popup>
