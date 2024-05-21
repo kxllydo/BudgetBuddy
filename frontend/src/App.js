@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 import Home from "@pages/Home";
-import About from"@pages/About";
-import Login from "@pages/Login";
-import Register from "@pages/Registration";
-import ForgotPassword from "@pages/ForgotPassword";
+import About from "@pages/About";
+import { LoginPage as Login, RegistrationPage as Register, ForgotPasswordPage as ForgotPassword } from "@pages/AccountForm";
 
 import Dashboard from "@pages/Dashboard";
 import Activity from "@pages/Activity";
