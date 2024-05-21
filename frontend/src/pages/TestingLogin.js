@@ -12,7 +12,7 @@ const tlogin = () => {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
     }).then(data => {
-        data.json();
+        return data.json()
     }).then(data => {
         console.log(data);
     })

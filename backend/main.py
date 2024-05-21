@@ -24,21 +24,21 @@ load_dotenv()
 app = Flask(__name__)
 cors = CORS(app, origins = "*")
  
-db_host = os.getenv("DB_HOST")
-print(db_host)
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASS")
-db_database = os.getenv("DB")
+#db_host = os.getenv("DB_HOST")
+#print(db_host)
+#db_user = os.getenv("DB_USER")
+#db_password = os.getenv("DB_PASS")
+#db_database = os.getenv("DB")
 
-mysql_config = {
-    "host": db_host,
-    "user": db_user,
-    "password": db_password,
-    "database": db_database
-}
+#mysql_config = {
+#    "host": db_host,
+#    "user": db_user,
+#    "password": db_password,
+#    "database": db_database
+#}
 
-db = mysql.connector.connect(**mysql_config)
-cursor = db.cursor()
+#db = mysql.connector.connect(**mysql_config)
+#cursor = db.cursor()
 
 
 @app.route('/')
@@ -50,14 +50,16 @@ def index():
     return jsonify(mydict)
 
 
-@app.route('/category', methods=['POST'])
-def addCategory():
-    category = request.form['category-input']
-    cursor.execute("INSERT INTO categories (category) VALUES (%s)", (category,))
-    db.commit()
-    return jsonify({"message": "Category added successfully"}), 201
+#@app.route('/category', methods=['POST'])
+#def addCategory():
+#    category = request.form['category-input']
+#    cursor.execute("INSERT INTO categories (category) VALUES (%s)", (category,))
+#    db.commit()
+#    return jsonify({"message": "Category added successfully"}), 201
 
-
+@app.route("/testing-login", methods = ["POST"])
+def tlogin():
+    return jsonify(request.get_json()), 200
  
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
