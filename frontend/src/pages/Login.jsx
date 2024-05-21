@@ -1,9 +1,9 @@
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 
-import Navbar from "./Navbar";
+import Navbar from "@components/Navbar";
 
-import "../styles/AccountForm.css";
+import "@styles/AccountForm.css";
 
 const FormField = (props) => {
     if (!props.id)

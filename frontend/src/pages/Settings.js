@@ -1,7 +1,8 @@
-import Sidebar from "./Sidebar";
-import "../styles/Settings.css";
 import React, { useState } from 'react';
 
+import Sidebar from "@components/Sidebar";
+
+import "@styles/Settings.css";
 
 const changeType = (type) => {
     const id = `change-${type}-button`;

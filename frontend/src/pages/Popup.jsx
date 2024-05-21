@@ -1,6 +1,7 @@
-import "../styles/Popup.css";
 import { useState } from "react";
 import React from "react";
+
+import "@styles/Popup.css";
 
 const Popup = ({children, className, open, setOpen}) => {
     if (className)

@@ -1,6 +1,7 @@
-import "../styles/Sidebar.css";
-import "../styles/SidebarPage.css";
 import { Link } from 'react-router-dom';
+
+import "@styles/Sidebar.css";
+import "@styles/SidebarPage.css";
 
 const Option = ({title, link, image}) => {
     return (

@@ -1,8 +1,9 @@
-import Sidebar from "./Sidebar";
-import "../styles/Dashboard.css";
 import React from 'react';
 import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from 'recharts';
 
+import Sidebar from "@components/Sidebar";
+
+import "@styles/Dashboard.css";
 
 const lineData = [
     { name: 'Jan', uv: 400 },
