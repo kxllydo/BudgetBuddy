@@ -65,7 +65,7 @@
 .budget-category > p{
     margin-left: 1.5%;
 }
-.categories{
+#categories{
     display:flex;
     justify-content:space-between ;
     flex-direction: column;
