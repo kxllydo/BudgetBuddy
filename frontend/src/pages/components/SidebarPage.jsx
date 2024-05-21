@@ -1,4 +1,4 @@
-import "@styles/SidebarPage.css";
+import "@styles/components/SidebarPage.css";
 
 const DisplayHolder = ({children, className}) => {
     if (className)

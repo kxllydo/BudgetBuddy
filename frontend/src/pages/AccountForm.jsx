@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 
-import Navbar from "@components/Navbar";
+import { LayoutWithoutFooter as Layout } from "@components/FrontPage";
 
 import "@styles/AccountForm.css";
 
@@ -30,7 +30,7 @@ const FormField = ({ id, name, type, placeholder, required, children }) => {
 
 const UsernameField = ({ email }) => {
     return (
-        <FormField type = "text" id = "username" name = "username" { email ? "Enter your username/email" : "Enter your username"} required = "true">
+        <FormField type = "text" id = "username" name = "username" placeholder = { email ? "Enter your username/email" : "Enter your username"} required = "true">
             <FaUser className = "account-form-icon" />
         </FormField>
     )
@@ -130,13 +130,10 @@ const ForgotPasswordForm = () => {
 
 const PageLayout = ({ children }) => {
     return (
-        <>
-            <Navbar />
-            <div className = "account-body-wrapper">
-                <div className = "left-half"></div>
-                <div className = "right-half">{ children }</div>
-            </div>
-        </>
+        <Layout className = "account-body-wrapper">
+            <div className = "left-half"></div>
+            <div className = "right-half">{ children }</div>
+        </Layout>
     )
 }
 

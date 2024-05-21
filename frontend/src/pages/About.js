@@ -1,15 +1,10 @@
-import Navbar from "@components/Navbar"
-
-import "@styles/Navbar.css"
+import Layout from "@components/FrontPage";
 
 const About = () => {
     return (
-    <body>
-    <Navbar />
-    <div className = "home-container">
-        <p> hi wassp</p>
-    </div>
-    </body>
+        <Layout>
+            <p>about!</p>
+        </Layout>
     );
 };
 

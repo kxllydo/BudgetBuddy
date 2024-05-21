@@ -9,7 +9,7 @@ import Activity from "@pages/Activity";
 import Budget from "@pages/Budget";
 import Settings from "@pages/Settings";
 
-import "@styles/App.css";
+import "@/App.css";
 
 function App() {
   return (
