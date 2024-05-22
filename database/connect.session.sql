@@ -17,7 +17,7 @@ SHOW VARIABLES LIKE 'HOST';
 
 DROP TABLE users;
 DROP TABLE categories;
-DROP TABLE g
+DROP TABLE goals;
 
 --creating the tables
 CREATE TABLE users (
@@ -31,14 +31,16 @@ CREATE TABLE users (
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category VARCHAR(255) NOT NULL,
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    user VARCHAR(100),
+    FOREIGN KEY (user) REFERENCES users(username)
 );
 
 CREATE TABLE goals (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    cap INT NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    user VARCHAR(100),
     category_id INT,
-    user_id INT,
     FOREIGN KEY (category_id) REFERENCES categories(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user) REFERENCES users(username)
 );

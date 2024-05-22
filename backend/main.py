@@ -56,7 +56,6 @@ def index():
 @app.route('/category', methods=['POST'])
 def addCategory():
     category = request.form['category-input']
-    user_id = session["user_id"]
     cursor.execute("INSERT INTO categories (category, user_id ) VALUES (%s, %s)", (category, user_id))
     db.commit()
     return jsonify({"message": "Category added successfully"}), 201
@@ -75,11 +74,11 @@ def register():
 def login():
     username = request.form['username']
     password = request.form['password']
-    cursor.execute('SELECT id, password FROM users WHERE username = %s', (username, ))
-    user = cursor.fetchone()
+    # cursor.execute('SELECT username FROM users WHERE username = %s', (username, ))
+    # user = cursor.fetchone()
 
-    if user and check_password_hash(user[1], password):
-        session['user_id'] = user[0]
+    if username and password:
+        session['user'] = username
         return jsonify({"message": "Login successful"}), 200
     return jsonify({"message": "Login failed"}), 401
 

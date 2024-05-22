@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         fetch('/is_logged_in', {
@@ -32,6 +34,7 @@ const AuthProvider = ({ children }) => {
         .then(data => {
             if (data.message === "Login successful") {
                 setIsLoggedIn(true);
+                history.push('/'); // Redirect to home page after login
             }
             return data;
         });
@@ -45,6 +48,7 @@ const AuthProvider = ({ children }) => {
         .then(response => response.json())
         .then(data => {
             setIsLoggedIn(false);
+            history.push('/login'); // Redirect to login page after logout
             return data;
         });
     };

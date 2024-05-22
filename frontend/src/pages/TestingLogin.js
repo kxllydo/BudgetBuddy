@@ -1,71 +1,49 @@
 import "../styles/TestingLogin.css";
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
-
 
 import Navbar from "./Navbar";
+import React, { useEffect, useState } from "react";
 
-const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        axios.get('/is_logged_in')
-            .then(response => {
-                setIsLoggedIn(response.data.logged_in);
-            })
-            .catch(error => {
-                console.error("There was an error checking the login status!", error);
-            });
-    }, []);
-
-    const login = (username, password) => {
-        return axios.post('/login', { username, password })
-            .then(response => {
-                setIsLoggedIn(true);
-                return response;
-            });
-    };
-
-    const logout = () => {
-        return axios.post('/logout')
-            .then(response => {
-                setIsLoggedIn(false);
-                return response;
-            });
-    };
-
-    return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
-
-const tlogin = (event) => {
-    event.preventDefault();
-    const form = document.querySelector("#tlogin");
-
-    const loginData = new FormData(form);
-    fetch ("http://127.0.0.1:5000/login", {
-        method: 'POST',
-        body: loginData
-    });
-}
-
-const tsignup = (event) => {
-    event.preventDefault();
-    const form = document.querySelector("#tsignup");
-
-    const loginData = new FormData(form);
-    fetch ("http://127.0.0.1:5000/register", {
-        method: 'POST',
-        body: loginData
-    });
-}
 
 const TestingLogin = () => {
+
+    const [loggedIn, setLoggedIn] = useState(false)
+
+    const tlogin = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("#tlogin");
+    
+        const loginData = new FormData(form);
+        fetch("http://127.0.0.1:5000/login", {
+            method: 'POST',
+            body: loginData
+        })
+        .then(response => {
+            console.log(response);
+            if (response.ok) {
+                setLoggedIn(true);
+                console.log('working');
+            } else {
+                console.error('Login failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error during login:', error);
+        });
+    };
+    
+    const tsignup = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("#tsignup");
+    
+        const loginData = new FormData(form);
+        fetch ("http://127.0.0.1:5000/register", {
+            method: 'POST',
+            body: loginData
+        });
+    }
+
+    
     return (
         <>
             <Navbar />
