@@ -38,7 +38,6 @@ const ProgressPie = () => {
 const AddCategoryForm = () => {
     const [state, setState] = useState("goal");
     const [category, setCategory] = useState("");
-    const [visible, setVisible] = useState();
 
     const optionHandler = (event) => {
         const selectedState = event.target.value;
@@ -54,7 +53,7 @@ const AddCategoryForm = () => {
         popupForm.style.display = 'none';
     };
 
-    const submitHandler = (event) => {
+    const categoryHandler = (event) => {
         event.preventDefault();
         const form = document.querySelector("#category-adder");
         const categoryData = new FormData(form);
@@ -65,7 +64,6 @@ const AddCategoryForm = () => {
         });
         var popupForm = document.getElementById("category-form-background");
         popupForm.style.display = 'none';
-
     };
 
     const goalHandler = (event) => {
@@ -139,7 +137,7 @@ const AddCategoryForm = () => {
                     <input type = "text" id = "category-input" name = "category-input" onChange={newCategory} required></input>
                 </div>
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className = "popup-submit" onClick={submitHandler}>Submit</button>
+                    <button type="submit" value="Submit" className = "popup-submit" onClick={categoryHandler}>Submit</button>
                     <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
                 </div>
             </form>
