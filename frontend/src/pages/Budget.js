@@ -84,50 +84,48 @@ const AddCategoryForm = () => {
             </div>
 
             { state === "goal" && (
-            //     <div>
-            // //     <form > 
-            // //     {/* //onSubmit={goalHandler}> */}
-            // //     <div className="format-option-pair">
-            // //       <label htmlFor="expenseCap" className="budget-popup-label">Expense Cap:</label>
-            // //       <input type="text" id="cap" name="expenseCap" />
-            // //     </div>
+                 <form > 
+                 {/* //onSubmit={goalHandler}> */}
+                 <div className="format-option-pair">
+                   <label htmlFor="expenseCap" className="budget-popup-label">Expense Cap:</label>
+                   <input type="text" id="cap" name="expenseCap" />
+                 </div>
         
-            // //     <div className="format-option-pair">
-            // //       <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
-            // //       <select name="category" className="choices" id="cap-categories">
-            // //         <option value="groceries">Groceries</option>
-            // //         <option value="bill">Bill</option>
-            // //         <option value="food">Food</option>
-            // //       </select>
-            // //     </div>
+                 <div className="format-option-pair">
+                   <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
+                   <select name="category" className="choices" id="cap-categories">
+                     <option value="groceries">Groceries</option>
+                     <option value="bill">Bill</option>
+                     <option value="food">Food</option>
+                   </select>
+                 </div>
         
-            // //     <div className="popup-submit-div">
-            // //       <input type="submit" value="Submit" className="popup-submit" />
-            // //       <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
-            // //     </div>
-            // //   </form>
-                <div>
-                    <div className="format-option-pair">
-                        <label htmlFor="expenseCap" className = "budget-popup-label">Expense Cap:</label>
-                        <input type="text" id="expenseCap" name="expenseCap" />
-                    </div>
+                 <div className="popup-submit-div">
+                   <button type="submit" value="Submit" className="popup-submit">Submit</button>
+                   <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
+                 </div>
+               </form> )}
+                 {/* <div>
+                     <div className="format-option-pair">
+                         <label htmlFor="expenseCap" className = "budget-popup-label">Expense Cap:</label>
+                         <input type="text" id="expenseCap" name="expenseCap" />
+                     </div>
 
-                    <div className="format-option-pair">
-                        <label htmlFor="cap-categories" className = "budget-popup-label">Category</label>
-                        <select name="cap-categories" className = "choices" id="cap-categories">
-                            <label htmlFor="choices">Add a </label>
-                            <option value = "groceries"> Grocreries</option>
-                            <option value = "bill"> Bill</option>
-                            <option value = "food"> Food</option>
-                        </select>
-                    </div>
-                    <div className="popup-submit-div">
-                    <input type="submit" value="Submit" className = "popup-submit"/>
-                    <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
-                    </div>
-                </div>
+                     <div className="format-option-pair">
+                         <label htmlFor="cap-categories" className = "budget-popup-label">Category</label>
+                         <select name="cap-categories" className = "choices" id="cap-categories">
+                             <label htmlFor="choices">Add a </label>
+                             <option value = "groceries"> Grocreries</option>
+                             <option value = "bill"> Bill</option>
+                             <option value = "food"> Food</option>
+                </select>
+                     </div>
+                     <div className="popup-submit-div">
+                     <input type="submit" value="Submit" className = "popup-submit"/>
+                     <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
+                     </div>
+                 </div> */}
                 
-            )}
 
             
             {state === "category" && (
