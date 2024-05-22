@@ -2,27 +2,33 @@ import "../styles/TestingLogin.css";
 
 import Navbar from "./Navbar";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 
 
-const TestingLogin = () => {
 
-    const [loggedIn, setLoggedIn] = useState(false)
+const TestingLogin = ({setLoggedIn}) => {
+
+    // const [loggedIn, setLoggedIn] = useState(false)
+    const navigate = useNavigate();
 
     const tlogin = (event) => {
+
         event.preventDefault();
         const form = document.querySelector("#tlogin");
     
         const loginData = new FormData(form);
-        fetch("http://127.0.0.1:5000/login", {
+        fetch("/login", {
             method: 'POST',
-            body: loginData
+            body: loginData,
+            credentials: 'include',
         })
         .then(response => {
             console.log(response);
             if (response.ok) {
                 setLoggedIn(true);
                 console.log('working');
+                navigate('/dashboard');
             } else {
                 console.error('Login failed');
             }
@@ -37,9 +43,10 @@ const TestingLogin = () => {
         const form = document.querySelector("#tsignup");
     
         const loginData = new FormData(form);
-        fetch ("http://127.0.0.1:5000/register", {
+        fetch ("/register", {
             method: 'POST',
-            body: loginData
+            body: loginData,
+            credentials: 'include'
         });
     }
 

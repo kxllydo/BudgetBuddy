@@ -18,6 +18,8 @@ import mysql.connector
 import os
 from dotenv import load_dotenv
 from werkzeug.security import check_password_hash
+from datetime import timedelta
+
 
 
 
@@ -25,7 +27,11 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "dualmonitor"
-cors = CORS(app, origins = "*")
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+
+CORS(app, supports_credentials=True)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
  
 db_host = os.getenv("DB_HOST")
 print(db_host)
@@ -56,7 +62,9 @@ def index():
 @app.route('/category', methods=['POST'])
 def addCategory():
     category = request.form['category-input']
-    cursor.execute("INSERT INTO categories (category, user_id ) VALUES (%s, %s)", (category, user_id))
+    print(session)
+    username = session['user']
+    cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
     db.commit()
     return jsonify({"message": "Category added successfully"}), 201
 
@@ -77,16 +85,28 @@ def login():
     # cursor.execute('SELECT username FROM users WHERE username = %s', (username, ))
     # user = cursor.fetchone()
 
-    if username and password:
-        session['user'] = username
+    
+    session['user'] = username
+    print(session)
+    if 'user' in session:
         return jsonify({"message": "Login successful"}), 200
-    return jsonify({"message": "Login failed"}), 401
+    return jsonify({"logged_in": False}), 200
+
+    # return jsonify({"message": "Login failed"}), 401
 
 @app.route('/is_logged_in', methods=['GET'])
 def is_logged_in():
     if 'user_id' in session:
         return jsonify({"logged_in": True}), 200
-    return jsonify({"logged_in": False}), 200
+    return jsonify({"logged_in": False}), 401
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

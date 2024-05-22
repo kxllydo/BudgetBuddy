@@ -58,9 +58,10 @@ const AddCategoryForm = () => {
         event.preventDefault();
         const form = document.querySelector("#category-adder");
         const categoryData = new FormData(form);
-        fetch ("http://127.0.0.1:5000/category", {
+        fetch ("/category", {
             method: 'POST',
-            body: categoryData
+            body: categoryData,
+            credentials: 'include',
         });
         var popupForm = document.getElementById("category-form-background");
         popupForm.style.display = 'none';
