@@ -38,7 +38,7 @@ def index():
     }
     return jsonify(mydict)
 
-@app.route('/category', methods=['POST'])
+@app.route('/add-category', methods=['POST'])
 def addCategory():
     category = request.form['category-input']
     print(session)
@@ -46,6 +46,16 @@ def addCategory():
     cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
     db.commit()
     return jsonify({"message": "Category added successfully"}), 201
+
+@app.route('/display-categories')
+def displayCategories():
+    username = session['user']
+    cursor.execute('SELECT category from categories WHERE user = %s', (username, ))
+    categories = cursor.fetchall()
+    category_names = [row[0].capitalize() for row in categories]
+    # for i in category_names:
+    #     print(i)
+    return jsonify({"categories": category_names}), 200
 
 @app.route('/register', methods = ["POST"])
 def register():
