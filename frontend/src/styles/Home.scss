@@ -1,0 +1,35 @@
+/*
+    navbar
+    home-page
+        section.hero-section
+            left-side
+                h1
+                p
+            right-side
+                img
+        section
+            div
+    foter
+*/
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    .hero-section {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-items: center;
+
+        .left-side {
+            justify-self: flex-start;
+        }
+        
+        .right-side {
+            justify-self: flex-end;
+        }
+    }
+}

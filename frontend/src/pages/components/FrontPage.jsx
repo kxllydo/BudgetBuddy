@@ -1,7 +1,7 @@
 import Navbar from "@components/Navbar";
 import Footer from "@components/Footer";
 
-import "@styles/components/FrontPage.css";
+import "@styles/components/FrontPage.scss";
 
 const Layout = ({ className, children, excludeNav, excludeFt }) => {
     console.log(typeof excludeFt);
