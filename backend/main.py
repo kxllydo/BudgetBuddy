@@ -27,21 +27,21 @@ app = Flask(__name__)
 app.secret_key = "dualmonitor"
 cors = CORS(app, origins = "*")
  
-db_host = os.getenv("DB_HOST")
-print(db_host)
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASS")
-db_database = os.getenv("DB")
+#db_host = os.getenv("DB_HOST")
+#print(db_host)
+#db_user = os.getenv("DB_USER")
+#db_password = os.getenv("DB_PASS")
+#db_database = os.getenv("DB")
 
-mysql_config = {
-    "host": db_host,
-    "user": db_user,
-    "password": db_password,
-    "database": db_database
-}
+#mysql_config = {
+#    "host": db_host,
+#    "user": db_user,
+#    "password": db_password,
+#    "database": db_database
+#}
 
-db = mysql.connector.connect(**mysql_config)
-cursor = db.cursor()
+#db = mysql.connector.connect(**mysql_config)
+#cursor = db.cursor()
 
 
 @app.route('/')
