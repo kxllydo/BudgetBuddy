@@ -1,5 +1,7 @@
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
 
@@ -29,7 +31,32 @@ const FormField = (props) => {
     );
 }
 
-const LoginForm = () => {
+const LoginForm = ({ setLoggedIn }) => {
+    const navigate = useNavigate();
+    const login = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("form");
+        const loginData = new FormData(form);
+        fetch("/login", {
+            method: "POST",
+            body: loginData,
+            credentials: "include",
+        }).then(response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                navigate("/dashboard");
+                return null;
+            } else {
+                return response.json();
+            }
+        }).then(error => {
+            if (error)
+                alert(error.message);
+        }).catch(error => {
+            console.log(error);
+        });
+    };
+
     return (
         <div className = "account-form-wrapper">
             <h1>Sign In</h1>
@@ -47,7 +74,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className = "form-button">
-                    <button>Login</button>
+                    <button type = "submit" onClick = {login}>Login</button>
                 </div>
 
                 <div className = "wrong-account-page">
@@ -58,13 +85,13 @@ const LoginForm = () => {
     );
 }
 
-const Login = ()  => {
+const Login = ({ setLoggedIn })  => {
     return (
         <div>
             <Navbar></Navbar>
             <div className = "account-body-wrapper">
                 <div className = "left-half"></div>
-                <div className = "right-half"><LoginForm /></div>
+                <div className = "right-half"><LoginForm setLoggedIn = {setLoggedIn} /></div>
             </div>
         </div>
     );

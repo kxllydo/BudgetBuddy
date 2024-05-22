@@ -1,27 +1,10 @@
-# from flask import Flask
-# from flask_cors import CORS
-# from flask import render_template, jsonify
-
-# app = Flask(__name__)
-# cors = CORS(app, origins = "*")
-
-# @app.route("/homess", methods = ["GET"])
-# def home():
-#     return jsonify({"message": "greeings!"}), 200
-
-# if __name__ == "__main__":
-#     app.run(debug = True)
-
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
 import mysql.connector
 import os
 from dotenv import load_dotenv
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import timedelta
-
-
-
 
 load_dotenv()
 
@@ -31,10 +14,8 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
-
  
 db_host = os.getenv("DB_HOST")
-print(db_host)
 db_user = os.getenv("DB_USER")
 db_password = os.getenv("DB_PASS")
 db_database = os.getenv("DB")
@@ -49,7 +30,6 @@ mysql_config = {
 db = mysql.connector.connect(**mysql_config)
 cursor = db.cursor()
 
-
 @app.route('/')
 def index():
     mydict = {
@@ -57,7 +37,6 @@ def index():
         "was": "up"
     }
     return jsonify(mydict)
-
 
 @app.route('/category', methods=['POST'])
 def addCategory():
@@ -70,29 +49,52 @@ def addCategory():
 
 @app.route('/register', methods = ["POST"])
 def register():
-    username = request.form['username2']
-    password = request.form['password2']
-    email = request.form['email2']
+    username = request.form['username'].lower()
+    password = request.form['password']
+    password2 = request.form['password2']
+    hashed_password = generate_password_hash(password)
+    email = request.form['email'].lower()
+    
+    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
+    tuser = cursor.fetchone()
+    if tuser: tuser = tuser[0]
+    print(f"{tuser}****"*20)
+    if tuser == username:
+        return jsonify({"message": "Username already exists!"}), 400
+    
+    cursor.execute("SELECT email FROM users WHERE email = %s", (email, ))
+    temail = cursor.fetchone()
+    if temail: temail = temail[0]
+    print(f"{temail}****"*20)
+    if temail == email:
+        return jsonify({"message": "Email already used!"}), 400
+    
+    if not password == password2:
+        return jsonify({"message": "Passwords do not match!"}), 400
 
-    cursor.execute('INSERT INTO users (username, password, email) VALUES (%s, %s, %s)', (username, password, email)) 
+    cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email))
     db.commit()
-    return jsonify({"message": "Category added successfully"}), 201
+    return jsonify({"message": "User successfully registerd"}), 200
 
 @app.route('/login', methods = ['POST'])
 def login():
-    username = request.form['username']
+    username = request.form['username'].lower()
     password = request.form['password']
-    # cursor.execute('SELECT username FROM users WHERE username = %s', (username, ))
-    # user = cursor.fetchone()
 
-    
+    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
+    tusername = cursor.fetchone()
+    if not tusername:
+        return jsonify({"message": "User does not exist"}), 400
+
+    cursor.execute("SELECT password FROM users WHERE username = %s", (username, ))
+    tpassword = cursor.fetchone()[0]
+    if not check_password_hash(tpassword, password):
+        return jsonify({"message": "Incorrect password!"}), 400
+
     session['user'] = username
-    print(session)
     if 'user' in session:
         return jsonify({"message": "Login successful"}), 200
-    return jsonify({"logged_in": False}), 200
-
-    # return jsonify({"message": "Login failed"}), 401
+    return jsonify({"logged_in": False}), 400
 
 @app.route('/is_logged_in', methods=['GET'])
 def is_logged_in():
@@ -110,4 +112,3 @@ def after_request(response):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
- 
