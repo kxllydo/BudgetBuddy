@@ -58,7 +58,7 @@ const AddCategoryForm = () => {
         event.preventDefault();
         const form = document.querySelector("#category-adder");
         const categoryData = new FormData(form);
-        fetch ("/category", {
+        fetch ("/add-category", {
             method: 'POST',
             body: categoryData,
             credentials: 'include',
@@ -149,20 +149,47 @@ const AddCategoryForm = () => {
     );
 };
 
-const CategoryProgressBar = ({name}) => {
+const CategoryProgressBar = () => {
+    const [categories, setCategories] = useState([]);
 
-    const title = name.charAt(0).toUpperCase() + name.slice(1);
+    const getCategories = () => {
+        fetch("/display-categories", {
+            method: 'GET',
+            credentials: 'include',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch categories');
+            }
+            return response.json(); // Resolve the promise to get JSON data
+        })
+        .then(data => {
+            setCategories(data.categories); // Use the resolved JSON data
+        })
+        .catch(error => {
+            console.error('Error fetching categories:', error);
+        });
+    };
+
+    useEffect(() => {
+        getCategories();
+    }, []);
+
     return (
-        <div className="budget-category">
-            <p>{title}</p>
-            <div className = "total-bar">
-                <div className = "progress-bar">
-                    <br></br>
+        <div>
+            {categories.map((category, index) => (
+                <div key={index} className="budget-category">
+                    <p>{category}</p>
+                    <div className="total-bar">
+                        <div className="progress-bar">
+                            <br />
+                        </div>
+                    </div>
                 </div>
-            </div>
+            ))}
         </div>
-    )
-}
+    );
+};
     
 const BudgetCategories = () => {
     const popupForm = () => {
@@ -184,11 +211,7 @@ const BudgetCategories = () => {
             </div>
 
             <div id="categories">
-                <CategoryProgressBar name="groceries"/>
-                <CategoryProgressBar name="transportation"/>
-                <CategoryProgressBar name="utilities"/>
-                <CategoryProgressBar name="shopping"/>
-                <CategoryProgressBar name="travel"/>
+                <CategoryProgressBar />
             </div>
         </div>
     )
