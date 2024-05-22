@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 
-import { LayoutWithoutFooter as Layout } from "@components/FrontPage";
+import Layout from "@components/FrontPage";
 
 import "@styles/AccountForm.css";
 import { useEffect } from "react";
@@ -130,7 +130,7 @@ const ForgotPasswordForm = () => {
 
 const PageLayout = ({ children }) => {
     return (
-        <Layout className = "account-body-wrapper">
+        <Layout className = "account-body-wrapper" excludeFt>
             <div className = "left-half"></div>
             <div className = "right-half">{ children }</div>
         </Layout>
