@@ -1,31 +1,57 @@
 import "../styles/TestingLogin.css";
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
+
 
 import Navbar from "./Navbar";
+
+const AuthContext = createContext();
+
+const AuthProvider = ({ children }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        axios.get('/is_logged_in')
+            .then(response => {
+                setIsLoggedIn(response.data.logged_in);
+            })
+            .catch(error => {
+                console.error("There was an error checking the login status!", error);
+            });
+    }, []);
+
+    const login = (username, password) => {
+        return axios.post('/login', { username, password })
+            .then(response => {
+                setIsLoggedIn(true);
+                return response;
+            });
+    };
+
+    const logout = () => {
+        return axios.post('/logout')
+            .then(response => {
+                setIsLoggedIn(false);
+                return response;
+            });
+    };
+
+    return (
+        <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
 
 const tlogin = (event) => {
     event.preventDefault();
     const form = document.querySelector("#tlogin");
-<<<<<<< HEAD
 
     const loginData = new FormData(form);
     fetch ("http://127.0.0.1:5000/login", {
         method: 'POST',
         body: loginData
     });
-=======
-    const data = {};
-    data["username"] = form.username.value;
-    data["password"] = form.password.value;
-    fetch("http://127.0.0.1:5000/testing-login", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-    }).then(data => {
-        return data.json()
-    }).then(data => {
-        console.log(data);
-    })
->>>>>>> 21f8715f5bed14be1beb1d1c344d333f6beb7733
 }
 
 const tsignup = (event) => {
