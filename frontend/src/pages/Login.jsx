@@ -97,5 +97,21 @@ const Login = ({ setLoggedIn })  => {
     );
 }
 
-export { FormField };
+const Logout = ({ loggedIn, setLoggedIn }) => {
+    if (loggedIn) {
+        setLoggedIn(false);
+        fetch("/logout", {
+            method: "POST",
+            credentials: "include",
+        });
+    }
+    
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        navigate("/login");
+    })
+}
+
+export { FormField, Logout };
 export default Login;

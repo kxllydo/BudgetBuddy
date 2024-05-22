@@ -58,14 +58,12 @@ def register():
     cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
     tuser = cursor.fetchone()
     if tuser: tuser = tuser[0]
-    print(f"{tuser}****"*20)
     if tuser == username:
         return jsonify({"message": "Username already exists!"}), 400
     
     cursor.execute("SELECT email FROM users WHERE email = %s", (email, ))
     temail = cursor.fetchone()
     if temail: temail = temail[0]
-    print(f"{temail}****"*20)
     if temail == email:
         return jsonify({"message": "Email already used!"}), 400
     
@@ -95,6 +93,13 @@ def login():
     if 'user' in session:
         return jsonify({"message": "Login successful"}), 200
     return jsonify({"logged_in": False}), 400
+
+@app.route("/logout", methods = ["POST"])
+def logout():
+    if "user" in session:
+        session.pop("user")
+        return jsonify({"message": "Logged out!"}), 200
+    return jsonify({"message": "Not logged out..."}), 400
 
 @app.route('/is_logged_in', methods=['GET'])
 def is_logged_in():

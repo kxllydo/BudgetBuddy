@@ -3,7 +3,7 @@ import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import About from'./pages/About';
-import Login from "./pages/Login";
+import Login, {Logout} from "./pages/Login";
 import Register from "./pages/Registration";
 import ForgotPassword from "./pages/ForgotPassword";
 import Activity from "./pages/Activity";
@@ -29,6 +29,7 @@ const App = () => {
               <Route path = "activity" element = {<Activity />} />
               <Route path = "budget" element = {<Budget />} />
               <Route path = "settings" element = {<Settings />} />
+              <Route path = "signout" element = {<Logout loggedIn = {loggedIn} setLoggedIn = {setLoggedIn} />} />
             </>
           ) : (
             <>
