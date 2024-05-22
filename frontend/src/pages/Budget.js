@@ -56,14 +56,13 @@ const AddCategoryForm = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        const categoryData = new FormData();
-        categoryData.append('category-input', category);
+        const form = document.querySelector("#category-adder");
+        const categoryData = new FormData(form);
         fetch ("http://127.0.0.1:5000/category", {
             method: 'POST',
             body: categoryData
         });
         var popupForm = document.getElementById("category-form-background");
-
         popupForm.style.display = 'none';
 
     };
@@ -133,17 +132,16 @@ const AddCategoryForm = () => {
 
             
             {state === "category" && (
-            <div>
+            <form id = "category-adder">
                 <div className="format-option-pair">
                     <label htmlFor="category-input" className = "budget-popup-label">Category Name:</label>
                     <input type = "text" id = "category-input" name = "category-input" onChange={newCategory} required></input>
                 </div>
                 <div className="popup-submit-div">
-                    <input type="submit" value="Submit" className = "popup-submit" onClick={submitHandler}/>
+                    <button type="submit" value="Submit" className = "popup-submit" onClick={submitHandler}>Submit</button>
                     <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
-
                 </div>
-            </div>
+            </form>
             )}
         </div>
         </div>
