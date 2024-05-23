@@ -52,9 +52,11 @@ const ProgressPie = () => {
 };
 
 const AddCategoryForm = () => {
-    const [state, setState] = useState("goal");
+    const [state, setState] = useState("category");
     const [category, setCategory] = useState("");
     const [categories, setCategories] = useState([]);
+    const [picked, setPicked] = useState("");
+
     useEffect(() => {
         const fetchCategories = async () => {
             const fetchedCategories = await getCategories();
@@ -78,6 +80,11 @@ const AddCategoryForm = () => {
         popupForm.style.display = 'none';
     };
 
+    const categoryPicker = (event) => {
+        setPicked(event.target.value);
+        console.log(picked);
+    };
+
     const categoryHandler = (event) => {
         event.preventDefault();
         const form = document.querySelector("#category-adder");
@@ -87,16 +94,28 @@ const AddCategoryForm = () => {
             body: categoryData,
             credentials: 'include',
         });
-        // setCategories(getCategories());
         var popupForm = document.getElementById("category-form-background");
         popupForm.style.display = 'none';
     };
 
-    const goalHandler = (event) => {
+    const capHandler = (event) => {
         event.preventDefault();
-        const goalData = new FormData(event.target);
+        const form = document.querySelector("#cap-adder");
+        const capData = new FormData(form);
+        // capData.append("category", picked);
+        fetch ("/add-cap", {
+            method: 'POST',
+            body: capData,
+            credentials: 'include',
+        });
 
+        for (const entry of capData.entries()) {
+            console.log(entry[0], entry[1]);
+        }
+        var popupForm = document.getElementById("category-form-background");
+        popupForm.style.display = 'none';
     }
+
 
     return (
         <div id = "category-form-background">
@@ -104,21 +123,21 @@ const AddCategoryForm = () => {
             <div className="format-option-pair">
                 <label htmlFor="choices" className = "budget-popup-label" id ="add-a" style = {{marginTop: "5%"}}>Add</label>
                 <select name="budget-popup" className="choices" id = "choices" onChange={optionHandler}>
-                    <option value="goal">Goal</option>
                     <option value="category">Category</option>
+                    <option value="cap">Cap</option>
                 </select>
             </div>
 
-            { state === "goal" && (
-                 <form id = "goal-adder"> 
+            { state === "cap" && (
+                <form id = "cap-adder"> 
                  <div className="format-option-pair">
-                   <label htmlFor="expenseCap" className="budget-popup-label">Expense Cap:</label>
-                   <input type="text" id="cap" name="expenseCap" />
+                   <label htmlFor="expense-cap" className="budget-popup-label">Expense Cap:</label>
+                   <input type="text" id="expense-cap" name="expense-cap" />
                  </div>
         
                  <div className="format-option-pair">
                    <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
-                   <select name="category" className="choices" id="cap-categories">
+                   <select name="cap-categories" className="choices" id="cap-categories" onChange={categoryPicker}>
                         {categories.map((category, index) => (
                             <option value = {category}>{category}</option>
                         ))}
@@ -126,7 +145,7 @@ const AddCategoryForm = () => {
                  </div>
         
                  <div className="popup-submit-div">
-                   <button type="submit" value="Submit" className="popup-submit">Submit</button>
+                   <button type="submit" value="Submit" className="popup-submit" onClick={capHandler} >Submit</button>
                    <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                  </div>
                </form> )}

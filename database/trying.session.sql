@@ -1,6 +1,6 @@
 -- show
 SELECT * FROM categories;
-SELECT * FROM goals;
+SELECT * FROM expenseCap;
 SELECT * FROM users;
 
 
@@ -33,17 +33,17 @@ CREATE TABLE users (
 
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    category VARCHAR(255) NOT NULL UNIQUE,
+    category VARCHAR(255) NOT NULL,
     user VARCHAR(100),
     FOREIGN KEY (user) REFERENCES users(username)
 );
 
-CREATE TABLE goals (
+CREATE TABLE expenseCap (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cap INT NOT NULL,
     category VARCHAR(255) NOT NULL,
     user VARCHAR(100),
-    category_id INT,
-    FOREIGN KEY (category_id) REFERENCES categories(id),
+    -- category_id INT,
+    -- FOREIGN KEY (category_id) REFERENCES categories(id),
     FOREIGN KEY (user) REFERENCES users(username)
 );
