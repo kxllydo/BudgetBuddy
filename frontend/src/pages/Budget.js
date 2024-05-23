@@ -3,6 +3,24 @@ import Sidebar from "./Sidebar";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 import React, { useEffect, useState } from "react";
 
+export const getCategories = async () => {
+    try {
+        const response = await fetch("/display-categories", {
+            method: 'GET',
+            credentials: 'include',
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch categories');
+        }
+        
+        const data = await response.json();
+        return data.categories;
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        return [];
+    }
+};
 
 const ProgressPie = () => {
     const data = [
@@ -33,11 +51,18 @@ const ProgressPie = () => {
     )
 };
 
-
-
 const AddCategoryForm = () => {
     const [state, setState] = useState("goal");
     const [category, setCategory] = useState("");
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const fetchedCategories = await getCategories();
+            setCategories(fetchedCategories);
+        };
+
+        fetchCategories();
+    }, []);
 
     const optionHandler = (event) => {
         const selectedState = event.target.value;
@@ -62,6 +87,7 @@ const AddCategoryForm = () => {
             body: categoryData,
             credentials: 'include',
         });
+        // setCategories(getCategories());
         var popupForm = document.getElementById("category-form-background");
         popupForm.style.display = 'none';
     };
@@ -71,7 +97,7 @@ const AddCategoryForm = () => {
         const goalData = new FormData(event.target);
 
     }
-  
+
     return (
         <div id = "category-form-background">
             <div id="category-form-container">
@@ -84,8 +110,7 @@ const AddCategoryForm = () => {
             </div>
 
             { state === "goal" && (
-                 <form > 
-                 {/* //onSubmit={goalHandler}> */}
+                 <form id = "goal-adder"> 
                  <div className="format-option-pair">
                    <label htmlFor="expenseCap" className="budget-popup-label">Expense Cap:</label>
                    <input type="text" id="cap" name="expenseCap" />
@@ -94,9 +119,9 @@ const AddCategoryForm = () => {
                  <div className="format-option-pair">
                    <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
                    <select name="category" className="choices" id="cap-categories">
-                     <option value="groceries">Groceries</option>
-                     <option value="bill">Bill</option>
-                     <option value="food">Food</option>
+                        {categories.map((category, index) => (
+                            <option value = {category}>{category}</option>
+                        ))}
                    </select>
                  </div>
         

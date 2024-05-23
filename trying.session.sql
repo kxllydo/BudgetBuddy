@@ -19,6 +19,8 @@ DROP TABLE users;
 DROP TABLE categories;
 DROP TABLE goals;
 DELETE FROM categories;
+DELETE FROM goals;
+DELETE FROM users;
 
 --creating the tables
 CREATE TABLE users (

@@ -23,7 +23,7 @@ const Sidebar = () => {
 
             <div className = "bottom-options">
                 <Option title = "Settings" link = "/settings" image = {require("../images/sidebar/settings2.png")} />
-                <Option title = "Sign out" link = "/signout" image = {require("../images/sidebar/logout.png")} />
+                <Option title = "Sign out" link = "/" image = {require("../images/sidebar/logout.png")} />
             </div>
         </nav>
     );
