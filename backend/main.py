@@ -40,12 +40,22 @@ def index():
 
 @app.route('/add-category', methods=['POST'])
 def addCategory():
-    category = request.form['category-input']
+    category = request.form['category-input'].capitalize()
     print(session)
     username = session['user']
     cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
     db.commit()
     return jsonify({"message": "Category added successfully"}), 201
+
+@app.route('/add-cap', methods = ['POST'] )
+def addCap():
+    expenseCap = request.form['expense-cap']
+    category = request.form['cap-categories']
+    username = session['user']
+    cursor.execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ))
+    db.commit()
+    return jsonify({"message": "Cap added successfully"}), 201
+
 
 @app.route('/display-categories')
 def displayCategories():
