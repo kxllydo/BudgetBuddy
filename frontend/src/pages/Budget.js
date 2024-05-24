@@ -157,7 +157,6 @@ const DeleteForm = ({categories}) => {
     const [state, setState] = useState("category");
     const [picked, setPicked] = useState("");
 
-
     const optionHandler = (event) => {
         const selectedState = event.target.value;
         setState(selectedState);
@@ -173,6 +172,22 @@ const DeleteForm = ({categories}) => {
         popupForm.style.display = 'none';
     };
 
+    const deleteCap = (event) => {
+        event.preventDefault();
+        const form = document.getElementById("cap-remover");
+        const capData = new FormData(form);
+        for (var pair of capData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        fetch ('/delete-cap', {
+            method: 'POST',
+            body: capData,
+            credentials: 'include',
+        });
+        exitHandler();
+    }
+
     return (
         <div>
         <div className="format-option-pair">
@@ -186,8 +201,8 @@ const DeleteForm = ({categories}) => {
         { state == "cap" && (
             <form id = "cap-remover"> 
             <div className="format-option-pair">
-                <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
-                <select name="cap-categories" className="choices" id="cap-categories" onChange={categoryPicker}>
+                <label htmlFor="cap-category" className="budget-popup-label">Category</label>
+                <select name="cap-category" className="choices" id="cap-categories" onChange={categoryPicker}>
                         {categories.map((category, index) => (
                             <option value = {category}>{category}</option>
                         ))}
@@ -195,7 +210,7 @@ const DeleteForm = ({categories}) => {
                 </div>
 
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className="popup-submit" >Submit</button>
+                    <button type="submit" value="Submit" className="popup-submit" onClick={deleteCap}>Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
             </form>
@@ -322,7 +337,7 @@ const BudgetCategories = () => {
             <div className="budget-category-header">
                 <h1> Budget by Category</h1>
                 <div className = "category-button">
-                    <button id = "add-category" onClick = {popupForm}>Add Category</button>
+                    <button id = "add-category" onClick = {popupForm}>Edit</button>
                 </div>
             </div>
 
