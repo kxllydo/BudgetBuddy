@@ -3,7 +3,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { FormField } from "@pages/Login";
+import { FormField } from "@/archives/Login";
 import Navbar from "@components/Navbar";
 
 import "@styles/AccountForm.css";

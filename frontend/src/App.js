@@ -3,7 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 
 import Home from "@pages/Home";
 import About from "@pages/About";
-import { LoginPage as Login, RegistrationPage as Register, ForgotPasswordPage as ForgotPassword } from "@pages/AccountForm";
+import { ForgotPasswordPage as ForgotPassword } from "@pages/AccountForm";
+
+import Register from "@/archives/Registration";
+import Login, {Logout} from "@/archives/Login";
 import TestingLogin from "@pages/TestingLogin";
 
 import Dashboard from "@pages/Dashboard";
