@@ -30,7 +30,7 @@ const FormField = ({ id, name, type, placeholder, required, children }) => {
 
 const UsernameField = ({ email }) => {
     return (
-        <FormField type = "text" id = "username" name = "username" { email ? "Enter your username/email" : "Enter your username"} required = "true">
+        <FormField type = "text" id = "username" name = "username" placeholder = { email ? "Enter your username/email" : "Enter your username"} required = "true">
             <FaUser className = "account-form-icon" />
         </FormField>
     )
