@@ -260,7 +260,7 @@ const DeleteForm = ({categories}) => {
 const EditForm = () => {
     const [categories, setCategories] = useState([]);
     const [picked, setPicked] = useState("");
-    const [edit, setEdit] = useState ("")
+    const [edit, setEdit] = useState ("add")
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -281,7 +281,7 @@ const EditForm = () => {
             <div id="category-form-container">
             <div className="format-option-pair">
                 <form id = "edit-type" style = {{marginTop: "6%"}} onChange={editHandler}>
-                    <input type="radio" id="add" name="edit-type" value="add" />  
+                    <input type="radio" id="add" name="edit-type" value="add"/>  
                     <label for="add" style = {{marginRight: "20px"}}>Add</label>
                     <input type="radio" id="delete" name="edit-type" value="delete" />  
                     <label for="delete">Delete</label>
