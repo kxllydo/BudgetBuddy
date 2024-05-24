@@ -67,6 +67,23 @@ def displayCategories():
     #     print(i)
     return jsonify({"categories": category_names}), 200
 
+@app.route('/delete-cap', methods = ['POST'])
+def deleteCap():
+    user = session['user']
+    category = request.form['cap-category']
+    cursor.execute ('DELETE FROM expenseCap WHERE user = %s AND category = %s', (user, category))
+    db.commit()
+    return jsonify({"message": "Cap deleted successfully"}), 201
+
+@app.route('/delete-category', methods = ['POST'])
+def deleteCategory():
+    user = session['user']
+    category = request.form['category']
+    cursor.execute ('DELETE FROM categories WHERE user = %s AND category = %s', (user, category))
+    db.commit()
+    return jsonify({"message": "Cap deleted successfully"}), 201
+
+
 @app.route('/register', methods = ["POST"])
 def register():
     username = request.form['username'].lower()
