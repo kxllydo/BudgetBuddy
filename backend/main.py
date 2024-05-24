@@ -6,9 +6,12 @@ from dotenv import load_dotenv
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import timedelta
 
+from models.activity import activity
+
 load_dotenv()
 
 app = Flask(__name__)
+app.register_blueprint(activity)
 app.secret_key = "dualmonitor"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
