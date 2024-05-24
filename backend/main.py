@@ -75,6 +75,14 @@ def deleteCap():
     db.commit()
     return jsonify({"message": "Cap deleted successfully"}), 201
 
+@app.route('/delete-category', methods = ['POST'])
+def deleteCategory():
+    user = session['user']
+    category = request.form['category']
+    cursor.execute ('DELETE FROM categories WHERE user = %s AND category = %s', (user, category))
+    db.commit()
+    return jsonify({"message": "Cap deleted successfully"}), 201
+
 
 @app.route('/register', methods = ["POST"])
 def register():

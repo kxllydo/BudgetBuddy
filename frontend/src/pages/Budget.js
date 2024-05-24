@@ -188,6 +188,22 @@ const DeleteForm = ({categories}) => {
         exitHandler();
     }
 
+    const deleteCategory = (event) => {
+        event.preventDefault();
+        const form = document.getElementById("category-remover");
+        const categoryData = new FormData(form);
+        for (var pair of categoryData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        fetch ('/delete-category', {
+            method: 'POST',
+            body: categoryData,
+            credentials: 'include',
+        });
+        exitHandler();
+    }
+
     return (
         <div>
         <div className="format-option-pair">
@@ -219,8 +235,8 @@ const DeleteForm = ({categories}) => {
         { state == "category" && (
             <form id = "category-remover"> 
             <div className="format-option-pair">
-                <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
-                <select name="cap-categories" className="choices" id="cap-categories" onChange={categoryPicker}>
+                <label htmlFor="category" className="budget-popup-label">Category</label>
+                <select name="category" className="choices" id="cap-categories" onChange={categoryPicker}>
                         {categories.map((category, index) => (
                             <option value = {category}>{category}</option>
                         ))}
@@ -228,7 +244,8 @@ const DeleteForm = ({categories}) => {
                 </div>
 
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className="popup-submit" >Submit</button>
+                    <button type="submit" value="Submit" className="popup-submit" 
+                    onClick={deleteCategory}>Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
             </form>
