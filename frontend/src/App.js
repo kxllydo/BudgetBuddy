@@ -2,10 +2,12 @@
 import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 
 import Home from "@pages/Home";
-import About from"@pages/About";
-import Login from "@pages/Login";
-import Register from "@pages/Registration";
-import ForgotPassword from "@pages/ForgotPassword";
+import About from "@pages/About";
+import { ForgotPasswordPage as ForgotPassword } from "@pages/AccountForm";
+
+import Register from "@/archives/Registration";
+import Login, {Logout} from "@/archives/Login";
+import TestingLogin from "@pages/TestingLogin";
 
 import Dashboard from "@pages/Dashboard";
 import Activity from "@pages/Activity";
@@ -32,7 +34,7 @@ const App = () => {
               <Route path = "activity" element = {<Activity />} />
               <Route path = "budget" element = {<Budget />} />
               <Route path = "settings" element = {<Settings />} />
-              <Route path = "signout" element = {<Logout loggedIn = {loggedIn} setLoggedIn = {setLoggedIn} />} />
+              <Route path = "signout" element = {<Home />} />
             </>
           ) : (
             <>
