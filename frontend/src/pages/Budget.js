@@ -1,7 +1,8 @@
-import "../styles/Budget.css";
-import Sidebar from "./Sidebar";
+import React, { useState } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
-import React, { useEffect, useState } from "react";
+import Sidebar from "@components/Sidebar";
+
+import "@styles/Budget.css";
 
 export const getCategories = async () => {
     try {
@@ -21,6 +22,7 @@ export const getCategories = async () => {
         return [];
     }
 };
+
 
 const ProgressPie = () => {
     const data = [

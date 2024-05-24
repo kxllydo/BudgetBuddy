@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Card from "react-credit-cards-2";
 
-import Sidebar from "./Sidebar";
-import DisplayHolder from "./SidebarPage";
-import Popup from "./Popup";
+import Sidebar from "@components/Sidebar";
+import DisplayHolder from "@components/SidebarPage";
+import Popup from "@components/Popup";
 
-import "../styles/Dashboard.css";
-import "../styles/Activity.css";
+import "@styles/Dashboard.css";
+import "@styles/Activity.css";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 const LinkedCards = () => {
