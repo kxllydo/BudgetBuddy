@@ -153,6 +153,75 @@ const AddForm = ({categories}) => {
             )
 }
 
+const DeleteForm = ({categories}) => {
+    const [state, setState] = useState("category");
+    const [picked, setPicked] = useState("");
+
+
+    const optionHandler = (event) => {
+        const selectedState = event.target.value;
+        setState(selectedState);
+    };
+
+    const categoryPicker = (event) => {
+        setPicked(event.target.value);
+        console.log(picked);
+    };
+
+    const exitHandler = () => {
+        var popupForm = document.getElementById("category-form-background");
+        popupForm.style.display = 'none';
+    };
+
+    return (
+        <div>
+        <div className="format-option-pair">
+            <label htmlFor="choices" className = "budget-popup-label" id ="add-a">Delete</label>
+            <select name="budget-popup" className="choices" id = "choices" onChange={optionHandler}>
+                <option value="category">Category</option>
+                <option value="cap">Cap</option>
+            </select>
+            </div>
+        
+        { state == "cap" && (
+            <form id = "cap-remover"> 
+            <div className="format-option-pair">
+                <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
+                <select name="cap-categories" className="choices" id="cap-categories" onChange={categoryPicker}>
+                        {categories.map((category, index) => (
+                            <option value = {category}>{category}</option>
+                        ))}
+                </select>
+                </div>
+
+                <div className="popup-submit-div">
+                    <button type="submit" value="Submit" className="popup-submit" >Submit</button>
+                    <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
+                </div>
+            </form>
+        )}
+
+        { state == "category" && (
+            <form id = "category-remover"> 
+            <div className="format-option-pair">
+                <label htmlFor="cap-categories" className="budget-popup-label">Category</label>
+                <select name="cap-categories" className="choices" id="cap-categories" onChange={categoryPicker}>
+                        {categories.map((category, index) => (
+                            <option value = {category}>{category}</option>
+                        ))}
+                </select>
+                </div>
+
+                <div className="popup-submit-div">
+                    <button type="submit" value="Submit" className="popup-submit" >Submit</button>
+                    <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
+                </div>
+            </form>
+        )}
+        </div>
+    )
+
+}
 const EditForm = () => {
     const [categories, setCategories] = useState([]);
     const [picked, setPicked] = useState("");
@@ -163,7 +232,6 @@ const EditForm = () => {
             const fetchedCategories = await getCategories();
             setCategories(fetchedCategories);
         };
-
         fetchCategories();
     }, []);
 
@@ -172,8 +240,6 @@ const EditForm = () => {
         const state = event.target.value;
         setEdit(state);
     }
-
-
 
     return (
         <div id = "category-form-background">
@@ -189,6 +255,10 @@ const EditForm = () => {
 
             {edit == "add" &&
                 <AddForm categories={categories}/>
+            }
+
+            {edit == "delete" && 
+                <DeleteForm categories={categories}/>
             }
             </div>
         </div>
@@ -302,5 +372,5 @@ const Budget = () =>{
     );
 };
 
-export {ProgressPie, BudgetCategories, EditForm, AddForm, CategoryProgressBar};
+export {ProgressPie, BudgetCategories, EditForm, AddForm, DeleteForm, CategoryProgressBar};
 export default Budget;
