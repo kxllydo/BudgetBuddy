@@ -260,8 +260,7 @@ const DeleteForm = ({categories}) => {
 const EditForm = () => {
     const [categories, setCategories] = useState([]);
     const [picked, setPicked] = useState("");
-    const [edit, setEdit] = useState ("add")
-
+    const [edit, setEdit] = useState ("add");
     useEffect(() => {
         const fetchCategories = async () => {
             const fetchedCategories = await getCategories();
