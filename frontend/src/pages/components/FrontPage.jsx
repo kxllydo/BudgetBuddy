@@ -1,46 +1,51 @@
-//import Navbar from "@components/Navbar";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+
+import { PATHS } from "@/App";
 
 import "@styles/components/FrontPage.scss";
 
-const Navbar2 = () => {
+const Navbar = () => {
+    // TODO: actual logo
+    // TODO: fix button hovers
+
     return (
         <nav className = "navbar">
-            <Link className = "logo" to = "/">Expenses</Link>
+            <Link className = "logo" to = {PATHS.HomePage}>Expenses</Link>
 
             <ul>
-                <li><Link to = "about">About</Link></li>
-                <li><Link to = "login">Login</Link></li>
+                <li><Link className = "primary-btn" to = {PATHS.AboutPage}>About</Link></li>
+                <li><Link className = "primary-btn" to = {PATHS.LoginPage}>Login</Link></li>
             </ul>
         </nav>
     )
 }
 
 const Footer = () => {
+    // TODO: actual footer
+
     return (
-        <footer>
-            <h1>footer here!</h1>
+        <footer className = "footer">
+            <div>footer here!</div>
         </footer>
     )
 }
 
-const Layout = ({ className, children, excludeNav, excludeFt }) => {
-    console.log(typeof excludeFt);
+const FPLayout = ({ excludeNav, excludeFt }) => {
     excludeNav = (!excludeNav || excludeNav.toLowerCase() == "false") ? false : true;
     excludeFt = (!excludeFt || excludeFt.toLowerCase() == "false") ? false : true;
     
     const layoutClassName = "front-page-layout" + (excludeNav ? " no-nav" : "") + (excludeFt ? " no-footer" : "");
-    const bodyClassName = "front-page-body" + (className ? " " + className : "");
 
     return (
         <div className = {layoutClassName}>
-            {excludeNav ? null : <Navbar2 />}
-            <div className = {bodyClassName}>
-                { children } 
+            {excludeNav ? null : <Navbar />}
+            <div className = "front-page-body">
+                <Outlet />
             </div>
             {excludeFt ? null : <Footer />}
         </div>
     )
 }
 
-export default Layout;
+export { Navbar, Footer };
+export default FPLayout;

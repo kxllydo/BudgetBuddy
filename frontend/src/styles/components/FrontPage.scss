@@ -1,57 +1,62 @@
+@use "@/App";
+
 :root {
     --navbar-size2: var(--navbar-size);
     --footer-size: auto;
 }
 
-.front-page-layout {
-    
+.front-page-layout .navbar {
+    background-color: rgb(87, 196, 120);
 
-    .navbar {
-        background-color: rgb(87, 196, 120);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
 
+    height: 10vh;
+    font-size: 1.25rem;
+
+    a {
+        text-decoration: none;
+        color: var(--text-color);
+    }
+
+    .logo {
+        margin-left: 3.2vw;
+    }
+
+    ul {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
+        list-style-type: none;
 
-        height: 10vh;
-        font-size: 1.25rem;
+        padding: 0px;
 
-        a {
-            text-decoration: none;
-            color: var(--text-color);
+        li {
+            margin: 0px 1vw;
+            cursor: pointer;
+
+            transition: 0.25s;
         }
 
-        .logo {
-            margin-left: 3.2vw;
-        }
-
-        ul {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            align-items: center;
-            justify-content: space-around;
-            list-style-type: none;
-
-            padding: 0px;
-
-            li {
-                padding: 1vh 1vw;
-                margin: 0px 1vw;
-                border: 0px;
-                border-radius: 25px;
-                cursor: pointer;
-            }
-
-            li:last-child {
-                margin-right: 3.2vw;
-            }
-
-            li:hover {
-                background-color: red;
-            }
+        li:last-child {
+            margin-right: 3.2vw;
         }
     }
+}
+
+.front-page-layout .footer {
+    margin: 0px;
+    margin-top: 5vh;
+    background-color: #fafafa;
+
+    display: none;
+}
+
+.front-page-body {
+
 }

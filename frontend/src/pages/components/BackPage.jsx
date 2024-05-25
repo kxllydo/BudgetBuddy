@@ -1,8 +1,12 @@
-import Sidebar from "@components/Sidebar";
+import { Link, Outlet } from "react-router-dom";
 
-import "@styles/components/BackPage.css";
+import { PATHS } from "@/App";
 
-const Layout = ({ cols, rows, children }) => {
+import "@styles/components/BackPage.scss";
+
+// TODO: Import Sidebar into here
+
+const BPLayout = ({ cols, rows, children }) => {
     if (!cols || cols < 1)
         cols = 1;
     if (!rows || rows < 1)
@@ -32,3 +36,4 @@ const DisplayHolder = ({children, className}) => {
 
 export default DisplayHolder;
 */
+export default BPLayout;

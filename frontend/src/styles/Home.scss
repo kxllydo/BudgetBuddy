@@ -11,7 +11,59 @@
             div
     foter
 */
+@use "@/App";
 
+.home-container {
+    section {
+        margin-top: 2.5%;
+        margin-bottom: 2.5%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .hero-section {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .hero-section .left {
+        width: 40%;
+        flex-grow: 3;
+        h1 {
+            margin: 0px;
+            font-size: 3rem;
+        }
+
+        h1 span::after {
+            content: "\A";
+        }
+
+        p {
+            font-size: 1.15rem;
+            padding-bottom: 5%;
+        }
+
+        a {
+            font-size: 1.25rem;
+        }
+    }
+
+    .hero-section .right {
+        width: 50%;
+        flex-grow: 5;
+
+        img {
+            width: 100%;
+        }
+    }
+
+
+}
+
+/*
 .home-page {
     display: flex;
     flex-direction: column;
@@ -22,14 +74,108 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        justify-items: center;
+        justify-content: space-evenly;
 
         .left-side {
-            justify-self: flex-start;
+            background-color: red;
+
+            h1 {
+
+            }
+
+            p {
+
+            }
+
+            a {
+                @include App.anchor-button;
+            }
         }
-        
+
         .right-side {
-            justify-self: flex-end;
+            background-color: pink;
+
+            img {
+                background-color: yellow;
+            }
+        }
+    }
+}
+*/
+
+/*
+    Responsivenes...
+*/
+@media screen {
+    @media (max-width: 1280px) {
+        .home-container {
+            .hero-section {
+                .left h1 {
+                    font-size: 2.5rem;
+                }
+    
+                .left p {
+                    font-size: 1rem;
+                }
+    
+                .left a {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 1100px) {
+        .home-container {
+            section {
+                margin-bottom: 7.5%;
+            }
+
+            .hero-section {
+                .right {
+                    display: none;
+                }
+
+                .left {
+                    margin-left: 20%;
+                    margin-right: 20%;
+                    text-align: center;
+
+                    h1 {
+                        font-size: 3rem;
+                    }
+
+                    p {
+                        font-size: 1.125rem;
+                    }
+
+                    a {
+                        font-size: 1.25rem;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 900px) {
+        .home-container {
+            .hero-section {
+                .left {
+                    margin-left: 10%;
+                    margin-right: 10%;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 700px) {
+        .home-container {
+            .hero-section {
+                .left {
+                    margin-left: 0px;
+                    margin-right: 0px;
+                }
+            }
         }
     }
 }
