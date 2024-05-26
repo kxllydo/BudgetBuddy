@@ -5,6 +5,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 
 import Layout from "@components/FrontPage";
+import { PATHS } from "@/App";
 
 import "@styles/AccountForm.css";
 
@@ -63,7 +64,7 @@ const LoginForm = () => {
                 <PasswordField />
 
                 <div className = "forgot-password">
-                    <Link to = "/forgot-password"><strong>Forgot Password?</strong></Link>
+                    <Link to = {PATHS.ForgotPasswordPath}><strong>Forgot Password?</strong></Link>
                 </div>
 
                 <div className = "form-button">
@@ -71,7 +72,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = "/register"><strong>New user?</strong> Register Nere.</Link>
+                    <Link to = {PATHS.RegisterPath}><strong>New user?</strong> Register Nere.</Link>
                 </div>
             </form>
         </div>
@@ -96,7 +97,7 @@ const RegistrationForm = () => {
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = "/login"><strong>Already have an account?</strong> Sign in.</Link>
+                    <Link to = {PATHS.LoginPath}><strong>Already have an account?</strong> Sign in.</Link>
                 </div>
             </form>
         </div>
@@ -117,8 +118,8 @@ const ForgotPasswordForm = () => {
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = "/register"><strong>New user?</strong> Register here.</Link><br />
-                    <Link to = "/login"><strong>Remember your password?</strong> Sign in here.</Link>
+                    <Link to = {PATHS.RegisterPath}><strong>New user?</strong> Register here.</Link><br />
+                    <Link to = {PATHS.LoginPath}><strong>Remember your password?</strong> Sign in here.</Link>
                 </div>
             </form>
         </div>
