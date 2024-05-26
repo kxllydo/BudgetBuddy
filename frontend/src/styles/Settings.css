@@ -16,10 +16,12 @@
 
 #settings-body > h1{
     margin-left: 3%;
+    font-size: 2rem;
 }
 
 .settings-container > h2 {
     margin-left: 3%;
+    font-size: 1.6rem;
 }
 
 .settings-option{
@@ -34,7 +36,11 @@
 }
 
 .subtext{
-    font-size: 13px;
+    font-size: 0.9rem;
+}
+
+.settings-option-pair > h3{
+    font-size: 1.3rem;
 }
 
 .settings-button{

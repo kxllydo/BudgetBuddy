@@ -6,13 +6,16 @@
 **/__pycache__/
 **.pyc
 
+#env 
+\.env
+
 # dependencies
 /frontend/node_modules
 **/node_modules/
 /.pnp
 .pnp.js
 
-# testing
+# testinggit p
 /coverage
 
 # production
