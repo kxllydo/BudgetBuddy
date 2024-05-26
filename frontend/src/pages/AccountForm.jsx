@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
@@ -7,7 +7,6 @@ import { MdEmail } from "react-icons/md";
 import Layout from "@components/FrontPage";
 
 import "@styles/AccountForm.css";
-import { useEffect } from "react";
 
 /* Minor Components */
 const FormField = ({ id, name, type, placeholder, required, children }) => {
@@ -130,10 +129,10 @@ const ForgotPasswordForm = () => {
 
 const PageLayout = ({ children }) => {
     return (
-        <Layout className = "account-body-wrapper" excludeFt>
+        <div className = "account-body-wrapper">
             <div className = "left-half"></div>
             <div className = "right-half">{ children }</div>
-        </Layout>
+        </div>
     )
 }
 

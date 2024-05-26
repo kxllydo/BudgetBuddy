@@ -1,21 +1,18 @@
 .account-body-wrapper {
     display: flex;
+    flex-grow: 1;
     flex-flow: row nowrap;
     overflow-x: hidden;
     width: 100vw;
-    height: calc(100vh - var(--navbar-size));
-    font-family: 'Roboto';
 
     .left-half {
         background-color: var(--theme-color);
         width: 50%;
-        height: stretch;
     }
 
     .right-half {
         background-color: var(--sub-theme-color);
         width: 50%;
-        height: 100%;
 
         display: flex;
         justify-content: center;
@@ -26,7 +23,7 @@
 }
 
 .account-form-wrapper {
-    width: 400px;
+    width: 450px;
     height: auto;
     margin: 0px;
     padding: 0px;
@@ -83,6 +80,7 @@
             height: 40px;
             border: 0px;
             border-radius: 5px;
+            margin-top: 20px;
             margin-bottom: 10px;
 
             background-color: var(--theme-color);

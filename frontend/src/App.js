@@ -1,15 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import FPLayout from "@components/FrontPage";
 import Home from "@pages/Home";
 import About from "@pages/About";
 import { LoginPage as Login, RegistrationPage as Register, ForgotPasswordPage as ForgotPassword } from "@pages/AccountForm";
+import Error404 from "@pages/Error404";
 
 import BPLayout from "@components/BackPage";
 import Dashboard from "@pages/Dashboard";
 import Activity from "@pages/Activity";
 import Budget from "@pages/Budget";
 import Settings from "@pages/Settings";
+import Signout from "@pages/Signout";
 
 import "@/App.scss"; 
 
@@ -19,6 +21,7 @@ const PATHS = {
     LoginPath : "/login",
     RegisterPath : "/register",
     ForgotPasswordPath : "/forgot-password",
+    Error404Path : "/error-404",
     DashboardPath : "/dashboard",
     ActivityPath : "/activity",
     BudgetPath : "/budget",
@@ -33,7 +36,8 @@ function App() {
                 <Route element = {<FPLayout />}>
                     <Route path = {PATHS.HomePath} element = {<Home />} />
                     <Route path = {PATHS.AboutPath} element = {<About />} />
-                    <Route path = "*" /> {/* TODO: Create a Error 404 page */}
+                    <Route path = {PATHS.Error404Path} element = {<Error404 />} />
+                    <Route path = "*" element = {<Navigate to = {PATHS.Error404Path} replace/>}/>
                 </Route>
                 <Route element = {<FPLayout excludeFt />}>
                     <Route path = {PATHS.LoginPath} element = {<Login />} />
@@ -45,7 +49,7 @@ function App() {
                     <Route path = {PATHS.ActivityPath} element = {<Activity />} />
                     <Route path = {PATHS.BudgetPath} element = {<Budget />} />
                     <Route path = {PATHS.SettingsPath} element = {<Settings />} />
-                    <Route path = {PATHS.SignoutPath} /> {/* TODO: Create a signout component */}
+                    <Route path = {PATHS.SignoutPath} element = {<Signout />} /> {/* TODO: Create a signout component */}
                 </Route>
             </Routes>
         </BrowserRouter>
