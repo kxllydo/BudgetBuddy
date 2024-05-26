@@ -13,7 +13,7 @@ import Settings from "@pages/Settings";
 
 import "@/App.scss"; 
 
-export const PATHS = {
+const PATHS = {
     HomePath : "/",
     AboutPath : "/about",
     LoginPath : "/login",
@@ -52,4 +52,5 @@ function App() {
     );
 }
 
+export { PATHS };
 export default App;

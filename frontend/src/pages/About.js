@@ -2,9 +2,7 @@ import Layout from "@components/FrontPage";
 
 const About = () => {
     return (
-        <Layout>
-            <p>about!</p>
-        </Layout>
+        <h1>About Us</h1>
     );
 };
 

@@ -11,7 +11,7 @@ const Home = () => {
                 <div className = "left">
                     <h1><span>Track Your Spending,</span>Master Your Finances</h1>
                     <p>With easy interfaces, categorized expenses, and more, keeping record of your expenses has never been easier.</p>
-                    <Link className = "primary-btn" to = {PATHS.DashboardPage}>Get Started</Link>
+                    <Link className = "primary-btn" to = {PATHS.DashboardPath}>Get Started</Link>
                 </div>
 
                 <div className = "right">

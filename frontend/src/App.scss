@@ -11,7 +11,7 @@
     text-decoration: none;
     color: var(--text-color);
     margin: 0px;
-    padding: 1vh 1vw;
+    padding: max(1vh, 5px) max(1vw, 15px);
     border: 0px;
     border-radius: 25px;
     background-color: #518251;
