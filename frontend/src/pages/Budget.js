@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
-import Sidebar from "@components/Sidebar";
-
 import "@styles/Budget.css";
 
 const ProgressPie = () => {
@@ -208,7 +206,6 @@ const Budget = () =>{
 
     return (
         <div className = "budget-page">
-            <Sidebar />
             <div className = "budget-body sidebar-page">
                 <div className="progress-tracker">
                     <h1 className = "goals"> Goal: Spend Less than 1k </h1>

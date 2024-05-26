@@ -1,8 +1,6 @@
 import React from 'react';
 import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-import Sidebar from "@components/Sidebar";
-
 import "@styles/Dashboard.css";
 
 const lineData = [
@@ -102,78 +100,32 @@ const PieChartComponent = () => {
 
 const Dashboard = () => {
     return(
-        <>
-            <Sidebar />
-            <div className = "dash-container sidebar-page">
-                <div className = "dashboard-body">
-                    <div className = "graph">
-                        <SimpleBarChart />
-                    </div>
-
-                    <div className = "pie-chart">
-                        <p className = "pie-header">Categorized Spending</p>
-                        <PieChartComponent />
-                    </div>
-
-                    <div className="line-graph">
-                        <SimpleLineChart />
-                    </div>
-
-                    <div className = "spent">
-                        <div className = "category1">
-                            <p className = "category">Spent the most in food this month</p>
-                            <h1 className = "cost">
-                                $15.11
-                            </h1>
-                        </div>
-                        <div className = "category2">
-                            <p className = "category">Spent the most in food this month</p>
-                            <h1 className = "cost">
-                                $705.11
-                            </h1>
-                        </div>
-                    </div>
-                </div>
+        <div className = "dashboard-body">
+            <div className = "graph">
+                <SimpleBarChart />
             </div>
-        </>
-    );
-}
 
-const Dashbo2ard = () => {
-    return(
-        <div className = "dash-container">
-            <Sidebar />
-            <div className = 'dashboard-body'>
-                <div className = "graph">
-                    <SimpleBarChart />
-                </div>
+            <div className = "pie-chart">
+                <p className = "pie-header">Categorized Spending</p>
+                <PieChartComponent />
+            </div>
 
-                <div className = "pie-chart">
-                    <p className = "pie-header">Categorized Spending</p>
-                    <ResponsiveContainer width = "100%" height = "100%">
-                    <PieChartComponent />
-                    </ResponsiveContainer>
-                </div>
-                <div className="line-graph">
-                    <ResponsiveContainer width = "100%" height = "100%">
-                    <SimpleLineChart />
-                    </ResponsiveContainer>
-                    
-                </div>
+            <div className="line-graph">
+                <SimpleLineChart />
+            </div>
 
-                <div className = "spent">
-                    <div className = "category1">
-                        <p className = "category">Spent the most in food this month</p>
-                        <h1 className = "cost">
-                            $15.11
-                        </h1>
-                    </div>
-                    <div className = "category2">
-                        <p className = "category">Spent the most in food this month</p>
-                        <h1 className = "cost">
-                            $705.11
-                        </h1>
-                    </div>
+            <div className = "spent">
+                <div className = "category1">
+                    <p className = "category">Spent the most in food this month</p>
+                    <h1 className = "cost">
+                        $15.11
+                    </h1>
+                </div>
+                <div className = "category2">
+                    <p className = "category">Spent the most in food this month</p>
+                    <h1 className = "cost">
+                        $705.11
+                    </h1>
                 </div>
             </div>
         </div>

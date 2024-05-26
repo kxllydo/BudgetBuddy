@@ -1,8 +1,3 @@
-.settings-page{
-    display:grid;
-    grid-template-columns: 1fr 5.5fr;
-}
-
 #settings-body{
     display:grid;
     gap: 20px 1px;
@@ -11,7 +6,7 @@
     background-color: rgb(235, 242, 233);
 }
 
-#settings-container{
+.settings-container{
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -23,7 +18,7 @@
     margin-left: 3%;
 }
 
-#settings-container > h2 {
+.settings-container > h2 {
     margin-left: 3%;
 }
 
@@ -100,6 +95,9 @@
     width: 70px;
 }
 
+#delete-account-button {
+    background-color: #E59191;
+}
 
 .settings-submit-btn:hover{
     background-color: rgb(69, 111, 69);

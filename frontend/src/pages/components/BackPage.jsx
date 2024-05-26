@@ -7,9 +7,7 @@ import "@styles/components/BackPage.scss";
 const Option = ({title, link, image}) => {
     return (
         <div className = "option">
-            <div className = "sidebar-icons">
-                <img src = {image} />
-            </div>
+            <img src = {image} />
             <Link to = {link}>{title}</Link>
         </div>
     );
@@ -44,22 +42,4 @@ const BPLayout = ({}) => {
     )
 }
 
-/*
-import "@styles/components/SidebarPage.css";
-
-const DisplayHolder = ({children, className}) => {
-    if (className)
-        className = " " + className;
-    else
-        className = "";
-
-    return (
-        <div className = {"display-container" + className}>
-            {children}
-        </div>
-    )
-}
-
-export default DisplayHolder;
-*/
 export default BPLayout;

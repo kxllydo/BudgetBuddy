@@ -1,12 +1,10 @@
 import { useState } from "react";
 import Card from "react-credit-cards-2";
 
-import Sidebar from "@components/Sidebar";
-import DisplayHolder from "@components/SidebarPage";
 import Popup from "@components/Popup";
+import DisplayHolder from "@components/DisplayHolder";
 
-import "@styles/Dashboard.css";
-import "@styles/Activity.css";
+import "@styles/Activity.scss";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 const LinkedCards = () => {
@@ -204,7 +202,6 @@ const Activity = () => {
 
     return (
         <>
-            <Sidebar />
             <div className = "sidebar-page activity-page">
                 <DisplayHolder className = "linked-cards-display-holder">
                     <div class = "activity-holder-header">
