@@ -1,6 +1,4 @@
-import React from "react";
-
-import "@styles/components/Popup.css";
+import "@styles/components/Popup.scss";
 
 const Popup = ({children, className, open, setOpen}) => {
     if (className)

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
-import Sidebar from "@components/Sidebar";
-
 
 import "@styles/Budget.css";
 

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import FPLayout from "@components/FrontPage";
@@ -12,7 +13,6 @@ import Activity from "@pages/Activity";
 import Budget from "@pages/Budget";
 import Settings from "@pages/Settings";
 import Signout from "@pages/Signout";
-import React, { useState } from 'react';
 
 import "@/App.scss"; 
 
