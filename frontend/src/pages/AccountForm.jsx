@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 import Layout from "@components/FrontPage";
 import { PATHS } from "@/App";
 
-import "@styles/AccountForm.css";
+import "@styles/AccountForm.scss";
 
 /* Minor Components */
 const FormField = ({ id, name, type, placeholder, required, children }) => {
@@ -72,7 +72,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = {PATHS.RegisterPath}><strong>New user?</strong> Register Nere.</Link>
+                    <Link to = {PATHS.RegisterPath}><strong>New user?</strong> Register here.</Link>
                 </div>
             </form>
         </div>
