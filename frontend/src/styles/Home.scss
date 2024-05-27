@@ -1,16 +1,3 @@
-/*
-    navbar
-    home-page
-        section.hero-section
-            left-side
-                h1
-                p
-            right-side
-                img
-        section
-            div
-    foter
-*/
 @use "@/App";
 
 .home-container {
@@ -64,48 +51,9 @@
 }
 
 /*
-.home-page {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-
-    .hero-section {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-evenly;
-
-        .left-side {
-            background-color: red;
-
-            h1 {
-
-            }
-
-            p {
-
-            }
-
-            a {
-                @include App.anchor-button;
-            }
-        }
-
-        .right-side {
-            background-color: pink;
-
-            img {
-                background-color: yellow;
-            }
-        }
-    }
-}
-*/
-
-/*
     Responsivenes...
 */
+// TODO: responsiveness for section margins
 @media screen {
     @media (max-width: 1280px) {
         .home-container {
