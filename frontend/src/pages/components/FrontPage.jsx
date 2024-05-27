@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, Navigate } from "react-router-dom";
 
 import { PATHS } from "@/App";
 
@@ -55,21 +55,31 @@ const Footer = () => {
     )
 }
 
-const FPLayout = ({ excludeNav, excludeFt }) => {
-    const layoutClassName = "front-page-layout" + 
-        (excludeNav ? " no-nav" : "") + 
-        (excludeFt ? " no-footer" : "");
-
+const FPLayout = () => {
     return (
-        <div className = {layoutClassName}>
-            {excludeNav ? null : <Navbar />}
+        <div className = "front-page-layout">
+            <Navbar />
             <div className = "front-page-body">
                 <Outlet />
             </div>
-            {excludeFt ? null : <Footer />}
+            <Footer />
         </div>
     )
 }
 
-export { Navbar, Footer };
-export default FPLayout;
+const AFLayout = ({ loggedIn, setLoggedIn }) => {
+    if (loggedIn) {
+        return (<Navigate to = {PATHS.DashboardPath} replace />);
+    }
+    
+    return (
+        <div className = "front-page-layout">
+            <Navbar />
+            <div className = "front-page-body">
+                <Outlet context = {{"setLoggedIn": setLoggedIn}} />
+            </div>
+        </div>
+    );
+}
+
+export { AFLayout, FPLayout };

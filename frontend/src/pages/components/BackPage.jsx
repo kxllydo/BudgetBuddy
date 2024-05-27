@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, Navigate } from "react-router-dom";
 
 import { PATHS } from "@/App";
 
@@ -31,12 +31,16 @@ const Sidebar = () => {
     )
 }
 
-const BPLayout = ({}) => {
+const BPLayout = ({ loggedIn, setLoggedIn }) => {
+    if (!loggedIn) {
+        return (<Navigate to = {PATHS.LoginPath} replace />);
+    }
+
     return (
         <div className = "back-page-layout">
             <Sidebar />
             <div className = "back-page-body">
-                <Outlet />
+                <Outlet context = {{"setLoggedIn": setLoggedIn}} />
             </div>
         </div>
     )

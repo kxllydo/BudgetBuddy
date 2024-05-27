@@ -55,11 +55,38 @@ const EmailField = () => {
 /* Larger Components */
 
 const LoginForm = () => {
+    const outletContext = useOutletContext();
+    const setLoggedIn = outletContext["setLoggedIn"];
+    const navigate = useNavigate();
+    const login = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("#login-form");
+        const loginData = new FormData(form);
+        fetch("/login", {
+            method: "POST",
+            body: loginData,
+            credentials: "include",
+        }).then(response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                navigate(PATHS.DashboardPath, {"replace": true});
+                return null;
+            } else {
+                return response.json();
+            }
+        }).then(error => {
+            if (error)
+                alert(error.message);
+        }).catch(error => {
+            alert(error);
+        })
+    };
+
     return (
         <div className = "account-form-wrapper">
             <h1>Sign In</h1>
 
-            <form>
+            <form id = "login-form">
                 <UsernameField />
                 <PasswordField />
 
@@ -68,7 +95,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className = "form-button">
-                    <button>Login</button>
+                    <button type = "submit" onClick = {login}>Login</button>
                 </div>
 
                 <div className = "wrong-account-page">
@@ -80,11 +107,38 @@ const LoginForm = () => {
 }
 
 const RegistrationForm = () => {
+    const outletContext = useOutletContext();
+    const setLoggedIn = outletContext["setLoggedIn"];
+    const navigate = useNavigate();
+    const register = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("#register-form");
+        const loginData = new FormData(form);
+        fetch("/register", {
+            method: "POST",
+            body: loginData,
+            credentials: "include",
+        }).then(response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                navigate(PATHS.DashboardPath, {"replace": true});
+                return null;
+            } else {
+                return response.json();
+            }
+        }).then(error => {
+            if (error)
+                alert(error.message);
+        }).catch(error => {
+            alert(error);
+        })
+    };
+
     return (
         <div className = "account-form-wrapper">
             <h1>Create an Account</h1>
 
-            <form>
+            <form id = "register-form">
                 <UsernameField />
                 <EmailField />
                 <PasswordField />
@@ -93,7 +147,7 @@ const RegistrationForm = () => {
                 </FormField>
 
                 <div className = "form-button">
-                    <button>Register</button>
+                    <button tyoe = "submit" onClick = {register}>Register</button>
                 </div>
 
                 <div className = "wrong-account-page">
@@ -105,6 +159,7 @@ const RegistrationForm = () => {
 }
 
 const ForgotPasswordForm = () => {
+    // TODO: add functionality?
     return (
         <div className = "account-form-wrapper forgot-password-form-wrapper">
             <h1>Forgot Your Password?</h1>
