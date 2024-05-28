@@ -1,7 +1,7 @@
 .activity-page {
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 40vh auto;
+    grid-template-rows: 50vh auto;
     gap: 5vh;
 }
 
@@ -30,9 +30,14 @@
 }
 
 .linked-cards-display-holder {
-    display: flex;
+    display: none;
     flex-direction: column;
     flex-wrap: nowrap;
+
+    .display-container {
+        border-radius: 0px;
+        box-shadow: none;
+    }
 
     .activity-no-linked-cards {
         display: flex;
@@ -40,7 +45,6 @@
         align-items: center;
         height: 100%;
         background-color: var(--sub3-theme-color);
-        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
     }
 
     .activity-has-linked-cards {
@@ -53,7 +57,6 @@
         height: 100%;
         overflow: auto;
         background-color: var(--sub3-theme-color);
-        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
     }
 }
 
@@ -62,22 +65,33 @@
     flex-direction: column;
     flex-wrap: nowrap;
 
+    .display-container {
+        border-radius: 0px;
+        box-shadow: none;
+    }
+
     .activity-no-activity {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100%;
         background-color: var(--sub3-theme-color);
-        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
     }
 
     .activity-has-activity {
         height: 100%;
         background-color: var(--sub3-theme-color);
-        box-shadow: 5px 5px 5px 5px var(--sub3-theme-color);
 
         table {
             width: 100%;
+
+            td {
+                text-align: center;
+
+                &:last-child {
+                    text-align: right;
+                }
+            }
         }
     }
 }

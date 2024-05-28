@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, act } from "react";
 import Card from "react-credit-cards-2";
 
-import Sidebar from "@components/Sidebar";
-import DisplayHolder from "@components/SidebarPage";
 import Popup from "@components/Popup";
+import DisplayHolder from "@components/DisplayHolder";
 
-import "@styles/Dashboard.css";
-import "@styles/Activity.css";
+import "@styles/Activity.scss";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
+/*
 const LinkedCards = () => {
     let data;
     if (Math.random() < .5) {
@@ -131,6 +130,10 @@ const CardsForm = ({open, setOpen}) => {
         setState((prev) => ({ ...prev, focus: event.target.name }));
     }
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+    }
+
     return (
         <Popup className = "linked-cards-form-popup" open = {open} setOpen = {setOpen}>
             <h1>Add a Card</h1>
@@ -142,7 +145,7 @@ const CardsForm = ({open, setOpen}) => {
                     cvc = {state.cvc}
                     name = {state.name}
                     focused = {state.focus} />
-                <form>
+                <form id = "linked-cards-form">
                     <input required type = "number" name = "number"
                         placeholder = "Card Number" value = {state.number}
                         onChange = {handleInputChange} onFocus = {handleInputFocus} />
@@ -204,7 +207,6 @@ const Activity = () => {
 
     return (
         <>
-            <Sidebar />
             <div className = "sidebar-page activity-page">
                 <DisplayHolder className = "linked-cards-display-holder">
                     <div class = "activity-holder-header">
@@ -233,6 +235,187 @@ const Activity = () => {
             </div>
         </>
     )
+}
+*/
+
+const fetchActivity = (setData) => {
+    fetch("/get-data", {
+        method: "GET",
+        credentials: "include",
+    }).then(async response => {
+        if (!response.ok)
+            throw new Error("Failed to fetch activity.");
+
+        let data = await response.json();
+        setData(data);
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+const fetchCategories = (setCategories) => {
+    fetch("/display-categories", {
+        method: "GET",
+        credentials: "include",
+    }).then(async response => {
+        if (!response.ok)
+            throw new Error("Failed to fetch categories.");
+
+        let data = await response.json(); 
+        data = data["categories"]; 
+        setCategories(data);
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+const MyActivity = ({ data }) => {
+    let acts;
+    if (data.length === 0) {
+        acts = (<div>There has been no recent activity within your linked cards.</div>);
+    } else {
+        acts = [];
+        for (let i = 0; i < data.length; i++) {
+            acts.push(
+                <tr serial = {i} server-serial = {data[i][0]}>
+                    <td act-col = "act_date">
+                        {data[i][1].replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")}
+                    </td>
+                    <td act-col = "category">
+                        {data[i][2].charAt(0).toUpperCase() + data[i][2].slice(1)}
+                    </td>
+                    <td act-col = "merchant">
+                        {data[i][3]}
+                        </td>
+                    <td act-col = "price">
+                        {"$" + data[i][4].toFixed(2)}
+                    </td>
+                </tr>
+            )
+        }
+
+        acts = (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Merchant</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>{acts}</tbody>
+            </table>
+        )
+    }
+
+    return (
+        <DisplayHolder className = {(data.length === 0 && "activity-no-activity") || "activity-has-activity"}>
+            {acts}
+        </DisplayHolder>
+    );
+}
+
+const MyActivityPopup = ({ open, setOpen, server_serial }) => {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        fetchCategories(setCategories);
+    }, []);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("CCIKED!");
+    
+        const form = document.querySelector("#my-activity-form");
+        console.log(form);
+        const activityData = new FormData(form);
+        console.log(activityData);
+
+        fetch("/add-data", {
+            method: "POST",
+            body: activityData,
+            credentials: "include"
+        }).catch(error => {
+            console.log(error);
+        });
+
+    }
+
+    return (
+        <Popup className = "my-activity-form-popup" open = {open} setOpen = {setOpen}>
+            <h1>Add Activity</h1>
+
+            <div>
+                <form id = "my-activity-form">
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-date">Date</label>
+                        <input required type = "date" name = "my-activity-date" id = "my-activity-date" placeholder = "Date" />
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-category">Category</label>
+                        <select required name = "my-activity-category" id="my-activity-category">
+                            <option value = "" hidden selected>Choose a category</option>
+                            {
+                                categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)
+                            }
+                        </select>
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-merchant">Merchant</label>
+                        <input required type = "text" name = "my-activity-merchant" id = "my-activity-merchant" placeholder = "Merchant" />
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-price">Price</label>
+                        <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" />
+                    </div>
+
+                    <button onClick = {handleSubmit}>Add Activity</button>
+                </form>
+            </div>
+        </Popup>
+    );
+}
+
+const Activity = () => {
+    const [categories, setCategories] = useState([])
+    const [data, setData] = useState([]);
+
+    const [showMyActivityPopup, setMyActivityPopup] = useState(false);
+
+    useEffect(() => {
+        fetchActivity(setData);
+        fetchCategories(setCategories);
+    }, []);
+
+    const openMyActivityPopup = (event) => {
+        event.preventDefault();
+        setMyActivityPopup(true);
+    }
+
+    return (
+        <div className = "activity-page">
+            <DisplayHolder className = "linked-cards-display-holder">
+                <div className = "activity-holder-header">
+                    <h1>My Linked Cards</h1>
+                    <button>Add Card</button>
+                </div>
+
+                {<MyActivityPopup />}
+            </DisplayHolder>
+
+            <DisplayHolder className = "activity-display-holder">
+                <div className = "activity-holder-header">
+                    <h1>My Activity</h1>
+                    <button onClick = {openMyActivityPopup}>Add Activity</button>
+                </div>
+
+                <MyActivity data = {data} />
+            </DisplayHolder>
+
+            <MyActivityPopup open = {showMyActivityPopup} setOpen = {setMyActivityPopup} categories = {categories} />
+        </div>
+    );
 }
 
 export default Activity;

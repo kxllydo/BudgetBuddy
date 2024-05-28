@@ -7,7 +7,7 @@
 **.pyc
 
 #env 
-\.env
+**/.env
 
 # dependencies
 /frontend/node_modules

@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { useEffect } from "react";
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 
-import Navbar from "@components/Navbar";
+import Layout from "@components/FrontPage";
+import { PATHS } from "@/App";
 
-import "@styles/AccountForm.css";
+import "@styles/AccountForm.scss";
 
 /* Minor Components */
-
 const FormField = ({ id, name, type, placeholder, required, children }) => {
     if (!id || !name || !type || !placeholder)
         return null;
@@ -54,24 +55,48 @@ const EmailField = () => {
 /* Larger Components */
 
 const LoginForm = () => {
+    const outletContext = useOutletContext();
+    const setLoggedIn = outletContext["setLoggedIn"];
+    const navigate = useNavigate();
+
+    const login = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("#login-form");
+        const loginData = new FormData(form);
+
+        fetch("/login", {
+            method: "POST",
+            body: loginData,
+            credentials: "include",
+        }).then(response => {
+            if (!response.ok)
+                throw new Error("Failed to verify login credentials.");
+
+            setLoggedIn(true);
+            navigate(PATHS.DashboardPath, {"replace": true});
+        }).catch(error => {
+            alert(error);
+        })
+    };
+
     return (
         <div className = "account-form-wrapper">
             <h1>Sign In</h1>
 
-            <form>
+            <form id = "login-form">
                 <UsernameField />
                 <PasswordField />
 
                 <div className = "forgot-password">
-                    <Link to = "/forgot-password"><strong>Forgot Password?</strong></Link>
+                    <Link to = {PATHS.ForgotPasswordPath}><strong>Forgot Password?</strong></Link>
                 </div>
 
                 <div className = "form-button">
-                    <button>Login</button>
+                    <button type = "submit" onClick = {login}>Login</button>
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = "/register"><strong>New user?</strong> Register here.</Link>
+                    <Link to = {PATHS.RegisterPath}><strong>New user?</strong> Register here.</Link>
                 </div>
             </form>
         </div>
@@ -79,11 +104,35 @@ const LoginForm = () => {
 }
 
 const RegistrationForm = () => {
+    const outletContext = useOutletContext();
+    const setLoggedIn = outletContext["setLoggedIn"];
+    const navigate = useNavigate();
+
+    const register = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("#register-form");
+        const loginData = new FormData(form);
+
+        fetch("/register", {
+            method: "POST",
+            body: loginData,
+            credentials: "include",
+        }).then(response => {
+            if (!response.ok) 
+                throw new Error("Failed to verify registration credentials.");
+
+            setLoggedIn(true);
+            navigate(PATHS.DashboardPath, {"replace": true});
+        }).catch(error => {
+            alert(error);
+        })
+    };
+
     return (
         <div className = "account-form-wrapper">
             <h1>Create an Account</h1>
 
-            <form>
+            <form id = "register-form">
                 <UsernameField />
                 <EmailField />
                 <PasswordField />
@@ -92,11 +141,11 @@ const RegistrationForm = () => {
                 </FormField>
 
                 <div className = "form-button">
-                    <button>Register</button>
+                    <button tyoe = "submit" onClick = {register}>Register</button>
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = "/login"><strong>Already have an account?</strong> Sign in.</Link>
+                    <Link to = {PATHS.LoginPath}><strong>Already have an account?</strong> Sign in.</Link>
                 </div>
             </form>
         </div>
@@ -104,6 +153,7 @@ const RegistrationForm = () => {
 }
 
 const ForgotPasswordForm = () => {
+    // TODO: add functionality?
     return (
         <div className = "account-form-wrapper forgot-password-form-wrapper">
             <h1>Forgot Your Password?</h1>
@@ -117,8 +167,8 @@ const ForgotPasswordForm = () => {
                 </div>
 
                 <div className = "wrong-account-page">
-                    <Link to = "/register"><strong>New user?</strong> Register here.</Link><br />
-                    <Link to = "/login"><strong>Remember your password?</strong> Sign in here.</Link>
+                    <Link to = {PATHS.RegisterPath}><strong>New user?</strong> Register here.</Link><br />
+                    <Link to = {PATHS.LoginPath}><strong>Remember your password?</strong> Sign in here.</Link>
                 </div>
             </form>
         </div>
@@ -129,13 +179,10 @@ const ForgotPasswordForm = () => {
 
 const PageLayout = ({ children }) => {
     return (
-        <>
-            <Navbar />
-            <div className = "account-body-wrapper">
-                <div className = "left-half"></div>
-                <div className = "right-half">{ children }</div>
-            </div>
-        </>
+        <div className = "account-body-wrapper">
+            <div className = "left-half"></div>
+            <div className = "right-half">{ children }</div>
+        </div>
     )
 }
 

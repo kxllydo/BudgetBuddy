@@ -1,7 +1,9 @@
+/*
 :root {
     --sidebar-width: 15vw;
 }
-
+*/
+/*
 .sidebar {
     display: flex;
     position: fixed;
@@ -37,10 +39,11 @@
     text-align: left;
     font-size: 1.25rem;
 }
-
+*/
+/*
 .option:hover {
     background-color: rgb(75, 120, 75); /* Example background color on hover */
-}
+/*}
 
 .option > a {
     text-decoration: none;
@@ -49,16 +52,16 @@
 }
 
 .sidebar-icons > img {
-    width: 30px; /* Set the width to 50 pixels */
-    height: auto; /* Maintain aspect ratio */
+    width: 30px; /* Set the width to 50 pixels *//*
+    height: auto; /* Maintain aspect ratio *//*
 }
 
 
-/* Responsive, make collapsible */
+/* Responsive, make collapsible *//*
 @media screen and (max-width: 600px) {
     .option {
         font-size: 16px; /* Decrease font size for smaller screens */
-    }
+    /*}
 
     .sidebar{
         height: 100%;
@@ -68,6 +71,7 @@
 @media screen and (min-width: 1300px) {
     .option {
         font-size: 24px; /* Increase font size for larger screens */
-    }
+    /*}
 
 }
+*/

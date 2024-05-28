@@ -1,0 +1,130 @@
+@use "@/App";
+
+:root {
+    --footer-size: auto;
+}
+
+.front-page-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.front-page-layout .navbar {
+    background-color: rgb(87, 196, 120);
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 1.25rem;
+
+    a {
+        text-decoration: none;
+        color: var(--text-color);
+    }
+
+    .logo {
+        margin-left: 3.2vw;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-around;
+        list-style-type: none;
+
+        padding: 0px;
+
+        li {
+            margin: 0px 1vw;
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        li:last-child {
+            margin-right: 3.2vw;
+        }
+    }
+}
+
+.front-page-layout .footer {
+    margin: 0px;
+    margin-top: max(5vh, 15px);
+    padding-top: max(5vh, 15px);
+    padding-bottom: max(5vh, 15px);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    //background-color: #fafafa;
+    background-color: rgb(87, 196, 120);
+
+    .columns {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-evenly;
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bolder;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-color);
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        h1 {
+            margin: 0px;
+            font-size: 1.25rem;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0px;
+        }
+
+        li {
+            margin: 0px;
+            margin-bottom: max(1vh, 3px);
+        }
+
+        li:not(:has(> a)) {
+            color: #777;
+
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .copyright-line {
+        text-align: center;
+    }
+}
+
+.front-page-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/*
+    Responsiveness...
+*/
+@media screen {
+    // TODO: responsiveness for footer
+    // TODO: responsiveness for navbar
+}
