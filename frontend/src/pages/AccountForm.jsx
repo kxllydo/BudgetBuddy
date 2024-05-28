@@ -58,25 +58,22 @@ const LoginForm = () => {
     const outletContext = useOutletContext();
     const setLoggedIn = outletContext["setLoggedIn"];
     const navigate = useNavigate();
+
     const login = (event) => {
         event.preventDefault();
         const form = document.querySelector("#login-form");
         const loginData = new FormData(form);
+
         fetch("/login", {
             method: "POST",
             body: loginData,
             credentials: "include",
         }).then(response => {
-            if (response.ok) {
-                setLoggedIn(true);
-                navigate(PATHS.DashboardPath, {"replace": true});
-                return null;
-            } else {
-                return response.json();
-            }
-        }).then(error => {
-            if (error)
-                alert(error.message);
+            if (!response.ok)
+                throw new Error("Failed to verify login credentials.");
+
+            setLoggedIn(true);
+            navigate(PATHS.DashboardPath, {"replace": true});
         }).catch(error => {
             alert(error);
         })
@@ -110,25 +107,22 @@ const RegistrationForm = () => {
     const outletContext = useOutletContext();
     const setLoggedIn = outletContext["setLoggedIn"];
     const navigate = useNavigate();
+
     const register = (event) => {
         event.preventDefault();
         const form = document.querySelector("#register-form");
         const loginData = new FormData(form);
+
         fetch("/register", {
             method: "POST",
             body: loginData,
             credentials: "include",
         }).then(response => {
-            if (response.ok) {
-                setLoggedIn(true);
-                navigate(PATHS.DashboardPath, {"replace": true});
-                return null;
-            } else {
-                return response.json();
-            }
-        }).then(error => {
-            if (error)
-                alert(error.message);
+            if (!response.ok) 
+                throw new Error("Failed to verify registration credentials.");
+
+            setLoggedIn(true);
+            navigate(PATHS.DashboardPath, {"replace": true});
         }).catch(error => {
             alert(error);
         })
