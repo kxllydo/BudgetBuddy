@@ -83,9 +83,14 @@ def editCategory():
     oldCategory = request.form['old-category']
     newCategory = request.form['new-category'].capitalize()
     user = session['user']
-    cursor.execute('UPDATE categories SET category = %s WHERE user = %s and category = %s', (newCategory, user, oldCategory))
-    db.commit()
-    return "Category updated successfully"
+    cursor.execute('SELECT category FROM categories WHERE user = %s AND category = %s', (user, newCategory))
+    exists = cursor.fetchone()
+    if exists is not None:
+        return jsonify({'message' : "This category already exists. Try a different name"}), 400
+    else:
+        cursor.execute('UPDATE categories SET category = %s WHERE user = %s and category = %s', (newCategory, user, oldCategory))
+        db.commit()
+        return jsonify({'message' : "Category updated successfully"}), 200
 
 
 @app.route('/add-category', methods=['POST'])
@@ -148,9 +153,29 @@ def deleteCategory():
 def change (type):
     old = request.form.get(f'old-{type}')
     changed = request.form.get(f'new-{type}')
-    cursor.execute('UPDATE users SET user = %s WHERE user = %s', (changed, old))
-    db.commit()
-    return jsonify({"message": "Cap deleted successfully"}), 201
+    user = session['user']
+    if (type == 'password'):
+        cursor.execute('SELECT password FROM users WHERE user = %s', (user, ))
+        hashed = cursor.fetchone()[0]
+        if not check_password_hash(hashed, old):
+            return jsonify({'message' : "Incorrect password"}), 400
+        else:
+            newPass = generate_password_hash(changed)
+            cursor.execute('UPDATE users SET password = %s WHERE password = %s', (newPass, hashed))
+            db.commit()
+    else:
+        query = f'SELECT {type} FROM users WHERE {type} = %s'
+        cursor.execute(query, (old, ))
+        result = cursor.fetchone()
+        if result is not None:
+            query = f'UPDATE users SET {type} = %s WHERE {type} = %s'
+            cursor.execute(query, (changed, old))
+            db.commit()
+        else:
+            return jsonify({'message' : f'No {type} found under that name. Try again'}), 400
+
+    
+    return jsonify({"message": f'{type} edited successfully'}), 201
 
 
 
