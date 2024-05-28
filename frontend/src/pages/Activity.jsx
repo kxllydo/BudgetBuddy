@@ -253,6 +253,23 @@ const fetchActivity = (setData) => {
     });
 }
 
+const fetchCategories = (setCategories) => {
+    fetch("/display-categories", {
+        method: "GET",
+        credentials: "include",
+    }).then(async response => {
+        if (!response.ok)
+            throw new Error("Failed to fetch categories.");
+
+        let data = await response.json();
+        data = data["categories"];
+        setCategories(data);
+        console.log(data);
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
 const MyActivity = ({ data }) => {
     let acts;
     if (data.length === 0) {
@@ -301,24 +318,22 @@ const MyActivity = ({ data }) => {
 }
 
 const MyActivityPopup = ({ open, setOpen, server_serial }) => {
-    const [categories, setCategories] = useState([]);
-    useEffect(() => {
-        fetch("/display-categories", {
-            method: "GET",
-            credentials: "include",
-        }).then(async response => {
-            if (!response.ok)
-                throw new Error("Couldn't fetch categories.");
+    const [a, b] = useState([]);
 
-            let categories = await response.json()
-            setCategories(categories.categories);
-        }).catch(error => {
-            console.log(error);
-        })
-    }, []);
+    useEffect(() => {
+        fetchCategories(b);
+
+        for (let x = 0; x < a.length; x++)
+            console.log(a[x]);
+    }, [null, open])
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setOpen(false);
+    }
 
     return (
-        <> <h1>{categories}</h1>
         <Popup className = "my-activity-form-popup" open = {open} setOpen = {setOpen}>
             <h1>Add Activity</h1>
 
@@ -331,9 +346,12 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
                     <div className = "my-activity-form-field">
                         <label for = "my-activity-category">Category</label>
                         <select required name = "my-activity-category" id="my-activity-category">
-                            <option value = "groceries"> Grocreries</option>
-                            <option value = "bill"> Bill</option>
-                            <option value = "food"> Food</option>
+                            <option value = "" disabled selected>Choose a category</option>
+                            {
+                                a ? a.map(category => {
+                                    <option value = {category}>{category}</option>
+                                }) : <option value = "none">asdjasd</option>
+                            }
                         </select>
                     </div>
                     <div className = "my-activity-form-field">
@@ -345,20 +363,28 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
                         <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" />
                     </div>
 
-                    <button>Add Activity</button>
+                    <button type = "submit" onClick = {handleSubmit}>Add Activity</button>
                 </form>
             </div>
-        </Popup></>
+        </Popup>
     );
 }
 
 const Activity = () => {
-    const [cards, setCards] = useState(null);
+    const [categories, setCategories] = useState([])
     const [data, setData] = useState([]);
+
+    const [showMyActivityPopup, setMyActivityPopup] = useState(false);
 
     useEffect(() => {
         fetchActivity(setData);
+        fetchCategories(setCategories);
     }, []);
+
+    const openMyActivityPopup = (event) => {
+        event.preventDefault();
+        setMyActivityPopup(true);
+    }
 
     return (
         <div className = "activity-page">
@@ -374,11 +400,13 @@ const Activity = () => {
             <DisplayHolder className = "activity-display-holder">
                 <div className = "activity-holder-header">
                     <h1>My Activity</h1>
-                    <button>Add Activity</button>
+                    <button onClick = {openMyActivityPopup}>Add Activity</button>
                 </div>
 
                 <MyActivity data = {data} />
             </DisplayHolder>
+
+            <MyActivityPopup open = {showMyActivityPopup} setOpen = {setMyActivityPopup} categories = {categories} />
         </div>
     );
 }
