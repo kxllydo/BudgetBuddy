@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
 from datetime import timedelta
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from auth import auth_bp
 from categories import category_bp
 from activities import act_bp
+from auxiliary import auxiliary_bp
 
 from database import execute
 
@@ -19,6 +19,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(auth_bp)
 app.register_blueprint(category_bp)
 app.register_blueprint(act_bp)
+app.register_blueprint(auxiliary_bp)
 
 @app.route('/')
 def index():
@@ -26,43 +27,6 @@ def index():
         "hello": "hi",
         "was": "up"
     })
-    
-def exists(table, attribute, user, condition = ""):
-    exist = None
-    if condition == "category":
-        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
-        exist = execute(query, (user, condition))
-    else:
-        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND {attribute} = %s'
-        exist = execute(query, (user, condition))
-    return exist is not None
-
-def getId(table, category, user):
-    query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
-    return execute(query, (user, category))[0]
-
-@app.route('/change-<type>', methods = ['POST'])
-def change (type):
-    old = request.form.get(f'old-{type}')
-    changed = request.form.get(f'new-{type}')
-    user = session['user']
-    if (type == 'password'):
-        hashed = execute('SELECT password FROM users WHERE user = %s', (user, ))[0]
-        if not check_password_hash(hashed, old):
-            return jsonify({'message' : "Incorrect password"}), 400
-        else:
-            newPass = generate_password_hash(changed)
-            execute('UPDATE users SET password = %s WHERE password = %s', (newPass, hashed), save = True)
-    else:
-        query = f'SELECT {type} FROM users WHERE {type} = %s'
-        result = execute(query, (old, ))
-        if result is not None:
-            query = f'UPDATE users SET {type} = %s WHERE {type} = %s'
-            execute(query, (changed, old), save = True)
-        else:
-            return jsonify({'message' : f'No {type} found under that name. Try again'}), 400
-    
-    return jsonify({"message": f'{type} edited successfully'}), 201
 
 @app.after_request
 def after_request(response):
