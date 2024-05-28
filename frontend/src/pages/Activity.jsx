@@ -7,6 +7,7 @@ import DisplayHolder from "@components/DisplayHolder";
 import "@styles/Activity.scss";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
+/*
 const LinkedCards = () => {
     let data;
     if (Math.random() < .5) {
@@ -129,6 +130,10 @@ const CardsForm = ({open, setOpen}) => {
         setState((prev) => ({ ...prev, focus: event.target.name }));
     }
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+    }
+
     return (
         <Popup className = "linked-cards-form-popup" open = {open} setOpen = {setOpen}>
             <h1>Add a Card</h1>
@@ -140,7 +145,7 @@ const CardsForm = ({open, setOpen}) => {
                     cvc = {state.cvc}
                     name = {state.name}
                     focused = {state.focus} />
-                <form>
+                <form id = "linked-cards-form">
                     <input required type = "number" name = "number"
                         placeholder = "Card Number" value = {state.number}
                         onChange = {handleInputChange} onFocus = {handleInputFocus} />
@@ -230,6 +235,38 @@ const Activity = () => {
             </div>
         </>
     )
+}
+*/
+
+const Activity = () => {
+    const [cards, setCards] = useState(null);
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        // TODO: fetch cards and data
+    }, []);
+
+    return (
+        <div className = "activity-page">
+            <DisplayHolder className = "linked-cards-display-holder">
+                <div className = "activity-holder-header">
+                    <h1>My Linked Cards</h1>
+                    <button>Add Card</button>
+                </div>
+
+                {}
+            </DisplayHolder>
+
+            <DisplayHolder className = "activity-display-holder">
+                <div class = "activity-holder-header">
+                    <h1>My Activity</h1>
+                    <button>Add Activity</button>
+                </div>
+
+                {}
+            </DisplayHolder>
+        </div>
+    );
 }
 
 export default Activity;
