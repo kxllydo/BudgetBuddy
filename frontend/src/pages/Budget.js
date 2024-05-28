@@ -22,6 +22,12 @@ export const getCategories = async () => {
     }
 };
 
+export const exitHandler = () => {
+    var popupForm = document.getElementById("category-form-background");
+    popupForm.style.display = 'none';
+};
+
+
 
 const ProgressPie = () => {
     const data = [
@@ -62,35 +68,52 @@ const AddForm = ({categories}) => {
         setState(selectedState);
     };
 
-    const capHandler = (event) => {
+    const capHandler = async (event) => {
         event.preventDefault();
         const form = document.querySelector("#cap-adder");
         const capData = new FormData(form);
-        fetch ("/add-cap", {
-            method: 'POST',
-            body: capData,
-            credentials: 'include',
-        });
+        try {
+            const response = await fetch ("/add-cap", {
+                method: 'POST',
+                body: capData,
+                credentials: 'include',
+            });
+            if (!response.ok){
+                throw new Error('Failed to add cap');
+            }
+            exitHandler();
+            } catch (error) {
+                console.error ('Error adding cap: ', error);
+                alert ('Cap for that category already exists! Try editing instead');
+            }
+
 
         for (const entry of capData.entries()) {
             console.log(entry[0], entry[1]);
         }
-        var popupForm = document.getElementById("category-form-background");
-        popupForm.style.display = 'none';
-    }
+    };
 
-    const categoryHandler = (event) => {
+    const categoryHandler = async (event) => {
         event.preventDefault();
         const form = document.querySelector("#category-adder");
         const categoryData = new FormData(form);
-        fetch ("/add-category", {
-            method: 'POST',
-            body: categoryData,
-            credentials: 'include',
-        });
-        var popupForm = document.getElementById("category-form-background");
-        popupForm.style.display = 'none';
+        
+        try {
+            const response = await fetch ("/add-category", {
+                method: 'POST',
+                body: categoryData,
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to add category');
+            }
+            exitHandler();
+        } catch (error) {
+            console.error('Error adding category:', error);
+            alert('Category already exists! Add a new one');
+        }
     };
+    
 
     const newCategory = (event) => {
         setCategory(event.target.value);
@@ -99,11 +122,6 @@ const AddForm = ({categories}) => {
     const categoryPicker = (event) => {
         setPicked(event.target.value);
         console.log(picked);
-    };
-
-    const exitHandler = () => {
-        var popupForm = document.getElementById("category-form-background");
-        popupForm.style.display = 'none';
     };
 
     return (
@@ -120,7 +138,9 @@ const AddForm = ({categories}) => {
                 <form id = "cap-adder"> 
                 <div className="format-option-pair">
                 <label htmlFor="expense-cap" className="budget-popup-label">Expense Cap:</label>
-                <input type="text" id="expense-cap" name="expense-cap" />
+                <div className='before-money-input'>
+                    <input type="number" className='change-form-input'id="expense-cap" name="expense-cap" />
+                    </div>
                 </div>
 
                 <div className="format-option-pair">
@@ -142,7 +162,7 @@ const AddForm = ({categories}) => {
             <form id = "category-adder">
                 <div className="format-option-pair">
                     <label htmlFor="category-input" className = "budget-popup-label">Category Name:</label>
-                    <input type = "text" id = "category-input" name = "category-input" onChange={newCategory} required></input>
+                    <input type = "text" id = "category-input" name = "category-input" className='change-form-input' onChange={newCategory} required></input>
                 </div>
                 <div className="popup-submit-div">
                     <button type="submit" value="Submit" className = "popup-submit" onClick={categoryHandler}>Submit</button>
@@ -166,11 +186,6 @@ const DeleteForm = ({categories}) => {
     const categoryPicker = (event) => {
         setPicked(event.target.value);
         console.log(picked);
-    };
-
-    const exitHandler = () => {
-        var popupForm = document.getElementById("category-form-background");
-        popupForm.style.display = 'none';
     };
 
     const deleteCap = (event) => {
@@ -255,7 +270,121 @@ const DeleteForm = ({categories}) => {
     )
 
 }
-const EditForm = () => {
+
+const EditForm = ({categories}) => {
+    const [state, setState] = useState("category");
+    const [picked, setPicked] = useState("");
+
+    const optionHandler = (event) => {
+        const selectedState = event.target.value;
+        setState(selectedState);
+    };
+
+    const categoryPicker = (event) => {
+        setPicked(event.target.value);
+        console.log(picked);
+    };
+
+    const editCap = async (event) =>{
+        event.preventDefault();
+        const form = document.getElementById('edit-cap');
+        const editData = new FormData(form);
+        try{
+            const response = await fetch ('/edit-cap', {
+                method: 'POST',
+                credentials: 'include',
+                body: editData,
+            });
+            if (!response.ok){
+                throw new Error ('Failed to edit cap');
+            }
+            exitHandler();
+        } catch (error) {
+            console.error('Error editing cap:', error);
+            alert("Cap doesn't exist. Try adding a cap first");
+        }
+    };
+
+    const editCategory = async (event) =>{
+        event.preventDefault();
+        const form = document.getElementById('edit-category')
+        const categoryData = new FormData(form)
+        try{
+            const response = await fetch ('/edit-category', {
+                method: 'POST',
+                credentials: 'include',
+                body: categoryData,
+            });
+            if (!response.ok){
+                throw new Error ('Failed to edit category')
+            }
+            exitHandler();
+        } catch (error) {
+            console.error ('Error editing category', error);
+            alert('There is already an existing category with that name. Try a different name');
+        }
+    }
+    return (
+        <div>
+        <div className="format-option-pair">
+            <label htmlFor="choices" className = "budget-popup-label" id ="add-a">Edit:</label>
+            <select name="budget-popup" className="choices" id = "choices" onChange={optionHandler}>
+                <option value="category">Category</option>
+                <option value="cap">Cap</option>
+            </select>
+            </div>
+        
+        { state == "cap" && (
+            <form id = "edit-cap"> 
+                <div className="format-option-pair">
+                    <label htmlFor="cap-category" className="budget-popup-label">Category:</label>
+                    <select name="cap-category" className="choices" id="cap-categories" onChange={categoryPicker}>
+                            {categories.map((category, index) => (
+                                <option value = {category}>{category}</option>
+                            ))}
+                    </select>
+                </div>
+                <div className="format-option-pair">
+                    <label htmlFor="new-cap" className="budget-popup-label">New Cap:</label>
+                    <div className='before-money-input'>
+                        <input name = 'new-cap' className='change-form-input' type='number' />
+                    </div>
+                </div>
+
+                <div className="popup-submit-div">
+                    <button type="submit" value="Submit" className="popup-submit" onClick={editCap} >Submit</button>
+                    <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
+                </div>
+            </form>
+        )}
+
+        { state == "category" && (
+            <form id = "edit-category"> 
+                <div className="format-option-pair">
+                    <label htmlFor="old-category" className="budget-popup-label">Old Category Name:</label>
+                    <select name="old-category" className="choices" id="cap-categories" onChange={categoryPicker}>
+                            {categories.map((category, index) => (
+                                <option value = {category}>{category}</option>
+                            ))}
+                </select>
+                </div>
+                <div className='format-option-pair'>
+                    <label htmlfor = "new-category" className='budget-popup-label'>New Category Name:</label>
+                    <input name='new-category' text='number' className='change-form-input'/>
+                </div>
+
+                <div className="popup-submit-div">
+                    <button type="submit" value="Submit" className="popup-submit" onClick={editCategory}
+                   >Submit</button>
+                    <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
+                </div>
+            </form>
+        )}
+        </div>
+    )
+};
+
+const ChangeForm = () => {
     const [categories, setCategories] = useState([]);
     const [picked, setPicked] = useState("");
     const [edit, setEdit] = useState ("add");
@@ -281,7 +410,9 @@ const EditForm = () => {
                     <input type="radio" id="add" name="edit-type" value="add"/>  
                     <label for="add" style = {{marginRight: "20px"}}>Add</label>
                     <input type="radio" id="delete" name="edit-type" value="delete" />  
-                    <label for="delete">Delete</label>
+                    <label for="delete" style = {{marginRight: "20px"}}>Delete</label>
+                    <input type="radio" id="edit" name="edit-type" value="edit" />  
+                    <label for="edit" >Edit</label>
                 </form>
             </div>
 
@@ -292,6 +423,10 @@ const EditForm = () => {
             {edit == "delete" && 
                 <DeleteForm categories={categories}/>
             }
+
+            {edit == "edit" &&
+            <EditForm categories={categories}/>
+        }
             </div>
         </div>
     )
@@ -350,7 +485,7 @@ const BudgetCategories = () => {
     return(
         <div className="budget-summary">
 
-           <EditForm />
+           <ChangeForm />
             <div className="budget-category-header">
                 <h1> Budget by Category</h1>
                 <div className = "category-button">
@@ -364,7 +499,6 @@ const BudgetCategories = () => {
         </div>
     )
 };
-
 
 
 const Budget = () =>{
@@ -403,5 +537,5 @@ const Budget = () =>{
     );
 };
 
-export {ProgressPie, BudgetCategories, EditForm, AddForm, DeleteForm, CategoryProgressBar};
+export {ProgressPie, BudgetCategories, ChangeForm, AddForm, DeleteForm, CategoryProgressBar};
 export default Budget;
