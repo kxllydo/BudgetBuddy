@@ -78,7 +78,7 @@ def register():
     hashed_password = generate_password_hash(password)
     email = request.form['email'].lower()
     
-    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT user FROM users WHERE username = %s", (username, ))
     tuser = cursor.fetchone()
     if tuser: tuser = tuser[0]
     if tuser == username:
@@ -93,7 +93,7 @@ def register():
     if not password == password2:
         return jsonify({"message": "Passwords do not match!"}), 400
 
-    cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email))
+    cursor.execute("INSERT INTO users (user, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email))
     db.commit()
     return jsonify({"message": "User successfully registerd"}), 200
 
@@ -102,7 +102,7 @@ def login():
     username = request.form['username'].lower()
     password = request.form['password']
 
-    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT user FROM users WHERE username = %s", (username, ))
     tusername = cursor.fetchone()
     if not tusername:
         return jsonify({"message": "User does not exist"}), 400
