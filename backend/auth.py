@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import jsonify, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from database import db, cursor
+from database import execute
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -14,14 +14,12 @@ def register():
     hashed_password = generate_password_hash(password)
     email = request.form["email"].lower()
     
-    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
-    tuser = cursor.fetchone()
+    tuser = execute("SELECT username FROM users WHERE usernme = %s", (username, ))
     if tuser: tuser = tuser[0]
     if tuser == username:
         return jsonify({"message": "Username already exists!"}), 400
     
-    cursor.execute("SELECT email FROM users WHERE email = %s", (email, ))
-    temail = cursor.fetchone()
+    temail = execute("SELECT email FROM users WHERE email = %s", (email, ))
     if temail: temail = temail[0]
     if temail == email:
         return jsonify({"message": "Email already used!"}), 400
@@ -29,8 +27,7 @@ def register():
     if not password == password2:
         return jsonify({"message": "Passwords do not match!"}), 400
 
-    cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email))
-    db.commit()
+    execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email), save = True)
     return jsonify({"message": "User successfully registerd"}), 200
 
 @auth_bp.route("/login", methods = ["POST"])
@@ -38,13 +35,11 @@ def login():
     username = request.form["username"].lower()
     password = request.form["password"]
 
-    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
-    tusername = cursor.fetchone()
+    tusername = execute("SELECT username FROM users WHERE username = %s", (username, ))
     if not tusername:
         return jsonify({"message": "User does not exist"}), 400
 
-    cursor.execute("SELECT password FROM users WHERE username = %s", (username, ))
-    tpassword = cursor.fetchone()[0]
+    tpassword = execute("SELECT password FROM users WHERE username = %s", (username, ))[0]
     if not check_password_hash(tpassword, password):
         return jsonify({"message": "Incorrect password!"}), 400
 

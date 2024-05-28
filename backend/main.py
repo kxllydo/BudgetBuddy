@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request, session
 from flask_cors import CORS
 from datetime import timedelta
 
-from database import db, cursor
 from auth import auth_bp
 from categories import category_bp
 from activities import act_bp

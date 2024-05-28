@@ -249,7 +249,7 @@ const fetchActivity = (setData) => {
         let data = await response.json();
         setData(data);
     }).catch(error => {
-        alert(error);
+        console.log(error);
     });
 }
 
@@ -300,6 +300,58 @@ const MyActivity = ({ data }) => {
     );
 }
 
+const MyActivityPopup = ({ open, setOpen, server_serial }) => {
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        fetch("/display-categories", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            if (!response.ok)
+                throw new Error("Couldn't fetch categories.");
+
+            let categories = await response.json()
+            setCategories(categories.categories);
+        }).catch(error => {
+            console.log(error);
+        })
+    }, []);
+
+    return (
+        <> <h1>{categories}</h1>
+        <Popup className = "my-activity-form-popup" open = {open} setOpen = {setOpen}>
+            <h1>Add Activity</h1>
+
+            <div>
+                <form id = "my-activity-form">
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-date">Date</label>
+                        <input required type = "date" name = "my-activity-date" id = "my-activity-date" placeholder = "Date" />
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-category">Category</label>
+                        <select required name = "my-activity-category" id="my-activity-category">
+                            <option value = "groceries"> Grocreries</option>
+                            <option value = "bill"> Bill</option>
+                            <option value = "food"> Food</option>
+                        </select>
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-merchant">Merchant</label>
+                        <input required type = "text" name = "my-activity-merchant" id = "my-activity-merchant" placeholder = "Merchant" />
+                    </div>
+                    <div className = "my-activity-form-field">
+                        <label for = "my-activity-price">Price</label>
+                        <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" />
+                    </div>
+
+                    <button>Add Activity</button>
+                </form>
+            </div>
+        </Popup></>
+    );
+}
+
 const Activity = () => {
     const [cards, setCards] = useState(null);
     const [data, setData] = useState([]);
@@ -316,7 +368,7 @@ const Activity = () => {
                     <button>Add Card</button>
                 </div>
 
-                {}
+                {<MyActivityPopup />}
             </DisplayHolder>
 
             <DisplayHolder className = "activity-display-holder">

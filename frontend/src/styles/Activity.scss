@@ -84,6 +84,14 @@
 
         table {
             width: 100%;
+
+            td {
+                text-align: center;
+
+                &:last-child {
+                    text-align: right;
+                }
+            }
         }
     }
 }
