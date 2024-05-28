@@ -262,10 +262,18 @@ const MyActivity = ({ data }) => {
         for (let i = 0; i < data.length; i++) {
             acts.push(
                 <tr serial = {i} server-serial = {data[i][0]}>
-                    <td act-col = "act_date">{data[i][1]}</td>
-                    <td act-col = "merchant">{data[i][2]}</td>
-                    <td act-col = "price">{data[i][3]}</td>
-                    <td act-col = "category">{data[i][4]}</td>
+                    <td act-col = "act_date">
+                        {data[i][1].replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")}
+                    </td>
+                    <td act-col = "category">
+                        {data[i][2].charAt(0).toUpperCase() + data[i][2].slice(1)}
+                    </td>
+                    <td act-col = "merchant">
+                        {data[i][3]}
+                        </td>
+                    <td act-col = "price">
+                        {"$" + data[i][4].toFixed(2)}
+                    </td>
                 </tr>
             )
         }

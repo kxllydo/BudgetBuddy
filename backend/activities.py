@@ -25,8 +25,10 @@ def delete_card():
 def get_data():
     try:
         username = "alex"#session["user"]
-        cursor.execute("SELECT id, act_date, merchant, price, category FROM activity WHERE username = %s", (username, ))
+        cursor.execute("SELECT id, act_date, category, merchant, price FROM activity WHERE username = %s", (username, ))
         data = cursor.fetchall()
+        data = [(row[0], row[1].strftime("%Y-%m-%d"),
+                 row[2], row[3], row[4]) for row in data]
         return jsonify(data), 200
     except:
         return jsonify({"message": "Failed to fetch activity in server."}), 400 
