@@ -53,7 +53,7 @@ CREATE TABLE expenseCap (
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     FOREIGN KEY (category)
-        REFERENCES  users(user)
+        REFERENCES  categories(category)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );

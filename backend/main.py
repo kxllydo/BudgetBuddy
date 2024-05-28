@@ -6,12 +6,12 @@ from dotenv import load_dotenv
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import timedelta
 
-from models.activity import activity
+# from models.activity import activity
 
 load_dotenv()
 
 app = Flask(__name__)
-app.register_blueprint(activity)
+# app.register_blueprint(activity)
 app.secret_key = "dualmonitor"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
@@ -35,12 +35,12 @@ db = mysql.connector.connect(**mysql_config)
 cursor = db.cursor()
 
 def exists(table, attribute, user, condition = ''):
-    if condition == 'catgory':
+    if condition == 'category':
         query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
         cursor.execute(query, (user, condition))
     
     else:
-        query = f'SELECT {attribute} FROM {table} WHERE username = %s AND {attribute} = %s'
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND {attribute} = %s'
         cursor.execute(query, (user, condition))
     
     exist = cursor.fetchone()
@@ -48,15 +48,6 @@ def exists(table, attribute, user, condition = ''):
          return True
     else:
         return False
-
-def updateTable(table, attribute, value, user, category = ''):
-    if category == '':
-        query = f'UPDATE {table} SET {attribute} = %s WHERE username = %s'
-        cursor.execute(query, (value, user))
-    else:
-        query = f"UPDATE {table} SET {attribute} = %s WHERE user = %s AND category = %s"
-        cursor.execute(query, (value, user, category))
-    db.commit()
 
 def getId(table, category, user):
     query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
@@ -78,16 +69,22 @@ def editCap():
     category = request.form['cap-category']
     amount = request.form['new-cap']
     user = session['user']
-    updateTable('expenseCap', 'cap', amount, category, user=user)
-    return "Cap updated successfully"
+    cursor.execute('SELECT cap FROM expenseCap WHERE user = %s AND category = %s', (user, category))
+    exists = cursor.fetchone()
+    if exists is not None:
+        cursor.execute('UPDATE expenseCap SET cap = %s WHERE user = %s AND category = %s', (amount, user, category))
+        db.commit()
+        return jsonify({'message' : 'Cap added sucessfully'}), 200
+    else:
+        return jsonify({'message': "Cap doesn't exist to edit"}), 400
 
 @app.route('/edit-category', methods = ['POST'])
 def editCategory():
     oldCategory = request.form['old-category']
     newCategory = request.form['new-category'].capitalize()
     user = session['user']
-    updateTable('categories', 'category', newCategory, oldCategory, user)
-    updateTable('expenseCap', 'category', newCategory, oldCategory, user)
+    cursor.execute('UPDATE categories SET category = %s WHERE user = %s and category = %s', (newCategory, user, oldCategory))
+    db.commit()
     return "Category updated successfully"
 
 
@@ -151,22 +148,8 @@ def deleteCategory():
 def change (type):
     old = request.form.get(f'old-{type}')
     changed = request.form.get(f'new-{type}')
-    # try:
-        # cursor.execute("SET foreign_key_checks = 0")
-
-    cursor.execute('UPDATE users SET username = %s WHERE username = %s', (changed, old))
-
-        # cursor.execute('UPDATE categories SET user = %s WHERE user = %s', (changed, old))
-
-        # cursor.execute('UPDATE expenseCap SET user = %s WHERE user = %s', (changed, old))
-
-        # Commit the changes
+    cursor.execute('UPDATE users SET user = %s WHERE user = %s', (changed, old))
     db.commit()
-    # finally:
-    #     # Re-enable foreign key checks
-    #     cursor.execute("SET foreign_key_checks = 1")
-
-
     return jsonify({"message": "Cap deleted successfully"}), 201
 
 
@@ -179,7 +162,7 @@ def register():
     hashed_password = generate_password_hash(password)
     email = request.form['email'].lower()
     
-    cursor.execute("SELECT user FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT user FROM users WHERE user = %s", (username, ))
     tuser = cursor.fetchone()
     if tuser: tuser = tuser[0]
     if tuser == username:
@@ -203,12 +186,12 @@ def login():
     username = request.form['username'].lower()
     password = request.form['password']
 
-    cursor.execute("SELECT user FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT user FROM users WHERE user = %s", (username, ))
     tusername = cursor.fetchone()
     if not tusername:
         return jsonify({"message": "User does not exist"}), 400
 
-    cursor.execute("SELECT password FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT password FROM users WHERE user = %s", (username, ))
     tpassword = cursor.fetchone()[0]
     if not check_password_hash(tpassword, password):
         return jsonify({"message": "Incorrect password!"}), 400
