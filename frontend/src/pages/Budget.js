@@ -307,18 +307,25 @@ const EditForm = ({categories}) => {
         }
     };
 
-    const editCategory = (event) =>{
+    const editCategory = async (event) =>{
         event.preventDefault();
         const form = document.getElementById('edit-category')
         const categoryData = new FormData(form)
-        fetch ('/edit-category', {
-            method: 'POST',
-            credentials: 'include',
-            body: categoryData,
-        });
-        exitHandler();
+        try{
+            const response = await fetch ('/edit-category', {
+                method: 'POST',
+                credentials: 'include',
+                body: categoryData,
+            });
+            if (!response.ok){
+                throw new Error ('Failed to edit category')
+            }
+            exitHandler();
+        } catch (error) {
+            console.error ('Error editing category', error);
+            alert('There is already an existing category with that name. Try a different name');
+        }
     }
-
     return (
         <div>
         <div className="format-option-pair">

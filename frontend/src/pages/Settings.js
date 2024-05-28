@@ -28,19 +28,36 @@ const cancel = (event, type) => {
     }
 }
 
-const submit = (event, type) => {
+const submit = async (event, type) => {
     event.preventDefault();
     const formID = `${type}-form`;
     console.log(formID);
     const url = `change-${type}`;
     const form = document.getElementById(formID);
     const formData = new FormData(form);
-    fetch (url, {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-    });
-}
+    try {
+        const response = await fetch (url, {
+            method: 'POST',
+            credentials: 'include',
+            body: formData,
+        })
+
+        if (!response.ok){
+            throw new Error ('Trouble changing');
+        }
+    } catch (error) {
+        console.error(`Error editing ${type}:`, error);
+        alert(`No ${type} found under that name. Try again`);
+    };
+
+    const btn = `change-${type}-button`;
+    var formDiv = document.getElementById(formID);
+    var btnDiv = document.getElementById(btn);
+    if (formDiv.style.display = 'block'){
+        formDiv.style.display = 'none';
+        btnDiv.style.display = 'block';
+    }
+};
 
 const TypeForm = ({type}) => {
     const formID = `${type}-form`;
@@ -93,9 +110,9 @@ const Settings = () => {
                         <h3>Username</h3>
                         <p className="subtext">Change your username</p>
                     </div>
-                    <div className = "settings-input" id = "settings-username">
-                        <button className="settings-button" onClick={() => changeType("username")}id = "change-username-button">Change Username</button>
-                        <TypeForm type = 'username' />
+                    <div className = "settings-input" id = "settings-user">
+                        <button className="settings-button" onClick={() => changeType("user")} id = "change-user-button">Change Username</button>
+                        <TypeForm type = 'user' />
                     </div>
                 </div>
 
