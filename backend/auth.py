@@ -14,7 +14,7 @@ def register():
     hashed_password = generate_password_hash(password)
     email = request.form["email"].lower()
     
-    tuser = execute("SELECT username FROM users WHERE usernme = %s", (username, ))
+    tuser = execute("SELECT user FROM users WHERE user = %s", (username, ))
     if tuser: tuser = tuser[0]
     if tuser == username:
         return jsonify({"message": "Username already exists!"}), 400
@@ -27,7 +27,7 @@ def register():
     if not password == password2:
         return jsonify({"message": "Passwords do not match!"}), 400
 
-    execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email), save = True)
+    execute("INSERT INTO users (user, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email), save = True)
     return jsonify({"message": "User successfully registerd"}), 200
 
 @auth_bp.route("/login", methods = ["POST"])
@@ -35,11 +35,11 @@ def login():
     username = request.form["username"].lower()
     password = request.form["password"]
 
-    tusername = execute("SELECT username FROM users WHERE username = %s", (username, ))
+    tusername = execute("SELECT user FROM users WHERE user = %s", (username, ))
     if not tusername:
         return jsonify({"message": "User does not exist"}), 400
 
-    tpassword = execute("SELECT password FROM users WHERE username = %s", (username, ))[0]
+    tpassword = execute("SELECT password FROM users WHERE user = %s", (username, ))[0]
     if not check_password_hash(tpassword, password):
         return jsonify({"message": "Incorrect password!"}), 400
 

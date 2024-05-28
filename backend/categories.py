@@ -24,11 +24,9 @@ def addCap():
 
 @category_bp.route('/display-categories')
 def displayCategories():
-    username = "alex"#session['user']
+    username = session['user']
     categories = execute('SELECT category FROM categories WHERE user = %s', (username, ), True)
     category_names = [row[0].capitalize() for row in categories]
-    # for i in category_names:
-    #     print(i)
     print(category_names)
     return jsonify({"categories": category_names}), 200
 

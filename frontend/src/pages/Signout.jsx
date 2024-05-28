@@ -13,17 +13,10 @@ const Signout = () => {
             method: "POST",
             credentials: "include",
         }).then(response => {
-            if (response.ok) {
-                setLoggedIn(false);
-                navigate(PATHS.LoginPath, {"replace": true});
-                return null;
-            } else {
-                return response.json();
-            }
-        }).then(error => {
-            if (error) {
-                alert(error.message)
-            }
+            if (!response.ok)
+                throw new Error("Error while logging out");
+            setLoggedIn(false);
+            navigate(PATHS.LoginPath, {"replace": true});
         }).catch(error => {
             if (error) {
                 alert(error);

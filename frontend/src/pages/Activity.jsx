@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, act } from "react";
 import Card from "react-credit-cards-2";
 
 import Popup from "@components/Popup";
@@ -261,10 +261,9 @@ const fetchCategories = (setCategories) => {
         if (!response.ok)
             throw new Error("Failed to fetch categories.");
 
-        let data = await response.json();
-        data = data["categories"];
+        let data = await response.json(); 
+        data = data["categories"]; 
         setCategories(data);
-        console.log(data);
     }).catch(error => {
         console.log(error);
     });
@@ -318,19 +317,29 @@ const MyActivity = ({ data }) => {
 }
 
 const MyActivityPopup = ({ open, setOpen, server_serial }) => {
-    const [a, b] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        fetchCategories(b);
-
-        for (let x = 0; x < a.length; x++)
-            console.log(a[x]);
-    }, [null, open])
-
+        fetchCategories(setCategories);
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setOpen(false);
+        console.log("CCIKED!");
+    
+        const form = document.querySelector("#my-activity-form");
+        console.log(form);
+        const activityData = new FormData(form);
+        console.log(activityData);
+
+        fetch("/add-data", {
+            method: "POST",
+            body: activityData,
+            credentials: "include"
+        }).catch(error => {
+            console.log(error);
+        });
+
     }
 
     return (
@@ -346,11 +355,9 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
                     <div className = "my-activity-form-field">
                         <label for = "my-activity-category">Category</label>
                         <select required name = "my-activity-category" id="my-activity-category">
-                            <option value = "" disabled selected>Choose a category</option>
+                            <option value = "" hidden selected>Choose a category</option>
                             {
-                                a ? a.map(category => {
-                                    <option value = {category}>{category}</option>
-                                }) : <option value = "none">asdjasd</option>
+                                categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)
                             }
                         </select>
                     </div>
@@ -363,7 +370,7 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
                         <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" />
                     </div>
 
-                    <button type = "submit" onClick = {handleSubmit}>Add Activity</button>
+                    <button onClick = {handleSubmit}>Add Activity</button>
                 </form>
             </div>
         </Popup>

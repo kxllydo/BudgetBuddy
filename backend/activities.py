@@ -24,8 +24,8 @@ def delete_card():
 @act_bp.route("/get-data", methods = ["GET"])
 def get_data():
     try:
-        username = "alex"#session["user"]
-        data = execute("SELECT id, act_date, category, merchant, price FROM activity WHERE username = %s", (username, ), True)
+        username = session["user"]
+        data = execute("SELECT id, act_date, category, merchant, price FROM activity WHERE user = %s", (username, ), True)
         data = [(row[0], row[1].strftime("%Y-%m-%d"),
                  row[2], row[3], row[4]) for row in data]
         return jsonify(data), 200
@@ -34,4 +34,26 @@ def get_data():
 
 @act_bp.route("/add-data", methods = ["POST"])
 def add_data():
-    pass
+    username = session["user"]
+    date = request.form["my-activity-date"]
+    category = request.form["my-activity-category"]
+    merchant = request.form["my-activity-merchant"]
+    price = request.form["my-activity-price"]
+
+    if not (date and category and merchant and price):
+        return jsonify({"message": "Insufficient data for activity."}), 200
+    
+    try:
+        price = float(price)
+    except:
+        return jsonify({"message": "Price is not float."}), 200 
+    
+    try:
+        print(date)
+        tdate = date.split("/")
+        date = f"{tdate[2]}-{tdate[0]}-{tdate[1]}"
+    except:
+        return jsonify({"message": "Incorrect format for date.."}), 200
+
+    print(username, date, category, merchant, price)
+    execute("INSERT INTO activity (act_date, merchant, price, user, category)", (date, merchant, price, username, category))
