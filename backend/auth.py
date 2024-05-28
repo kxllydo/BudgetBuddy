@@ -6,13 +6,13 @@ from database import db, cursor
 
 auth_bp = Blueprint("auth", __name__)
 
-@auth_bp.route('/register', methods = ["POST"])
+@auth_bp.route("/register", methods = ["POST"])
 def register():
-    username = request.form['username'].lower()
-    password = request.form['password']
-    password2 = request.form['password2']
+    username = request.form["username"].lower()
+    password = request.form["password"]
+    password2 = request.form["password2"]
     hashed_password = generate_password_hash(password)
-    email = request.form['email'].lower()
+    email = request.form["email"].lower()
     
     cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
     tuser = cursor.fetchone()
@@ -33,10 +33,10 @@ def register():
     db.commit()
     return jsonify({"message": "User successfully registerd"}), 200
 
-@auth_bp.route('/login', methods = ['POST'])
+@auth_bp.route("/login", methods = ["POST"])
 def login():
-    username = request.form['username'].lower()
-    password = request.form['password']
+    username = request.form["username"].lower()
+    password = request.form["password"]
 
     cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
     tusername = cursor.fetchone()
@@ -48,8 +48,8 @@ def login():
     if not check_password_hash(tpassword, password):
         return jsonify({"message": "Incorrect password!"}), 400
 
-    session['user'] = username
-    if 'user' in session:
+    session["user"] = username
+    if "user" in session:
         return jsonify({"message": "Login successful"}), 200
     return jsonify({"logged_in": False}), 400
 
@@ -60,8 +60,8 @@ def logout():
         return jsonify({"message": "Logged out!"}), 200
     return jsonify({"message": "Not logged out..."}), 400
 
-@auth_bp.route('/is_logged_in', methods=['GET'])
+@auth_bp.route("/is_logged_in", methods=["GET"])
 def is_logged_in():
-    if 'user_id' in session:
+    if "user_id" in session:
         return jsonify({"logged_in": True}), 200
     return jsonify({"logged_in": False}), 401

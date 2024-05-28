@@ -5,6 +5,7 @@ from datetime import timedelta
 from database import db, cursor
 from auth import auth_bp
 from categories import category_bp
+from activities import act_bp
 
 app = Flask(__name__)
 app.secret_key = "dualmonitor"
@@ -15,6 +16,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(category_bp)
+app.register_blueprint(act_bp)
 
 @app.route('/')
 def index():

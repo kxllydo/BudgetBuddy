@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "react-credit-cards-2";
 
 import Popup from "@components/Popup";
@@ -238,12 +238,66 @@ const Activity = () => {
 }
 */
 
+const fetchActivity = (setData) => {
+    fetch("/get-data", {
+        method: "GET",
+        credentials: "include",
+    }).then(async response => {
+        if (!response.ok)
+            throw new Error("Failed to fetch activity.");
+
+        let data = await response.json();
+        setData(data);
+    }).catch(error => {
+        alert(error);
+    });
+}
+
+const MyActivity = ({ data }) => {
+    let acts;
+    if (data.length === 0) {
+        acts = (<div>There has been no recent activity within your linked cards.</div>);
+    } else {
+        acts = [];
+        for (let i = 0; i < data.length; i++) {
+            acts.push(
+                <tr serial = {i} server-serial = {data[i][0]}>
+                    <td act-col = "act_date">{data[i][1]}</td>
+                    <td act-col = "merchant">{data[i][2]}</td>
+                    <td act-col = "price">{data[i][3]}</td>
+                    <td act-col = "category">{data[i][4]}</td>
+                </tr>
+            )
+        }
+
+        acts = (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Merchant</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>{acts}</tbody>
+            </table>
+        )
+    }
+
+    return (
+        <DisplayHolder className = {(data.length === 0 && "activity-no-activity") || "activity-has-activity"}>
+            {acts}
+        </DisplayHolder>
+    );
+}
+
 const Activity = () => {
     const [cards, setCards] = useState(null);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
-        // TODO: fetch cards and data
+        fetchActivity(setData);
     }, []);
 
     return (
@@ -258,12 +312,12 @@ const Activity = () => {
             </DisplayHolder>
 
             <DisplayHolder className = "activity-display-holder">
-                <div class = "activity-holder-header">
+                <div className = "activity-holder-header">
                     <h1>My Activity</h1>
                     <button>Add Activity</button>
                 </div>
 
-                {}
+                <MyActivity data = {data} />
             </DisplayHolder>
         </div>
     );

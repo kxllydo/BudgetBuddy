@@ -23,7 +23,13 @@ def delete_card():
 
 @act_bp.route("/get-data", methods = ["GET"])
 def get_data():
-    pass
+    try:
+        username = "alex"#session["user"]
+        cursor.execute("SELECT id, act_date, merchant, price, category FROM activity WHERE username = %s", (username, ))
+        data = cursor.fetchall()
+        return jsonify(data), 200
+    except:
+        return jsonify({"message": "Failed to fetch activity in server."}), 400 
 
 @act_bp.route("/add-data", methods = ["POST"])
 def add_data():
