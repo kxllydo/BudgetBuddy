@@ -288,6 +288,7 @@ const EditForm = ({categories}) => {
             credentials: 'include',
             body: editData,
         });
+        exitHandler();
     }
 
     const editCategory = (event) =>{
@@ -299,6 +300,7 @@ const EditForm = ({categories}) => {
             credentials: 'include',
             body: categoryData,
         });
+        exitHandler();
     }
 
     return (
