@@ -198,3 +198,16 @@ background-color: rgb(69, 111, 69);
 #add-category:hover{
 background-color: rgb(69, 111, 69);
 }
+
+.before-money-input:before{
+    content: '$';
+    margin-right: 4px;
+    text-align: center;
+    position: relative;
+
+}
+
+.change-form-input{
+    border-radius: 10px;
+    border-width: 1px;
+}

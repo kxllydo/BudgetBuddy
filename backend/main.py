@@ -30,8 +30,40 @@ mysql_config = {
    "database": db_database
 }
 
+
 db = mysql.connector.connect(**mysql_config)
 cursor = db.cursor()
+
+def exists(table, attribute, user, condition = ''):
+    if condition == 'catgory':
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
+        cursor.execute(query, (user, condition))
+    
+    else:
+        query = f'SELECT {attribute} FROM {table} WHERE username = %s AND {attribute} = %s'
+        cursor.execute(query, (user, condition))
+    
+    exist = cursor.fetchone()
+    if exist is not None:
+         return True
+    else:
+        return False
+
+def updateTable(table, attribute, value, user, category = ''):
+    if category == '':
+        query = f'UPDATE {table} SET {attribute} = %s WHERE username = %s'
+        cursor.execute(query, (value, user))
+    else:
+        query = f"UPDATE {table} SET {attribute} = %s WHERE user = %s AND category = %s"
+        cursor.execute(query, (value, user, category))
+    db.commit()
+
+def getId(table, category, user):
+    query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
+    cursor.execute(query, (user, category))
+    id = cursor.fetchone()[0]
+    return id
+
 
 @app.route('/')
 def index():
@@ -41,23 +73,52 @@ def index():
     }
     return jsonify(mydict)
 
+@app.route('/edit-cap', methods=['POST'])
+def editCap():
+    category = request.form['cap-category']
+    amount = request.form['new-cap']
+    user = session['user']
+    updateTable('expenseCap', 'cap', amount, category, user=user)
+    return "Cap updated successfully"
+
+@app.route('/edit-category', methods = ['POST'])
+def editCategory():
+    oldCategory = request.form['old-category']
+    newCategory = request.form['new-category'].capitalize()
+    user = session['user']
+    updateTable('categories', 'category', newCategory, oldCategory, user)
+    updateTable('expenseCap', 'category', newCategory, oldCategory, user)
+    return "Category updated successfully"
+
+
 @app.route('/add-category', methods=['POST'])
 def addCategory():
     category = request.form['category-input'].capitalize()
     print(session)
     username = session['user']
-    cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
-    db.commit()
-    return jsonify({"message": "Category added successfully"}), 201
+    cursor.execute('SELECT category FROM categories WHERE user = %s AND category = %s', (username, category))
+    exist = cursor.fetchone()
+
+    print(exist)
+    if exists('categories', 'category', username, category):
+         return jsonify({'message': 'Category already exists'}), 400
+    else:
+        cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
+        db.commit()
+        return jsonify({"message": "Category added successfully"}), 201
 
 @app.route('/add-cap', methods = ['POST'] )
 def addCap():
     expenseCap = request.form['expense-cap']
     category = request.form['cap-categories']
     username = session['user']
-    cursor.execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ))
-    db.commit()
-    return jsonify({"message": "Cap added successfully"}), 201
+
+    if exists('expenseCap', 'cap', username, category):
+        return jsonify({'message': 'Cap already exists for that category. Try editing instead'}), 400
+    else:
+        cursor.execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ))
+        db.commit()
+        return jsonify({"message": "Cap added successfully"}), 201
 
 
 @app.route('/display-categories')
@@ -69,6 +130,46 @@ def displayCategories():
     # for i in category_names:
     #     print(i)
     return jsonify({"categories": category_names}), 200
+
+@app.route('/delete-cap', methods = ['POST'])
+def deleteCap():
+    user = session['user']
+    category = request.form['cap-category']
+    cursor.execute ('DELETE FROM expenseCap WHERE user = %s AND category = %s', (user, category))
+    db.commit()
+    return jsonify({"message": "Cap deleted successfully"}), 201
+
+@app.route('/delete-category', methods = ['POST'])
+def deleteCategory():
+    user = session['user']
+    category = request.form['category']
+    cursor.execute ('DELETE FROM categories WHERE user = %s AND category = %s', (user, category))
+    db.commit()
+    return jsonify({"message": "Cap deleted successfully"}), 201
+
+@app.route('/change-<type>', methods = ['POST'])
+def change (type):
+    old = request.form.get(f'old-{type}')
+    changed = request.form.get(f'new-{type}')
+    # try:
+        # cursor.execute("SET foreign_key_checks = 0")
+
+    cursor.execute('UPDATE users SET username = %s WHERE username = %s', (changed, old))
+
+        # cursor.execute('UPDATE categories SET user = %s WHERE user = %s', (changed, old))
+
+        # cursor.execute('UPDATE expenseCap SET user = %s WHERE user = %s', (changed, old))
+
+        # Commit the changes
+    db.commit()
+    # finally:
+    #     # Re-enable foreign key checks
+    #     cursor.execute("SET foreign_key_checks = 1")
+
+
+    return jsonify({"message": "Cap deleted successfully"}), 201
+
+
 
 @app.route('/register', methods = ["POST"])
 def register():

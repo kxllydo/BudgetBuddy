@@ -3,9 +3,9 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Navbar from "./Navbar";
+import Navbar from "@components/Navbar";
 
-import "../styles/AccountForm.css";
+import "@styles/AccountForm.css";
 
 const FormField = (props) => {
     if (!props.id)
