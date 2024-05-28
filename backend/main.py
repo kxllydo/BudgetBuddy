@@ -30,7 +30,6 @@ mysql_config = {
    "database": db_database
 }
 
-
 db = mysql.connector.connect(**mysql_config)
 cursor = db.cursor()
 
