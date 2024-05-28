@@ -43,9 +43,16 @@ def addCategory():
     category = request.form['category-input'].capitalize()
     print(session)
     username = session['user']
-    cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
-    db.commit()
-    return jsonify({"message": "Category added successfully"}), 201
+    cursor.execute('SELECT category FROM categories WHERE user = %s AND category = %s', (username, category))
+    exist = cursor.fetchone()
+
+    print(exist)
+    if exist is not None:
+         return jsonify({'message': 'Category already exists'}), 400
+    else:
+        cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
+        db.commit()
+        return jsonify({"message": "Category added successfully"}), 201
 
 @app.route('/add-cap', methods = ['POST'] )
 def addCap():
