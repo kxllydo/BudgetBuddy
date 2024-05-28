@@ -6,9 +6,12 @@ from dotenv import load_dotenv
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import timedelta
 
+# from models.activity import activity
+
 load_dotenv()
 
 app = Flask(__name__)
+# app.register_blueprint(activity)
 app.secret_key = "dualmonitor"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
@@ -31,19 +34,20 @@ mysql_config = {
 db = mysql.connector.connect(**mysql_config)
 cursor = db.cursor()
 
-def exists(table, attribute, category, user):
-    query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
-    cursor.execute(query, (user, category))
+def exists(table, attribute, user, condition = ''):
+    if condition == 'category':
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
+        cursor.execute(query, (user, condition))
+    
+    else:
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND {attribute} = %s'
+        cursor.execute(query, (user, condition))
+    
     exist = cursor.fetchone()
     if exist is not None:
          return True
     else:
         return False
-
-def updateTable(table, attribute, value, category, user):
-    query = f"UPDATE {table} SET {attribute} = %s WHERE user = %s AND category = %s"
-    cursor.execute(query, (value, user, category))
-    db.commit()
 
 def getId(table, category, user):
     query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
@@ -65,16 +69,22 @@ def editCap():
     category = request.form['cap-category']
     amount = request.form['new-cap']
     user = session['user']
-    updateTable('expenseCap', 'cap', amount, category, user=user)
-    return "Cap updated successfully"
+    cursor.execute('SELECT cap FROM expenseCap WHERE user = %s AND category = %s', (user, category))
+    exists = cursor.fetchone()
+    if exists is not None:
+        cursor.execute('UPDATE expenseCap SET cap = %s WHERE user = %s AND category = %s', (amount, user, category))
+        db.commit()
+        return jsonify({'message' : 'Cap added sucessfully'}), 200
+    else:
+        return jsonify({'message': "Cap doesn't exist to edit"}), 400
 
 @app.route('/edit-category', methods = ['POST'])
 def editCategory():
     oldCategory = request.form['old-category']
-    newCategory = request.form['new-category']
+    newCategory = request.form['new-category'].capitalize()
     user = session['user']
-    updateTable('categories', 'category', newCategory, oldCategory, user)
-    updateTable('expenseCap', 'category', newCategory, oldCategory, user)
+    cursor.execute('UPDATE categories SET category = %s WHERE user = %s and category = %s', (newCategory, user, oldCategory))
+    db.commit()
     return "Category updated successfully"
 
 
@@ -87,7 +97,7 @@ def addCategory():
     exist = cursor.fetchone()
 
     print(exist)
-    if exists('categories', 'category', category, username):
+    if exists('categories', 'category', username, category):
          return jsonify({'message': 'Category already exists'}), 400
     else:
         cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
@@ -100,7 +110,7 @@ def addCap():
     category = request.form['cap-categories']
     username = session['user']
 
-    if exists('expenseCap', 'cap', category, username):
+    if exists('expenseCap', 'cap', username, category):
         return jsonify({'message': 'Cap already exists for that category. Try editing instead'}), 400
     else:
         cursor.execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ))
@@ -134,6 +144,15 @@ def deleteCategory():
     db.commit()
     return jsonify({"message": "Cap deleted successfully"}), 201
 
+@app.route('/change-<type>', methods = ['POST'])
+def change (type):
+    old = request.form.get(f'old-{type}')
+    changed = request.form.get(f'new-{type}')
+    cursor.execute('UPDATE users SET user = %s WHERE user = %s', (changed, old))
+    db.commit()
+    return jsonify({"message": "Cap deleted successfully"}), 201
+
+
 
 @app.route('/register', methods = ["POST"])
 def register():
@@ -143,7 +162,7 @@ def register():
     hashed_password = generate_password_hash(password)
     email = request.form['email'].lower()
     
-    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT user FROM users WHERE user = %s", (username, ))
     tuser = cursor.fetchone()
     if tuser: tuser = tuser[0]
     if tuser == username:
@@ -158,7 +177,7 @@ def register():
     if not password == password2:
         return jsonify({"message": "Passwords do not match!"}), 400
 
-    cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email))
+    cursor.execute("INSERT INTO users (user, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email))
     db.commit()
     return jsonify({"message": "User successfully registerd"}), 200
 
@@ -167,12 +186,12 @@ def login():
     username = request.form['username'].lower()
     password = request.form['password']
 
-    cursor.execute("SELECT username FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT user FROM users WHERE user = %s", (username, ))
     tusername = cursor.fetchone()
     if not tusername:
         return jsonify({"message": "User does not exist"}), 400
 
-    cursor.execute("SELECT password FROM users WHERE username = %s", (username, ))
+    cursor.execute("SELECT password FROM users WHERE user = %s", (username, ))
     tpassword = cursor.fetchone()[0]
     if not check_password_hash(tpassword, password):
         return jsonify({"message": "Incorrect password!"}), 400

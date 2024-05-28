@@ -287,17 +287,25 @@ const EditForm = ({categories}) => {
         console.log(picked);
     };
 
-    const editCap = (event) =>{
+    const editCap = async (event) =>{
         event.preventDefault();
         const form = document.getElementById('edit-cap');
         const editData = new FormData(form);
-        fetch ('/edit-cap', {
-            method: 'POST',
-            credentials: 'include',
-            body: editData,
-        });
-        exitHandler();
-    }
+        try{
+            const response = await fetch ('/edit-cap', {
+                method: 'POST',
+                credentials: 'include',
+                body: editData,
+            });
+            if (!response.ok){
+                throw new Error ('Failed to edit cap');
+            }
+            exitHandler();
+        } catch (error) {
+            console.error('Error editing cap:', error);
+            alert("Cap doesn't exist. Try adding a cap first");
+        }
+    };
 
     const editCategory = (event) =>{
         event.preventDefault();
@@ -369,8 +377,7 @@ const EditForm = ({categories}) => {
         )}
         </div>
     )
-
-}
+};
 
 const ChangeForm = () => {
     const [categories, setCategories] = useState([]);
@@ -526,5 +533,5 @@ const Budget = () =>{
     );
 };
 
-export {ProgressPie, BudgetCategories, ChangeForm as EditForm, AddForm, DeleteForm, CategoryProgressBar};
+export {ProgressPie, BudgetCategories, ChangeForm, AddForm, DeleteForm, CategoryProgressBar};
 export default Budget;
