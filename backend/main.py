@@ -31,8 +31,9 @@ mysql_config = {
 db = mysql.connector.connect(**mysql_config)
 cursor = db.cursor()
 
-def categoryExists(category, user):
-    cursor.execute('SELECT category FROM categories WHERE user = %s AND category = %s', (user, category))
+def exists(table, attribute, category, user):
+    query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
+    cursor.execute(query, (user, category))
     exist = cursor.fetchone()
     if exist is not None:
          return True
@@ -86,7 +87,7 @@ def addCategory():
     exist = cursor.fetchone()
 
     print(exist)
-    if categoryExists():
+    if exists('categories', 'category', category, username):
          return jsonify({'message': 'Category already exists'}), 400
     else:
         cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))
@@ -98,9 +99,13 @@ def addCap():
     expenseCap = request.form['expense-cap']
     category = request.form['cap-categories']
     username = session['user']
-    cursor.execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ))
-    db.commit()
-    return jsonify({"message": "Cap added successfully"}), 201
+
+    if exists('expenseCap', 'cap', category, username):
+        return jsonify({'message': 'Cap already exists for that category. Try editing instead'}), 400
+    else:
+        cursor.execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ))
+        db.commit()
+        return jsonify({"message": "Cap added successfully"}), 201
 
 
 @app.route('/display-categories')

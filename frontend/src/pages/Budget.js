@@ -70,22 +70,30 @@ const AddForm = ({categories}) => {
         setState(selectedState);
     };
 
-    const capHandler = (event) => {
+    const capHandler = async (event) => {
         event.preventDefault();
         const form = document.querySelector("#cap-adder");
         const capData = new FormData(form);
-        fetch ("/add-cap", {
-            method: 'POST',
-            body: capData,
-            credentials: 'include',
-        });
+        try {
+            const response = await fetch ("/add-cap", {
+                method: 'POST',
+                body: capData,
+                credentials: 'include',
+            });
+            if (!response.ok){
+                throw new Error('Failed to add cap');
+            }
+            exitHandler();
+            } catch (error) {
+                console.error ('Error adding cap: ', error);
+                alert ('Cap for that category already exists! Try editing instead');
+            }
+
 
         for (const entry of capData.entries()) {
             console.log(entry[0], entry[1]);
         }
-        var popupForm = document.getElementById("category-form-background");
-        popupForm.style.display = 'none';
-    }
+    };
 
     const categoryHandler = async (event) => {
         event.preventDefault();
