@@ -279,6 +279,28 @@ const EditForm = ({categories}) => {
         console.log(picked);
     };
 
+    const editCap = (event) =>{
+        event.preventDefault();
+        const form = document.getElementById('edit-cap');
+        const editData = new FormData(form);
+        fetch ('/edit-cap', {
+            method: 'POST',
+            credentials: 'include',
+            body: editData,
+        });
+    }
+
+    const editCategory = (event) =>{
+        event.preventDefault();
+        const form = document.getElementById('edit-category')
+        const categoryData = new FormData(form)
+        fetch ('/edit-category', {
+            method: 'POST',
+            credentials: 'include',
+            body: categoryData,
+        });
+    }
+
     return (
         <div>
         <div className="format-option-pair">
@@ -290,7 +312,7 @@ const EditForm = ({categories}) => {
             </div>
         
         { state == "cap" && (
-            <form id = "cap-remover"> 
+            <form id = "edit-cap"> 
                 <div className="format-option-pair">
                     <label htmlFor="cap-category" className="budget-popup-label">Category:</label>
                     <select name="cap-category" className="choices" id="cap-categories" onChange={categoryPicker}>
@@ -307,17 +329,17 @@ const EditForm = ({categories}) => {
                 </div>
 
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className="popup-submit" >Submit</button>
+                    <button type="submit" value="Submit" className="popup-submit" onClick={editCap} >Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
             </form>
         )}
 
         { state == "category" && (
-            <form id = "category-remover"> 
+            <form id = "edit-category"> 
                 <div className="format-option-pair">
-                    <label htmlFor="category" className="budget-popup-label">Old Category Name:</label>
-                    <select name="category" className="choices" id="cap-categories" onChange={categoryPicker}>
+                    <label htmlFor="old-category" className="budget-popup-label">Old Category Name:</label>
+                    <select name="old-category" className="choices" id="cap-categories" onChange={categoryPicker}>
                             {categories.map((category, index) => (
                                 <option value = {category}>{category}</option>
                             ))}
@@ -329,7 +351,7 @@ const EditForm = ({categories}) => {
                 </div>
 
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className="popup-submit" 
+                    <button type="submit" value="Submit" className="popup-submit" onClick={editCategory}
                    >Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
@@ -455,7 +477,6 @@ const BudgetCategories = () => {
         </div>
     )
 };
-
 
 
 const Budget = () =>{

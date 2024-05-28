@@ -27,8 +27,29 @@ mysql_config = {
    "database": db_database
 }
 
+
 db = mysql.connector.connect(**mysql_config)
 cursor = db.cursor()
+
+def categoryExists(category, user):
+    cursor.execute('SELECT category FROM categories WHERE user = %s AND category = %s', (user, category))
+    exist = cursor.fetchone()
+    if exist is not None:
+         return True
+    else:
+        return False
+
+def updateTable(table, attribute, value, category, user):
+    query = f"UPDATE {table} SET {attribute} = %s WHERE user = %s AND category = %s"
+    cursor.execute(query, (value, user, category))
+    db.commit()
+
+def getId(table, category, user):
+    query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
+    cursor.execute(query, (user, category))
+    id = cursor.fetchone()[0]
+    return id
+
 
 @app.route('/')
 def index():
@@ -37,6 +58,24 @@ def index():
         "was": "up"
     }
     return jsonify(mydict)
+
+@app.route('/edit-cap', methods=['POST'])
+def editCap():
+    category = request.form['cap-category']
+    amount = request.form['new-cap']
+    user = session['user']
+    updateTable('expenseCap', 'cap', amount, category, user=user)
+    return "Cap updated successfully"
+
+@app.route('/edit-category', methods = ['POST'])
+def editCategory():
+    oldCategory = request.form['old-category']
+    newCategory = request.form['new-category']
+    user = session['user']
+    updateTable('categories', 'category', newCategory, oldCategory, user)
+    updateTable('expenseCap', 'category', newCategory, oldCategory, user)
+    return "Category updated successfully"
+
 
 @app.route('/add-category', methods=['POST'])
 def addCategory():
@@ -47,7 +86,7 @@ def addCategory():
     exist = cursor.fetchone()
 
     print(exist)
-    if exist is not None:
+    if categoryExists():
          return jsonify({'message': 'Category already exists'}), 400
     else:
         cursor.execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username))

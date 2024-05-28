@@ -2,6 +2,7 @@
 SELECT * FROM categories;
 SELECT * FROM expenseCap;
 SELECT * FROM users;
+SELECT * FROM activity;
 
 
 --user
@@ -43,7 +44,18 @@ CREATE TABLE expenseCap (
     cap INT NOT NULL,
     category VARCHAR(255) NOT NULL,
     user VARCHAR(100),
-    -- category_id INT,
-    -- FOREIGN KEY (category_id) REFERENCES categories(id),
     FOREIGN KEY (user) REFERENCES users(username)
 );
+
+CREATE TABLE activity (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    act_date DATE NOT NULL,
+    merchant VARCHAR(255) NOT NULL,
+    price FLOAT NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    FOREIGN KEY (username) REFERENCES users(username),
+	  FOREIGN KEY (category) REFERENCES categories(category)
+);
+
+CREATE INDEX idx_category ON categories(category)
