@@ -27,14 +27,11 @@
 .budget-summary{
     background-color: white;
     border-radius: 20px;
-    overflow-y: auto;
-    margin-bottom: 8%;
     box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
     grid-column-start: 1;
     grid-column-end: 4;
     margin-left: 3%;
     margin-right: 3%;
-    margin-bottom: 1.5%;
 
 }
 
