@@ -336,6 +336,8 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
         }).catch(error => {
             console.log(error);
         });
+
+        setOpen(false);
     }
 
     return (
@@ -343,13 +345,6 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
             <h1>Add Activity</h1>
 
             <div>
-                <form id = "baka-form">
-                    <div className = "baka-date-wrapper">
-                        <label htmlFor = "baka-date">Date</label>
-                        <input required type = "date" name = "baka-date" id = "baka-date" placeholder = "baka's date" />
-                    </div>
-                </form>
-
                 <form id = "my-activity-form" onSubmit = {handleSubmit}>
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-date">Date</label>
@@ -358,7 +353,7 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-category">Category</label>
                         <select required name = "my-activity-category" id="my-activity-category">
-                            <option value = "Shopping" selected>Shopping</option>
+                            <option value = "" hidden selected>Choose a category</option>
                             {
                                 categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)
                             }
@@ -387,7 +382,7 @@ const Activity = () => {
 
     useEffect(() => {
         fetchActivity(setData);
-    }, []);
+    }, [null, showMyActivityPopup]);
 
     const openMyActivityPopup = () => {
         setMyActivityPopup(true);
