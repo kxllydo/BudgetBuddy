@@ -9,7 +9,7 @@ const Popup = ({children, className, open, setOpen}) => {
     return (
         <>
             <div
-                className = {"popup-background" + className + (open && " show" || " wasd")}
+                className = {"popup-background" + className + (open && " show")}
                 onClick = {() => {setOpen(false);}}>
                 <div onClick = {(event) => {event.stopPropagation()}} className = "popup">
                     {children}
