@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import jsonify, request, session
 
 from database import execute
-from main import exists as _exists, getId
+from auxiliary import exists as _exists, getId
 
 category_bp = Blueprint("category", __name__)
 

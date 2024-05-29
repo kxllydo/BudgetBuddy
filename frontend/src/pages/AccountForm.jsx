@@ -83,7 +83,7 @@ const LoginForm = () => {
         <div className = "account-form-wrapper">
             <h1>Sign In</h1>
 
-            <form id = "login-form">
+            <form id = "login-form" onSubmit = {login}>
                 <UsernameField />
                 <PasswordField />
 
@@ -92,7 +92,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className = "form-button">
-                    <button type = "submit" onClick = {login}>Login</button>
+                    <button type = "submit">Login</button>
                 </div>
 
                 <div className = "wrong-account-page">
@@ -132,7 +132,7 @@ const RegistrationForm = () => {
         <div className = "account-form-wrapper">
             <h1>Create an Account</h1>
 
-            <form id = "register-form">
+            <form id = "register-form" onSubmit = {register}>
                 <UsernameField />
                 <EmailField />
                 <PasswordField />
@@ -141,7 +141,7 @@ const RegistrationForm = () => {
                 </FormField>
 
                 <div className = "form-button">
-                    <button tyoe = "submit" onClick = {register}>Register</button>
+                    <button tyoe = "submit">Register</button>
                 </div>
 
                 <div className = "wrong-account-page">
