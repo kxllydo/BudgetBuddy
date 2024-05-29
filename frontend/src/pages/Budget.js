@@ -409,6 +409,8 @@ const ChangeForm = ({categories}) => {
 const CategoryProgressBar = ({categories}) => {
     const [closed, setClosed] = useState(false);
     const [percent, setPercent] = useState({});
+    const [cap, setCap] = useState({});
+    const [spent, setSpent] = useState({});
 
     const openForm = () => {
         var popupForm = document.getElementById("category-form-background");
@@ -417,15 +419,28 @@ const CategoryProgressBar = ({categories}) => {
         };
     }
 
-    const fillPercentages = async () => {
+    const fillDict = async (type) => {
         try {
             const results = await Promise.all(categories.map(category => helpme(category)));
-            const percentages = results.reduce((acc, { category, percent }) => {
-                acc[category] = percent;
-                return acc;
-            }, {});
-            console.log('All percentages fetched:', percentages);
-            setPercent(percentages);
+            if (type == 'percent'){
+                const percentages = results.reduce((acc, { category, percent }) => {
+                    acc[category] = percent;
+                    return acc;
+                }, {});
+                setPercent(percentages);
+            }else if (type == 'cap'){
+                const caps = results.reduce((acc, { category, cap }) => {
+                    acc[category] = cap;
+                    return acc;
+                }, {});
+                setCap(caps);
+            }else if (type == 'spent'){
+                const spents = results.reduce((acc, { category, spent }) => {
+                    acc[category] = spent;
+                    return acc;
+                }, {});
+                setSpent(spents);
+            };
         } catch (error) {
             console.error('Error filling percentages:', error);
         }
@@ -444,7 +459,7 @@ const CategoryProgressBar = ({categories}) => {
             }
 
             const data = await response.json();
-            return { category, percent: data.percent };
+            return { category, percent: data.percent, cap: data.cap, spent: data.spent };
         } catch (error) {
             console.error('Error fetching percentage data:', error);
             return { category, percent: 0 }; 
@@ -452,7 +467,9 @@ const CategoryProgressBar = ({categories}) => {
     };
    
     useEffect(() => {
-        fillPercentages();
+        fillDict('percent');
+        fillDict('cap');
+        fillDict('spent');
     }, [categories])
 
 
@@ -463,8 +480,11 @@ const CategoryProgressBar = ({categories}) => {
                     <p>{category}</p>
                     <div className="total-bar">
                         <div className="progress-bar" style={{'width' : `${percent[category]}%`}}>
-                            <br />
                         </div>
+                        <div style = {{'float' : 'right'}}>
+                            <p style = {{'font-size' : '13px'}}>$ {spent[category]} / {cap[category]}</p>
+                            <br />
+                            </div>
                     </div>
                 </div>
             ))}
@@ -472,8 +492,7 @@ const CategoryProgressBar = ({categories}) => {
     );
 };
     
-const BudgetCategories = () => {
-    const [categories, setCategories] = useState([]);
+const BudgetCategories = ({categories}) => {
     const [closed, setClosed] = useState(false)
 
     const popupForm = () => {
@@ -483,6 +502,46 @@ const BudgetCategories = () => {
             popupForm.style.display = 'block';
         }
     }
+
+    return(
+        <div className="budget-summary">
+
+           <ChangeForm categories={categories} />
+            <div className="budget-category-header">
+                <h1> Budget by Category</h1>
+                <div className = "category-button">
+                    <button id = "add-category" onClick = {popupForm}>Edit</button>
+                </div>
+            </div>
+
+            <div id="categories">
+                <CategoryProgressBar categories={categories}/>
+            </div>
+        </div>
+    )
+};
+
+
+const Budget = () =>{
+    const [data, setData] = useState({});
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setData(data);
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    }, []);
 
     const getCategories = async () => {
         try {
@@ -511,45 +570,6 @@ const BudgetCategories = () => {
     }, []);
 
 
-    return(
-        <div className="budget-summary">
-
-           <ChangeForm categories={categories} />
-            <div className="budget-category-header">
-                <h1> Budget by Category</h1>
-                <div className = "category-button">
-                    <button id = "add-category" onClick = {popupForm}>Edit</button>
-                </div>
-            </div>
-
-            <div id="categories">
-                <CategoryProgressBar categories={categories}/>
-            </div>
-        </div>
-    )
-};
-
-
-const Budget = () =>{
-    const [data, setData] = useState({});
-    useEffect(() => {
-        fetch("http://127.0.0.1:5000/")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setData(data);
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
-            });
-    }, []);
-
-
     return (
         <div className = "budget-page">
             <div className = "budget-body sidebar-page">
@@ -559,7 +579,7 @@ const Budget = () =>{
                         <ProgressPie />
                     </ResponsiveContainer>
                 </div>
-                <BudgetCategories />
+                <BudgetCategories categories={categories} />
             </div>
             
          </div>
