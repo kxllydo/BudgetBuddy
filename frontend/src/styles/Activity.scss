@@ -84,13 +84,33 @@
 
         table {
             width: 100%;
+            border-collapse: collapse;
+
+            th, td {
+                width: 25%;
+            }
+
+            th {
+                padding-bottom: .5vh;
+            }
 
             td {
                 text-align: center;
+                padding-top: .5vh;
+                padding-bottom: .5vh;
 
                 &:last-child {
                     text-align: right;
                 }
+            }
+
+            tbody tr {
+                transition: .25s;
+                cursor: pointer;
+            }
+
+            tbody tr:hover {
+                font-size: 1.125rem;
             }
         }
     }
