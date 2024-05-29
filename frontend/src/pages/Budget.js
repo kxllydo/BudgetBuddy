@@ -384,18 +384,9 @@ const EditForm = ({categories}) => {
     )
 };
 
-const ChangeForm = () => {
-    const [categories, setCategories] = useState([]);
+const ChangeForm = ({categories}) => {
     const [picked, setPicked] = useState("");
     const [edit, setEdit] = useState ("add");
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const fetchedCategories = await getCategories();
-            setCategories(fetchedCategories);
-        };
-        fetchCategories();
-    }, []);
-
 
     const editHandler = (event) => {
         const state = event.target.value;
@@ -432,8 +423,55 @@ const ChangeForm = () => {
     )
 };
 
-const CategoryProgressBar = () => {
+const CategoryProgressBar = ({categories}) => {
+    const [closed, setClosed] = useState(false);
+    const [percent, setPercent] = useState(0)
+
+    const openForm = () => {
+        var popupForm = document.getElementById("category-form-background");
+        if (popupForm.style.display = 'none'){
+            setClosed(true);
+        };
+    }
+
+    const getPercent = async (category) => {
+        const url = `get=${category}-percentage`
+        const response = await fetch (url, {
+            method: 'GET',
+            credentials: 'include',
+        })
+        const data = response.json()
+        setPercent(data.percent)
+
+    }
+
+    return (
+        <div>
+            {categories.map((category, index) => (
+                <div key={index} className="budget-category">
+                    <p>{category}</p>
+                    <div className="total-bar">
+                        <div className="progress-bar">
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+    
+const BudgetCategories = () => {
     const [categories, setCategories] = useState([]);
+    const [closed, setClosed] = useState(false)
+
+    const popupForm = () => {
+        var popupForm = document.getElementById("category-form-background");
+        if (popupForm.style.display = 'none'){
+            setClosed(true)
+            popupForm.style.display = 'block';
+        }
+    }
 
     const getCategories = () => {
         fetch("/display-categories", {
@@ -456,36 +494,12 @@ const CategoryProgressBar = () => {
 
     useEffect(() => {
         getCategories();
-    }, []);
-
-    return (
-        <div>
-            {categories.map((category, index) => (
-                <div key={index} className="budget-category">
-                    <p>{category}</p>
-                    <div className="total-bar">
-                        <div className="progress-bar">
-                            <br />
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-};
-    
-const BudgetCategories = () => {
-    const popupForm = () => {
-        var popupForm = document.getElementById("category-form-background");
-        if (popupForm.style.display = 'none'){
-            popupForm.style.display = 'block';
-        }
-    }
+    }, [popupForm]);
 
     return(
         <div className="budget-summary">
 
-           <ChangeForm />
+           <ChangeForm categories={categories} />
             <div className="budget-category-header">
                 <h1> Budget by Category</h1>
                 <div className = "category-button">
@@ -494,7 +508,7 @@ const BudgetCategories = () => {
             </div>
 
             <div id="categories">
-                <CategoryProgressBar />
+                <CategoryProgressBar categories={categories}/>
             </div>
         </div>
     )

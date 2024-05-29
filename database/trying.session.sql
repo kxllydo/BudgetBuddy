@@ -21,7 +21,7 @@ DROP TABLE categories;
 DROP TABLE expenseCap;
 DROP TABLE activity;
 DELETE FROM categories;
-DELETE FROM goals;
+DELETE FROM activity;
 DELETE FROM users;
 
 --creating the tables
@@ -99,3 +99,4 @@ ADD CONSTRAINT expenseCap_ibfk_2
 FOREIGN KEY (category)
 REFERENCES categories(category)
 ON UPDATE CASCADE;
+
