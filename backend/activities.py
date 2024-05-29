@@ -41,19 +41,19 @@ def add_data():
     price = request.form["my-activity-price"]
 
     if not (date and category and merchant and price):
-        return jsonify({"message": "Insufficient data for activity."}), 200
+        return jsonify({"message": "Insufficient data for activity."}), 400
     
     try:
         price = float(price)
     except:
-        return jsonify({"message": "Price is not float."}), 200 
+        return jsonify({"message": "Price is not float."}), 400 
     
     try:
-        print(date)
-        tdate = date.split("/")
-        date = f"{tdate[2]}-{tdate[0]}-{tdate[1]}"
+        tdate = date.split("-")  
+        date = f"{tdate[0]}-{tdate[1]}-{tdate[2]}"
     except:
-        return jsonify({"message": "Incorrect format for date.."}), 200
+        return jsonify({"message": "Incorrect format for date.."}), 400
 
     print(username, date, category, merchant, price)
-    execute("INSERT INTO activity (act_date, merchant, price, user, category)", (date, merchant, price, username, category))
+    execute("INSERT INTO activity (act_date, merchant, price, user, category) VALUES (%s, %s, %s, %s, %s)", (date, merchant, price, username, category), save = True)
+    return jsonify({"message": "worked.."}), 200
