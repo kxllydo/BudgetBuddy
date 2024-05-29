@@ -329,9 +329,6 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
         const form = document.querySelector("#my-activity-form");
         const activityData = new FormData(form);
         
-        console.log(form);
-
-        /*
         fetch("/add-data", {
             method: "POST",
             body: activityData,
@@ -339,7 +336,6 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
         }).catch(error => {
             console.log(error);
         });
-        */
     }
 
     return (
@@ -347,26 +343,33 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
             <h1>Add Activity</h1>
 
             <div>
+                <form id = "baka-form">
+                    <div className = "baka-date-wrapper">
+                        <label htmlFor = "baka-date">Date</label>
+                        <input required type = "date" name = "baka-date" id = "baka-date" placeholder = "baka's date" />
+                    </div>
+                </form>
+
                 <form id = "my-activity-form" onSubmit = {handleSubmit}>
                     <div className = "my-activity-form-field">
-                        <label for = "my-activity-date">Date</label>
+                        <label htmlFor = "my-activity-date">Date</label>
                         <input required type = "date" name = "my-activity-date" id = "my-activity-date" placeholder = "Date" />
                     </div>
                     <div className = "my-activity-form-field">
-                        <label for = "my-activity-category">Category</label>
+                        <label htmlFor = "my-activity-category">Category</label>
                         <select required name = "my-activity-category" id="my-activity-category">
                             <option value = "Shopping" selected>Shopping</option>
                             {
-                                //categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)
+                                categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)
                             }
                         </select>
                     </div>
                     <div className = "my-activity-form-field">
-                        <label for = "my-activity-merchant">Merchant</label>
+                        <label htmlFor = "my-activity-merchant">Merchant</label>
                         <input required type = "text" name = "my-activity-merchant" id = "my-activity-merchant" placeholder = "Merchant" />
                     </div>
                     <div className = "my-activity-form-field">
-                        <label for = "my-activity-price">Price</label>
+                        <label htmlFor = "my-activity-price">Price</label>
                         <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" />
                     </div>
 
@@ -378,14 +381,12 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
 }
 
 const Activity = () => {
-    const [categories, setCategories] = useState([])
     const [data, setData] = useState([]);
 
     const [showMyActivityPopup, setMyActivityPopup] = useState(false);
 
     useEffect(() => {
         fetchActivity(setData);
-        fetchCategories(setCategories);
     }, []);
 
     const openMyActivityPopup = () => {
@@ -399,8 +400,6 @@ const Activity = () => {
                     <h1>My Linked Cards</h1>
                     <button>Add Card</button>
                 </div>
-
-                {<MyActivityPopup />}
             </DisplayHolder>
 
             <DisplayHolder className = "activity-display-holder">
@@ -412,7 +411,7 @@ const Activity = () => {
                 <MyActivity data = {data} />
             </DisplayHolder>
 
-            <MyActivityPopup open = {showMyActivityPopup} setOpen = {setMyActivityPopup} categories = {categories} />
+            <MyActivityPopup open = {showMyActivityPopup} setOpen = {setMyActivityPopup} />
         </div>
     );
 }
