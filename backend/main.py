@@ -15,6 +15,45 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
+<<<<<<< HEAD
+=======
+ 
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASS")
+db_database = os.getenv("DB")
+
+mysql_config = {
+   "host": db_host,
+   "user": db_user,
+   "password": db_password,
+   "database": db_database
+}
+
+db = mysql.connector.connect(**mysql_config)
+cursor = db.cursor()
+
+def exists(table, attribute, user, condition = ''):
+    if condition == 'category':
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
+        cursor.execute(query, (user, condition))
+    
+    else:
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND {attribute} = %s'
+        cursor.execute(query, (user, condition))
+    
+    exist = cursor.fetchone()
+    if exist is not None:
+         return True
+    else:
+        return False
+
+def getId(table, category, user):
+    query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
+    cursor.execute(query, (user, category))
+    id = cursor.fetchone()[0]
+    return id
+>>>>>>> d6de082b141e24b3497597224b6ea9a19f691295
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(category_bp)
