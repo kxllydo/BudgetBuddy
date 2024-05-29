@@ -80,18 +80,22 @@ def deleteCategory():
 
 @budget_bp.route('/get-<category>-percentage')
 def getPercentage(category):
+    cap = 0
     user = session['user']
-    category = 'Groceries' #request.form['category']
-    cap = execute('SELECT cap FROM expenseCap WHERE user = %s AND category = %s', (user, category))[0]
-    if cap is None:
-        return jsonify({'message': 'no cap', 'percentage': 0}), 400
-    
+    capTuple = execute('SELECT cap FROM expenseCap WHERE user = %s AND category = %s', (user, category))
+    if capTuple is None:
+        print('hi')
+        return jsonify({'message': 'no cap', 'percent': 10}), 200
+    else:
+        cap = capTuple[0]
     spent = execute ('SELECT price FROM activity WHERE user = %s AND category = %s', (user, category), True)
+    print(spent)
     if spent is not None:
         totalSpent = 0
         for amount in spent:
-            totalSpent += amount
+            totalSpent += float(amount[0])
         percent = (totalSpent/cap) * 100
-        return jsonify({'message':'success!', 'percent': percent}), 400
+        print(percent)
+        return jsonify({'message':'success!', 'percent': percent}), 200
     else:
-        return jsonify({'message':'no activity','percent': 0}), 400
+        return jsonify({'message':'no activity','percent': 20}), 200
