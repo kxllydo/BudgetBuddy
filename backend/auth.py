@@ -28,7 +28,11 @@ def register():
         return jsonify({"message": "Passwords do not match!"}), 400
 
     execute("INSERT INTO users (user, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email), save = True)
-    return jsonify({"message": "User successfully registerd"}), 200
+
+    session["user"] = username
+    if "user" in session:
+        return jsonify({"message": "User successfully registerd"}), 200
+    return jsonify({"registered": False}), 400
 
 @auth_bp.route("/login", methods = ["POST"])
 def login():
