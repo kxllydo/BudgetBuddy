@@ -4,9 +4,9 @@ from flask import jsonify, request, session
 from database import execute
 from auxiliary import exists as _exists, getId
 
-category_bp = Blueprint("category", __name__)
+budget_bp = Blueprint("budget", __name__)
 
-@category_bp.route('/edit-cap', methods = ['POST'])
+@budget_bp.route('/edit-cap', methods = ['POST'])
 def editCap():
     category = request.form['cap-category']
     amount = request.form['new-cap']
@@ -18,7 +18,7 @@ def editCap():
     else:
         return jsonify({'message': "Cap doesn't exist to edit"}), 400
 
-@category_bp.route('/edit-category', methods = ['POST'])
+@budget_bp.route('/edit-category', methods = ['POST'])
 def editCategory():
     oldCategory = request.form['old-category']
     newCategory = request.form['new-category'].capitalize()
@@ -31,7 +31,7 @@ def editCategory():
         return jsonify({'message' : "Category updated successfully"}), 200
 
 
-@category_bp.route('/add-category', methods=['POST'])
+@budget_bp.route('/add-category', methods=['POST'])
 def addCategory():
     category = request.form['category-input'].capitalize()
     print(session)
@@ -45,7 +45,7 @@ def addCategory():
         execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username), save = True)
         return jsonify({"message": "Category added successfully"}), 201
 
-@category_bp.route('/add-cap', methods = ['POST'] )
+@budget_bp.route('/add-cap', methods = ['POST'] )
 def addCap():
     expenseCap = request.form['expense-cap']
     category = request.form['cap-categories']
@@ -57,23 +57,25 @@ def addCap():
         execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ), save = True)
         return jsonify({"message": "Cap added successfully"}), 201
 
-@category_bp.route('/display-categories')
+@budget_bp.route('/display-categories')
 def displayCategories():
     username = session['user']
     categories = execute('SELECT category from categories WHERE user = %s', (username, ), True)
     category_names = [row[0].capitalize() for row in categories]
     return jsonify({"categories": category_names}), 200
 
-@category_bp.route('/delete-cap', methods = ['POST'])
+@budget_bp.route('/delete-cap', methods = ['POST'])
 def deleteCap():
     user = session['user']
     category = request.form['cap-category']
     execute('DELETE FROM expenseCap WHERE user = %s AND category = %s', (user, category), save = True)
     return jsonify({"message": "Cap deleted successfully"}), 201
 
-@category_bp.route('/delete-category', methods = ['POST'])
+@budget_bp.route('/delete-category', methods = ['POST'])
 def deleteCategory():
     user = session['user']
     category = request.form['category']
     execute('DELETE FROM categories WHERE user = %s AND category = %s', (user, category), save = True)
     return jsonify({"message": "Cap deleted successfully"}), 201
+
+# @budget_bp.route('/')
