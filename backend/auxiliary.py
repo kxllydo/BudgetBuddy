@@ -41,3 +41,20 @@ def change (type):
             return jsonify({'message' : f'No {type} found under that name. Try again'}), 400
     
     return jsonify({"message": f'{type} edited successfully'}), 201
+
+def exists(table, attribute, user, condition = ''):
+    exist = None
+
+    if condition == 'category':
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
+        exist = execute(query, (user, condition))
+    
+    else:
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND {attribute} = %s'
+        exist = execute(query, (user, condition))
+    
+    return exist is not None
+
+def getId(table, category, user):
+    query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
+    return execute(query, (user, category))[0]
