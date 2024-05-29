@@ -3,24 +3,7 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
 import "@styles/Budget.css";
 
-export const getCategories = async () => {
-    try {
-        const response = await fetch("/display-categories", {
-            method: 'GET',
-            credentials: 'include',
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch categories');
-        }
-        
-        const data = await response.json();
-        return data.categories;
-    } catch (error) {
-        console.error('Error fetching categories:', error);
-        return [];
-    }
-};
+
 
 export const exitHandler = () => {
     var popupForm = document.getElementById("category-form-background");
@@ -384,18 +367,9 @@ const EditForm = ({categories}) => {
     )
 };
 
-const ChangeForm = () => {
-    const [categories, setCategories] = useState([]);
+const ChangeForm = ({categories}) => {
     const [picked, setPicked] = useState("");
     const [edit, setEdit] = useState ("add");
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const fetchedCategories = await getCategories();
-            setCategories(fetchedCategories);
-        };
-        fetchCategories();
-    }, []);
-
 
     const editHandler = (event) => {
         const state = event.target.value;
@@ -432,31 +406,72 @@ const ChangeForm = () => {
     )
 };
 
-const CategoryProgressBar = () => {
-    const [categories, setCategories] = useState([]);
+const CategoryProgressBar = ({categories}) => {
+    const [closed, setClosed] = useState(false);
+    const [percent, setPercent] = useState({});
+    const [cap, setCap] = useState({});
+    const [spent, setSpent] = useState({});
 
-    const getCategories = () => {
-        fetch("/display-categories", {
-            method: 'GET',
-            credentials: 'include',
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch categories');
-            }
-            return response.json(); // Resolve the promise to get JSON data
-        })
-        .then(data => {
-            setCategories(data.categories); // Use the resolved JSON data
-        })
-        .catch(error => {
-            console.error('Error fetching categories:', error);
-        });
+    const openForm = () => {
+        var popupForm = document.getElementById("category-form-background");
+        if (popupForm.style.display = 'none'){
+            setClosed(true);
+        };
+    }
+
+    const fillDict = async (type) => {
+        try {
+            const results = await Promise.all(categories.map(category => helpme(category)));
+            if (type == 'percent'){
+                const percentages = results.reduce((acc, { category, percent }) => {
+                    acc[category] = percent;
+                    return acc;
+                }, {});
+                setPercent(percentages);
+            }else if (type == 'cap'){
+                const caps = results.reduce((acc, { category, cap }) => {
+                    acc[category] = cap;
+                    return acc;
+                }, {});
+                setCap(caps);
+            }else if (type == 'spent'){
+                const spents = results.reduce((acc, { category, spent }) => {
+                    acc[category] = spent;
+                    return acc;
+                }, {});
+                setSpent(spents);
+            };
+        } catch (error) {
+            console.error('Error filling percentages:', error);
+        }
     };
 
+    const helpme = async (category) => {
+        try {
+            const url = `/get-${category}-percentage`;
+            const response = await fetch(url, {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch percentage data');
+            }
+
+            const data = await response.json();
+            return { category, percent: data.percent, cap: data.cap, spent: data.spent };
+        } catch (error) {
+            console.error('Error fetching percentage data:', error);
+            return { category, percent: 0 }; 
+        }
+    };
+   
     useEffect(() => {
-        getCategories();
-    }, []);
+        fillDict('percent');
+        fillDict('cap');
+        fillDict('spent');
+    }, [categories])
+
 
     return (
         <div>
@@ -464,9 +479,12 @@ const CategoryProgressBar = () => {
                 <div key={index} className="budget-category">
                     <p>{category}</p>
                     <div className="total-bar">
-                        <div className="progress-bar">
-                            <br />
+                        <div className="progress-bar" style={{'width' : `${percent[category]}%`}}>
                         </div>
+                        <div style = {{'float' : 'right'}}>
+                            <p style = {{'font-size' : '13px'}}>$ {spent[category]} / {cap[category]}</p>
+                            <br />
+                            </div>
                     </div>
                 </div>
             ))}
@@ -474,10 +492,13 @@ const CategoryProgressBar = () => {
     );
 };
     
-const BudgetCategories = () => {
+const BudgetCategories = ({categories}) => {
+    const [closed, setClosed] = useState(false)
+
     const popupForm = () => {
         var popupForm = document.getElementById("category-form-background");
         if (popupForm.style.display = 'none'){
+            setClosed(true)
             popupForm.style.display = 'block';
         }
     }
@@ -485,7 +506,7 @@ const BudgetCategories = () => {
     return(
         <div className="budget-summary">
 
-           <ChangeForm />
+           <ChangeForm categories={categories} />
             <div className="budget-category-header">
                 <h1> Budget by Category</h1>
                 <div className = "category-button">
@@ -494,7 +515,7 @@ const BudgetCategories = () => {
             </div>
 
             <div id="categories">
-                <CategoryProgressBar />
+                <CategoryProgressBar categories={categories}/>
             </div>
         </div>
     )
@@ -503,6 +524,8 @@ const BudgetCategories = () => {
 
 const Budget = () =>{
     const [data, setData] = useState({});
+    const [categories, setCategories] = useState([]);
+
     useEffect(() => {
         fetch("http://127.0.0.1:5000/")
             .then(response => {
@@ -520,6 +543,32 @@ const Budget = () =>{
             });
     }, []);
 
+    const getCategories = async () => {
+        try {
+            const response = await fetch("/display-categories", {
+                method: 'GET',
+                credentials: 'include',
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch categories');
+            }
+            
+            const data = await response.json();
+            setCategories(data.categories);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            return [];
+        }
+    };
+
+    useEffect(() => {
+        const fetchCategories =  async() =>{
+            await getCategories();
+        }
+        fetchCategories();
+    }, []);
+
 
     return (
         <div className = "budget-page">
@@ -530,7 +579,7 @@ const Budget = () =>{
                         <ProgressPie />
                     </ResponsiveContainer>
                 </div>
-                <BudgetCategories />
+                <BudgetCategories categories={categories} />
             </div>
             
          </div>

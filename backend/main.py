@@ -3,7 +3,7 @@ from flask_cors import CORS
 from datetime import timedelta
 
 from auth import auth_bp
-from categories import category_bp
+from budget import budget_bp
 from activities import act_bp
 from auxiliary import auxiliary_bp
 
@@ -17,7 +17,7 @@ CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.register_blueprint(auth_bp)
-app.register_blueprint(category_bp)
+app.register_blueprint(budget_bp)
 app.register_blueprint(act_bp)
 app.register_blueprint(auxiliary_bp)
 

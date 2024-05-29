@@ -73,7 +73,7 @@
 .progress-bar{
     background-color: green;
     border-radius: 5px;
-    width: 50%;
+    width: 0%;
     height: 100%;
 }
 
@@ -202,3 +202,4 @@ background-color: rgb(69, 111, 69);
     border-radius: 10px;
     border-width: 1px;
 }
+
