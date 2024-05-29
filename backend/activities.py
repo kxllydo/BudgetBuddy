@@ -36,8 +36,8 @@ def get_data():
 def add_data():
     username = session["user"]
     date = request.form["my-activity-date"]
-    category = request.form["my-activity-category"]
-    merchant = request.form["my-activity-merchant"]
+    category = request.form["my-activity-category"].capitalize()
+    merchant = request.form["my-activity-merchant"].capitalize()
     price = request.form["my-activity-price"]
 
     if not (date and category and merchant and price):
