@@ -6,6 +6,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from auth import auth_bp
 from categories import category_bp
 from activities import act_bp
+import os
+import mysql.connector
+
 
 from database import execute
 
@@ -15,8 +18,6 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
-<<<<<<< HEAD
-=======
  
 db_host = os.getenv("DB_HOST")
 db_user = os.getenv("DB_USER")
@@ -53,7 +54,6 @@ def getId(table, category, user):
     cursor.execute(query, (user, category))
     id = cursor.fetchone()[0]
     return id
->>>>>>> d6de082b141e24b3497597224b6ea9a19f691295
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(category_bp)
