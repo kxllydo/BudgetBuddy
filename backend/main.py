@@ -6,6 +6,7 @@ from auth import auth_bp
 from categories import category_bp
 from activities import act_bp
 from auxiliary import auxiliary_bp
+from dashboard import dashboard_bp
 
 from database import execute
 
@@ -20,6 +21,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(category_bp)
 app.register_blueprint(act_bp)
 app.register_blueprint(auxiliary_bp)
+app.register_blueprint(dashboard_bp)
 
 @app.route('/')
 def index():

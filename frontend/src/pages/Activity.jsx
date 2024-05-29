@@ -333,11 +333,12 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
             method: "POST",
             body: activityData,
             credentials: "include"
+        }).then(response => {
+            if (response.ok)
+                setOpen(false);
         }).catch(error => {
             console.log(error);
         });
-
-        setOpen(false);
     }
 
     return (
