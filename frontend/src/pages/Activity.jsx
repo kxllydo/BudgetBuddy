@@ -269,15 +269,16 @@ const fetchCategories = (setCategories) => {
     });
 }
 
-const MyActivity = ({ data }) => {
+const MyActivity = ({ data, setData }) => {
     let acts;
+
     if (data.length === 0) {
         acts = (<div>There has been no recent activity within your linked cards.</div>);
     } else {
         acts = [];
         for (let i = 0; i < data.length; i++) {
             acts.push(
-                <tr serial = {i} server-serial = {data[i][0]}>
+                <tr data-serial = {data[i][0]} onClick = {(event) => {setData(event.currentTarget);}}>
                     <td act-col = "act_date">
                         {data[i][1].replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")}
                     </td>
@@ -316,12 +317,19 @@ const MyActivity = ({ data }) => {
     );
 }
 
-const MyActivityPopup = ({ open, setOpen, server_serial }) => {
+const MyActivityPopup = ({ open, setOpen, data, setData }) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         fetchCategories(setCategories);
     }, []);
+
+    useEffect(() => {
+        if (!open) {
+            document.querySelector("#my-activity-form").reset();
+            setData(null);
+        }
+    }, [open]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -329,13 +337,14 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
         const form = document.querySelector("#my-activity-form");
         const activityData = new FormData(form);
         
-        fetch("/add-data", {
+        fetch(data && "/edit-data" || "/add-data", {
             method: "POST",
             body: activityData,
             credentials: "include"
         }).then(response => {
-            if (response.ok)
+            if (response.ok) {
                 setOpen(false);
+            }
         }).catch(error => {
             console.log(error);
         });
@@ -343,33 +352,46 @@ const MyActivityPopup = ({ open, setOpen, server_serial }) => {
 
     return (
         <Popup className = "my-activity-form-popup" open = {open} setOpen = {setOpen}>
-            <h1>Add Activity</h1>
+            <h1>{data && "Edit" || "Add"} Activity</h1>
 
             <div>
                 <form id = "my-activity-form" onSubmit = {handleSubmit}>
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-date">Date</label>
-                        <input required type = "date" name = "my-activity-date" id = "my-activity-date" placeholder = "Date" />
+                        <input required type = "date" name = "my-activity-date" id = "my-activity-date" placeholder = "Date" defaultValue = {data && data.children[0].innerText.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3-$1-$2")} />
                     </div>
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-category">Category</label>
                         <select required name = "my-activity-category" id="my-activity-category">
-                            <option value = "" hidden selected>Choose a category</option>
-                            {
-                                categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)
-                            }
+                            {!data && <option value = "" hidden selected>Choose a category</option>}
+                            {categories.map(category => <option selected = {data && data.children[1].innerText == category && "true" || "false"} value = {category.split(" ").join("-")}>{category}</option>)}
                         </select>
                     </div>
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-merchant">Merchant</label>
-                        <input required type = "text" name = "my-activity-merchant" id = "my-activity-merchant" placeholder = "Merchant" />
+                        <input required type = "text" name = "my-activity-merchant" id = "my-activity-merchant" placeholder = "Merchant" defaultValue = {data && data.children[2].innerText} />
                     </div>
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-price">Price</label>
-                        <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" />
+                        <input required type = "number" name = "my-activity-price" id = "my-activity-price" placeholder = "Price" defaultValue = {data && parseFloat(data.children[3].innerText.slice(1))} />
                     </div>
+                    {
+                        data && (
+                            <div className = "my-activity-form-field hidden">
+                                <input type = "hidden" name = "my-activity-id" id = "my-activity-id" defaultValue = {data && data.dataset.serial} />
+                            </div>
+                        )
+                    }
+                    {
+                        data && (
+                            <div className = "my-activity-form-field">
+                                <label htmlFor = "my-activity-delete">Would you like to delete this activity?</label>
+                                <input type = "checkbox" name = "my-activity-delete" id = "my-activity-delete" defaultValue = {false} />
+                            </div>
+                        )
+                    }
 
-                    <button>Add Activity</button>
+                    <button>{data && "Edit" || "Add"} Activity</button>
                 </form>
             </div>
         </Popup>
@@ -380,14 +402,24 @@ const Activity = () => {
     const [data, setData] = useState([]);
 
     const [showMyActivityPopup, setMyActivityPopup] = useState(false);
+    const [presetActivityData, setPresetActivityData] = useState(null);
 
     useEffect(() => {
-        fetchActivity(setData);
+        if (!showMyActivityPopup)
+            fetchActivity(setData);
     }, [null, showMyActivityPopup]);
 
-    const openMyActivityPopup = () => {
-        setMyActivityPopup(true);
-    }
+    useEffect(() => {
+        if (presetActivityData)
+            setMyActivityPopup(true);
+
+        if (presetActivityData) {
+            console.log(presetActivityData);
+            console.log(presetActivityData.children);
+            console.log(presetActivityData.children[0].innerText);
+            console.log(presetActivityData.children);
+        }
+    }, [presetActivityData]);
 
     return (
         <div className = "activity-page">
@@ -401,13 +433,13 @@ const Activity = () => {
             <DisplayHolder className = "activity-display-holder">
                 <div className = "activity-holder-header">
                     <h1>My Activity</h1>
-                    <button onClick = {openMyActivityPopup}>Add Activity</button>
+                    <button onClick = {() => setMyActivityPopup(true)}>Add Activity</button>
                 </div>
 
-                <MyActivity data = {data} />
+                <MyActivity data = {data} setData = {setPresetActivityData}/>
             </DisplayHolder>
 
-            <MyActivityPopup open = {showMyActivityPopup} setOpen = {setMyActivityPopup} />
+            <MyActivityPopup open = {showMyActivityPopup} setOpen = {setMyActivityPopup} data = {presetActivityData} setData = {setPresetActivityData}/>
         </div>
     );
 }
