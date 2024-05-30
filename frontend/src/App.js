@@ -39,7 +39,6 @@ function App() {
             credentials: "include",
         }).then(async response => {
             let isLoggedIn = (await response.json())["logged_in"]
-            alert(isLoggedIn);
             setLoggedIn(isLoggedIn);
         })
     }, []);
