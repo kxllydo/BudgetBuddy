@@ -12,7 +12,7 @@ from database import execute
 
 app = Flask(__name__)
 app.secret_key = "dualmonitor"
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+#app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'

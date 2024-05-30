@@ -36,8 +36,10 @@ def get_data():
 def add_data():
     username = session["user"]
     date = request.form["my-activity-date"]
-    category = request.form["my-activity-category"].capitalize()
-    merchant = request.form["my-activity-merchant"].capitalize()
+    category = request.form["my-activity-category"]
+    category = category[0].capitalize() + category[1:]
+    merchant = request.form["my-activity-merchant"]
+    merchant = merchant[0].capitalize() + merchant[1:]
     price = request.form["my-activity-price"]
 
     if not (date and category and merchant and price):
@@ -68,8 +70,10 @@ def edit_data(serial):
             return jsonify({"message": "delete activity successful"}), 200
         else:
             date = request.form["my-activity-date"]
-            category = request.form["my-activity-category"].capitalize()
-            merchant = request.form["my-activity-merchant"].capitalize()
+            category = request.form["my-activity-category"]
+            category = category[0].capitalize() + category[1:]
+            merchant = request.form["my-activity-merchant"]
+            merchant = merchant[0].capitalize() + merchant[1:]
             price = request.form["my-activity-price"]
 
             execute("UPDATE activity SET act_date = %s, category = %s, merchant = %s, price = %s WHERE user = %s AND id = %s", (date, category, merchant, price, username, serial), save = True)
