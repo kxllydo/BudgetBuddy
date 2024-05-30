@@ -336,9 +336,12 @@ const MyActivityPopup = ({ open, setOpen, data, setData }) => {
 
         const form = document.querySelector("#my-activity-form");
         const activityData = new FormData(form);
+
+        const fetchUrl = data && "/edit-data/" + activityData.get("my-activity-id") || "/add-data";
+        const fetchMethod = (data && "my-activity-delete" in data && "DELETE") || "POST";
         
-        fetch(data && "/edit-data" || "/add-data", {
-            method: "POST",
+        fetch(fetchUrl, {
+            method: fetchMethod,
             body: activityData,
             credentials: "include"
         }).then(response => {
@@ -412,13 +415,6 @@ const Activity = () => {
     useEffect(() => {
         if (presetActivityData)
             setMyActivityPopup(true);
-
-        if (presetActivityData) {
-            console.log(presetActivityData);
-            console.log(presetActivityData.children);
-            console.log(presetActivityData.children[0].innerText);
-            console.log(presetActivityData.children);
-        }
     }, [presetActivityData]);
 
     return (

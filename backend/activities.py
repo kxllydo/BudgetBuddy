@@ -58,23 +58,21 @@ def add_data():
     execute("INSERT INTO activity (act_date, merchant, price, user, category) VALUES (%s, %s, %s, %s, %s)", (date, merchant, price, username, category), save = True)
     return jsonify({"message": "worked.."}), 200
 
-@act_bp.route("/edit-data", methods = ["POST"])
-def edit_data():
+@act_bp.route("/edit-data/<int:serial>", methods = ["POST", "DELETE"])
+def edit_data(serial):
     username = session["user"]
-    serial = request.form["my-activity-id"]
-    date = request.form["my-activity-date"]
-    category = request.form["my-activity-category"].capitalize()
-    merchant = request.form["my-activity-merchant"].capitalize()
-    price = request.form["my-activity-price"]
-    delete = "my-activity-delete" in request.form
 
     try:
-        if execute("SELECT * FROM activity WHERE user = %s AND id = %s;", (username, serial)):
-            if delete:
-                execute("DELETE FROM activity WHERE user = %s AND id = %s", (username, serial), save = True)
-            else:
-                execute("UPDATE activity SET act_date = %s, category = %s, merchant = %s, price = %s WHERE user = %s AND id = %s", (date, category, merchant, price, username, serial), save = True)
-        else: raise Exception("datum does not exist") 
-        return jsonify({"message": "can edit"}), 200
-    except:
-        return jsonify({"message": "cannot edit"}), 400
+        if request.method == "DELETE":
+            execute("DELETE FROM activity WHERE user = %s AND id = %s", (username, serial), save = True)
+            return jsonify({"message": "delete activity successful"}), 200
+        else:
+            date = request.form["my-activity-date"]
+            category = request.form["my-activity-category"].capitalize()
+            merchant = request.form["my-activity-merchant"].capitalize()
+            price = request.form["my-activity-price"]
+
+            execute("UPDATE activity SET act_date = %s, category = %s, merchant = %s, price = %s WHERE user = %s AND id = %s", (date, category, merchant, price, username, serial), save = True)
+            return jsonify({"message": "edit activity successful"}), 200
+    except Exception as e:
+        return jsonify({"message": str(e)}), 400
