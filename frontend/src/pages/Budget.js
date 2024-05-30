@@ -349,7 +349,7 @@ const EditForm = ({categories}) => {
                             {categories.map((category, index) => (
                                 <option value = {category}>{category}</option>
                             ))}
-                </select>
+                    </select>
                 </div>
                 <div className='format-option-pair'>
                     <label htmlfor = "new-category" className='budget-popup-label'>New Category Name:</label>
@@ -468,8 +468,8 @@ const CategoryProgressBar = ({categories}) => {
    
     useEffect(() => {
         fillDict('percent');
-        fillDict('cap');
         fillDict('spent');
+        fillDict('cap');
     }, [categories])
 
 
@@ -479,7 +479,7 @@ const CategoryProgressBar = ({categories}) => {
                 <div key={index} className="budget-category">
                     <p>{category}</p>
                     <div className="total-bar">
-                        <div className="progress-bar" style={{'width' : `${percent[category]}%`}}>
+                        <div className="progress-bar" id={category} style={{'width' : `${percent[category]}%`}}>
                         </div>
                         <div style = {{'float' : 'right'}}>
                             <p style = {{'font-size' : '13px'}}>$ {spent[category]} / {cap[category]}</p>
