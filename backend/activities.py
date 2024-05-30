@@ -66,7 +66,7 @@ def edit_data():
     category = request.form["my-activity-category"].capitalize()
     merchant = request.form["my-activity-merchant"].capitalize()
     price = request.form["my-activity-price"]
-    delete = request.form["my-activity-delete"]
+    delete = "my-activity-delete" in request.form
 
     try:
         if execute("SELECT * FROM activity WHERE user = %s AND id = %s;", (username, serial)):

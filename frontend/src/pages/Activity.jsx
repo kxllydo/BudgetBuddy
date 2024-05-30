@@ -362,9 +362,9 @@ const MyActivityPopup = ({ open, setOpen, data, setData }) => {
                     </div>
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-category">Category</label>
-                        <select required name = "my-activity-category" id="my-activity-category">
+                        <select required name = "my-activity-category" id="my-activity-category" defaultValue = {data && data.children[1].innerText || ""}>
                             {!data && <option value = "" hidden selected>Choose a category</option>}
-                            {categories.map(category => <option selected = {data && data.children[1].innerText == category && "true" || "false"} value = {category.split(" ").join("-")}>{category}</option>)}
+                            {categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)}
                         </select>
                     </div>
                     <div className = "my-activity-form-field">
@@ -386,7 +386,7 @@ const MyActivityPopup = ({ open, setOpen, data, setData }) => {
                         data && (
                             <div className = "my-activity-form-field">
                                 <label htmlFor = "my-activity-delete">Would you like to delete this activity?</label>
-                                <input type = "checkbox" name = "my-activity-delete" id = "my-activity-delete" defaultValue = {false} />
+                                <input type = "checkbox" name = "my-activity-delete" id = "my-activity-delete" defaultChecked = {false} />
                             </div>
                         )
                     }
@@ -433,7 +433,7 @@ const Activity = () => {
             <DisplayHolder className = "activity-display-holder">
                 <div className = "activity-holder-header">
                     <h1>My Activity</h1>
-                    <button onClick = {() => setMyActivityPopup(true)}>Add Activity</button>
+                    <button className = "primary-btn" onClick = {() => setMyActivityPopup(true)}>Add Activity</button>
                 </div>
 
                 <MyActivity data = {data} setData = {setPresetActivityData}/>
