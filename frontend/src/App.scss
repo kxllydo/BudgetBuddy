@@ -1,15 +1,6 @@
-@mixin anchor-button {
-  text-decoration: none;
-  color: var(--text-color);
-  padding: 1vh 1vw;
-  margin: 0px;
-  border: 0px;
-  border-radius: 25px;
-}
-
 .primary-btn {
     text-decoration: none;
-    color: var(--text-color);
+    color: #ffffff;
     margin: 0px;
     padding: max(1vh, 5px) max(1vw, 15px);
     border: 0px;
