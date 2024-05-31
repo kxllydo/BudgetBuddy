@@ -259,7 +259,7 @@ const ColorForm = () => {
             </div>
             <div className='settings-pair'  style={{marginTop : '10px'}}>
                 <label htmlFor='color' className='settings-label' style={{marginRight : '10px'}}>Color: </label>
-                <input type='color' style={{marginRight : '20%'}}/>
+                <input type='color' name='color' style={{marginRight : '20%'}}/>
             </div>
             <div className = "settings-pair" style = {{marginLeft: "9%", marginRight:"9%", marginTop: '10%'}}>
                     <button type = "submit" className="settings-submit-btn">Submit</button>
