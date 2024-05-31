@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { FPLayout, AFLayout } from "@components/FrontPage";
@@ -32,6 +32,16 @@ const PATHS = {
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(true);
+
+    useEffect(() => {
+        fetch("/is_logged_in", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            let isLoggedIn = (await response.json())["logged_in"]
+            setLoggedIn(isLoggedIn);
+        })
+    }, []);
 
     return (
         <BrowserRouter>

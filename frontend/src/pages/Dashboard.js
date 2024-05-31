@@ -1,7 +1,9 @@
-import React from 'react';
-import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { useState, useEffect } from "react";
+import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from "recharts";
 
-import "@styles/Dashboard.css";
+import DisplayHolder from "@components/DisplayHolder";
+
+import "@styles/Dashboard.scss";
 
 const lineData = [
     { name: 'Jan', uv: 400 },
@@ -51,13 +53,6 @@ const SimpleBarChart = () => {
         </ResponsiveContainer>
     );
 };
-
-
-const pieData = [
-    { name: 'Food', value: 400 },
-    { name: 'Bills', value: 300 },
-    { name: 'Housing', value: 300 },
-  ];
   
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
@@ -74,31 +69,38 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     );
 };
 
-const PieChartComponent = () => {
+const PieChartComponent = ({ data }) => {
+    let pieData = [];
+    if (data) {
+        pieData = data.map(row => {return {"name": row[0], "value": row[1]}});
+    }
+
     return (
-        <PieChart width = {400} height = {180}>
-            <Pie
-                data={pieData}
-                cx="40%"
-                cy="50%"
-                labelLine={false}
-                label={renderCustomizedLabel}
-                outerRadius={90}
-                fill="#8884d8"
-                dataKey="value"
+        <ResponsiveContainer width = "100%" height = "100%">
+            <PieChart width = "100%">
+                <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={renderCustomizedLabel}
+                    outerRadius={90}
+                    fill="#8884d8"
+                    dataKey="value"
                 >
-                {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
-                ))}
-            </Pie> 
-        
-            <Tooltip />
-            <Legend layout="vertical" align="right" verticalAlign="middle"/>
+                    {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
+                    ))}
+                </Pie> 
+            
+                <Tooltip />
+                <Legend layout="vertical" align="right" verticalAlign="middle"/>
             </PieChart>
+        </ResponsiveContainer>
     );
 };
 
-const Dashboard = () => {
+const Dashbo2ard = () => {
     return(
         <div className = "dashboard-body">
             <div className = "graph">
@@ -130,6 +132,51 @@ const Dashboard = () => {
             </div>
         </div>
     );
+}
+
+const fetchPieData = (setData) => {
+    fetch("/get-category-spending", {
+        method: "GET",
+        credentials: "include",
+    }).then(async response => {
+        if (!response.ok)
+            throw new Error("Error fetching data!");
+        setData(await response.json());
+    }).catch(error => console.log(error));
+}
+
+const Dashboard = () => {
+    const [pieData, setPieData] = useState([]);
+
+    useEffect(() => {
+        fetchPieData(setPieData);
+    }, []);
+
+    return (
+        <div className = "dashboard-page">
+            <DisplayHolder id = "weekly-bar-chart">
+            
+            </DisplayHolder>
+
+            <DisplayHolder id = "category-pie-chart">
+                <PieChartComponent data = {pieData} />
+            </DisplayHolder>
+
+            <DisplayHolder id = "spent-most-chart">
+
+            </DisplayHolder>
+
+            <DisplayHolder id = "spent-least-chart">
+
+            </DisplayHolder>
+
+            <DisplayHolder id = "monthly-line-chart">
+                <button onClick = {() =>
+                    fetch("/get-monthly-spending", {method: "GET", credentials: "include",}).then(async response => console.log(await response.json()))
+                }>Click Me!</button>
+            </DisplayHolder>
+        </div>
+    )
 }
  
 export {PieChartComponent, SimpleBarChart, SimpleLineChart};
