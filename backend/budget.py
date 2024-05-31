@@ -84,18 +84,15 @@ def getPercentage(category):
     user = session['user']
     capTuple = execute('SELECT cap FROM expenseCap WHERE user = %s AND category = %s', (user, category))
     if capTuple is None:
-        print('hi')
         return jsonify({'message': 'no cap', 'percent': 0, 'cap': 'NA', 'spent' : 'NA'}), 200
     else:
         cap = capTuple[0]
     spent = execute ('SELECT price FROM activity WHERE user = %s AND category = %s', (user, category), True)
-    print(spent)
     if spent is not None:
         totalSpent = 0
         for amount in spent:
             totalSpent += float(amount[0])
         percent = (totalSpent/cap) * 100
-        print(percent)
         return jsonify({'message':'success!', 'percent': percent, 'cap' : cap, 'spent': totalSpent}), 200
     else:
         return jsonify({'message':'no activity','percent': 0, 'cap': cap, 'spent': 0}), 200

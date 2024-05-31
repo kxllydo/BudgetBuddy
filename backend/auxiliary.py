@@ -6,14 +6,20 @@ from database import execute
 auxiliary_bp = Blueprint("auxiliary", __name__)
 
 def exists(table, attribute, user, condition = ""):
-    exist = None
     if condition == "category":
         query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
-        exist = execute(query, (user, condition))
+        response = execute(query, (user, condition))
+    elif (condition == ''):
+        query = f'SELECT {attribute} FROM {table} WHERE user = %s'
+        response = execute(query, (user, ))
     else:
         query = f'SELECT {attribute} FROM {table} WHERE user = %s AND {attribute} = %s'
-        exist = execute(query, (user, condition))
-    return exist is not None
+        response = execute(query, (user, condition))
+
+    if response is not None:
+        return True
+    else:
+        return False
 
 def getId(table, category, user):
     query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
@@ -21,17 +27,27 @@ def getId(table, category, user):
 
 @auxiliary_bp.route('/change-<type>', methods = ['POST'])
 def change (type):
-    old = request.form.get(f'old-{type}')
-    changed = request.form.get(f'new-{type}')
     user = session['user']
     if (type == 'password'):
+        old = request.form.get(f'old-{type}')
+        changed = request.form.get(f'new-{type}')
         hashed = execute('SELECT password FROM users WHERE user = %s', (user, ))[0]
         if not check_password_hash(hashed, old):
             return jsonify({'message' : "Incorrect password"}), 400
         else:
             newPass = generate_password_hash(changed)
             execute('UPDATE users SET password = %s WHERE password = %s', (newPass, hashed), save = True)
+    elif (type == 'color'):
+        category = request.form['category']
+        color = request.form['color']
+        if (exists('preferences', 'color', user, color)):
+            return jsonify({'message':'A color already exists for this category'}), 400
+        else:
+            execute('INSERT INTO preferences (color, user, category) VALUES (%s, %s, %s)', (color, user, category), save=True)
+            return jsonify({'message' : 'Sucessfully added color'}), 200
     else:
+        old = request.form.get(f'old-{type}')
+        changed = request.form.get(f'new-{type}')
         query = f'SELECT {type} FROM users WHERE {type} = %s'
         result = execute(query, (old, ))
         if result is not None:
@@ -42,18 +58,12 @@ def change (type):
     
     return jsonify({"message": f'{type} edited successfully'}), 201
 
-def exists(table, attribute, user, condition = ''):
-    exist = None
-
-    if condition == 'category':
-        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
-        exist = execute(query, (user, condition))
-    
-    else:
-        query = f'SELECT {attribute} FROM {table} WHERE user = %s AND {attribute} = %s'
-        exist = execute(query, (user, condition))
-    
-    return exist is not None
+@auxiliary_bp.route('/<category>-colors', methods = ['GET'])
+def categoryColors(category):
+    user = session['user']
+    response = execute('SELECT color FROM preferences WHERE user = %s AND category = %s', (user, category), True)
+    color = response[0][0]
+    return jsonify({'color' : color}), 200
 
 def getId(table, category, user):
     query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'

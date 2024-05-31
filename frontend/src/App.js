@@ -31,7 +31,7 @@ const PATHS = {
 };
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     return (
         <BrowserRouter>

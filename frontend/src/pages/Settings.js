@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import DisplayHolder from "@components/DisplayHolder";
 
@@ -96,6 +96,14 @@ const TypeForm = ({type}) => {
 }
 
 const Settings = () => {
+    const colorFormAppear = (event) => {
+        event.preventDefault();
+        const form = document.getElementById('settings-color-form');
+        const button = document.getElementById('customize-color-button');
+        form.style.display = 'block';
+        button.style.display = 'none';
+    }
+
     return (
         <div id = "settings-body">
             <h1>Settings</h1>
@@ -130,6 +138,18 @@ const Settings = () => {
                     </div>
                     <div className = "settings-input" id = "settings-delete">
                         <button className = "settings-button" id = "delete-account-button">Delete Account</button>
+                    </div>
+                </div>
+
+                <h2 style={{marginTop: '5%'}}>Preferences</h2>
+                <div className='settings-option'>
+                    <div className = "settings-option-pair">
+                        <h3>Budget</h3>
+                        <p className = "subtext">Change the color of each progress bar based on category</p>
+                    </div>
+                    <div className = "settings-input">
+                        <button className = "settings-button" id='change-color-button' onClick={() => changeType("color")}>Customize Color</button>
+                        <ColorForm />
                     </div>
                 </div>
             </DisplayHolder>
@@ -190,5 +210,63 @@ const Setti2ngs = () => {
     );
 };
 
-export {TypeForm};
+
+const ColorForm = () => {
+    const [categories, setCategories] = useState([]);
+    const [picked, setPicked] = useState('');
+
+    const getCategories = async () => {
+        try {
+            const response = await fetch("/display-categories", {
+                method: 'GET',
+                credentials: 'include',
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch categories');
+            }
+            
+            const data = await response.json();
+            setCategories(data.categories);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            return [];
+        }
+    };
+
+    useEffect(() => {
+        const fetchCategories =  async() =>{
+            await getCategories();
+        }
+        fetchCategories();
+    }, []);
+
+    const categoryPicker = (event) => {
+        setPicked(event.target.value);
+        console.log(picked);
+    };
+
+
+    return (
+        <form id = "color-form" className='settings-form' onSubmit={(event) => submit(event, 'color')}>
+            <div className='settings-pair'>
+                <label htmlFor='category' className='settings-label' style={{marginRight : '10px'}}>Category: </label>
+                <select name="category" className="choices" onChange={categoryPicker} style={{marginTop: '2px'}}>
+                    {categories.map((category, index) => (
+                        <option value = {category}>{category}</option>
+                    ))}
+                </select>
+            </div>
+            <div className='settings-pair'  style={{marginTop : '10px'}}>
+                <label htmlFor='color' className='settings-label' style={{marginRight : '10px'}}>Color: </label>
+                <input type='color' name='color' style={{marginRight : '20%'}}/>
+            </div>
+            <div className = "settings-pair" style = {{marginLeft: "9%", marginRight:"9%", marginTop: '10%'}}>
+                    <button type = "submit" className="settings-submit-btn">Submit</button>
+                    <button className="settings-cancel-btn" onClick={(event) => cancel(event, 'color')}>Cancel</button>
+                </div>
+        </form>
+    )
+}
+export {TypeForm, ColorForm};
 export default Settings;

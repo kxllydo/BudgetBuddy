@@ -349,7 +349,7 @@ const EditForm = ({categories}) => {
                             {categories.map((category, index) => (
                                 <option value = {category}>{category}</option>
                             ))}
-                </select>
+                    </select>
                 </div>
                 <div className='format-option-pair'>
                     <label htmlfor = "new-category" className='budget-popup-label'>New Category Name:</label>
@@ -411,6 +411,7 @@ const CategoryProgressBar = ({categories}) => {
     const [percent, setPercent] = useState({});
     const [cap, setCap] = useState({});
     const [spent, setSpent] = useState({});
+    const [color, setColor] = useState({});
 
     const openForm = () => {
         var popupForm = document.getElementById("category-form-background");
@@ -420,33 +421,46 @@ const CategoryProgressBar = ({categories}) => {
     }
 
     const fillDict = async (type) => {
-        try {
-            const results = await Promise.all(categories.map(category => helpme(category)));
-            if (type == 'percent'){
-                const percentages = results.reduce((acc, { category, percent }) => {
-                    acc[category] = percent;
+        if (type == 'color'){
+            try{
+                const results = await Promise.all (categories.map(category => getColor (category)));
+                const colors = results.reduce((acc, { category, color }) => {
+                    acc[category] = color;
                     return acc;
                 }, {});
-                setPercent(percentages);
-            }else if (type == 'cap'){
-                const caps = results.reduce((acc, { category, cap }) => {
-                    acc[category] = cap;
-                    return acc;
-                }, {});
-                setCap(caps);
-            }else if (type == 'spent'){
-                const spents = results.reduce((acc, { category, spent }) => {
-                    acc[category] = spent;
-                    return acc;
-                }, {});
-                setSpent(spents);
+                setColor(colors);
+            } catch (error) {
+                console.error ('error!!');
             };
-        } catch (error) {
-            console.error('Error filling percentages:', error);
+        } else {
+            try {
+                const results = await Promise.all(categories.map(category => stats(category)));
+                if (type == 'percent'){
+                    const percentages = results.reduce((acc, { category, percent }) => {
+                        acc[category] = percent;
+                        return acc;
+                    }, {});
+                    setPercent(percentages);
+                }else if (type == 'cap'){
+                    const caps = results.reduce((acc, { category, cap }) => {
+                        acc[category] = cap;
+                        return acc;
+                    }, {});
+                    setCap(caps);
+                }else if (type == 'spent'){
+                    const spents = results.reduce((acc, { category, spent }) => {
+                        acc[category] = spent;
+                        return acc;
+                    }, {});
+                    setSpent(spents);
+                };
+            } catch (error) {
+                console.error('Error filling percentages:', error);
+            }
         }
     };
 
-    const helpme = async (category) => {
+    const stats = async (category) => {
         try {
             const url = `/get-${category}-percentage`;
             const response = await fetch(url, {
@@ -465,13 +479,35 @@ const CategoryProgressBar = ({categories}) => {
             return { category, percent: 0 }; 
         }
     };
+
+    const getColor = async (category) => {
+        try {
+            const url = `/${category}-colors`;
+            const response = await fetch (url, {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (!response.ok){
+                throw new Error ('Failed to fetch color data');
+            }
+            const data = await response.json();
+            console.log(data.color);
+            return {category, color: data.color};
+        }catch (error) {
+            console.error('Error:', error);
+        };
+    };
+
    
     useEffect(() => {
         fillDict('percent');
-        fillDict('cap');
         fillDict('spent');
+        fillDict('cap');
+        fillDict('color');
     }, [categories])
 
+    console.log(color);
 
     return (
         <div>
@@ -479,7 +515,7 @@ const CategoryProgressBar = ({categories}) => {
                 <div key={index} className="budget-category">
                     <p>{category}</p>
                     <div className="total-bar">
-                        <div className="progress-bar" style={{'width' : `${percent[category]}%`}}>
+                        <div className="progress-bar" id={category} style={{'width' : `${percent[category]}%`, 'backgroundColor' : `${color[category]}`}}>
                         </div>
                         <div style = {{'float' : 'right'}}>
                             <p style = {{'font-size' : '13px'}}>$ {spent[category]} / {cap[category]}</p>
