@@ -21,7 +21,7 @@ const FormField = ({ id, name, type, placeholder, required, children }) => {
                 id = { id }
                 name = { name }
                 placeholder = { placeholder }
-                required = { required ? "true" : "false" }
+                required = { required ? true : false }
             />
             { children }
         </div>
@@ -30,7 +30,7 @@ const FormField = ({ id, name, type, placeholder, required, children }) => {
 
 const UsernameField = ({ email }) => {
     return (
-        <FormField type = "text" id = "username" name = "username" placeholder = { email ? "Enter your username/email" : "Enter your username"} required = "true">
+        <FormField type = "text" id = "username" name = "username" placeholder = { email ? "Enter your username/email" : "Enter your username"} required>
             <FaUser className = "account-form-icon" />
         </FormField>
     )

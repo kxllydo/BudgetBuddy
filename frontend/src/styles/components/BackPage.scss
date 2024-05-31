@@ -15,6 +15,10 @@
     overflow-y: auto;
     background-color: var(--theme-color);
 
+    a {
+        text-decoration: none;
+    }
+
     .top-options {
         margin-top: 20%;
     }
@@ -41,7 +45,7 @@
             background-color: #4b784b;
         }
 
-        &> a {
+        .a {
             text-decoration: none;
             color: white;
             margin-left: 7%;

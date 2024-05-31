@@ -21,11 +21,13 @@ def edit_card():
 def delete_card():
     pass
 
-@act_bp.route("/get-data", methods = ["GET"])
-def get_data():
+@act_bp.route("/get-data/<int:year>/<int:month>/<string:order>/<asc>", methods = ["GET"])
+def get_data(year, month, order, asc):
     try:
+        asc = asc.lower() == "true"
         username = session["user"]
-        data = execute("SELECT id, act_date, category, merchant, price FROM activity WHERE user = %s", (username, ), True)
+        
+        data = execute(f"SELECT id, act_date, category, merchant, price FROM activity WHERE user = %s AND YEAR(act_date) = %s AND MONTH(act_date) = %s ORDER BY {order} {"ASC" if asc else "DESC"}", (username, year, month), True)
         data = [(row[0], row[1].strftime("%Y-%m-%d"),
                  row[2], row[3], row[4]) for row in data]
         return jsonify(data), 200

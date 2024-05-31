@@ -16,6 +16,15 @@
         margin: 0px;
     }
 
+    #my-activity-view-date-display {
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            color: #555555;
+        }
+    }
+
     button {
         background-color: var(--theme-color);
         color: white;
@@ -135,16 +144,8 @@
             }
 
             button {
-                margin: 0px;
                 margin-top: 1.5%;
-                padding: 0.5vh 1.5vw;
-                border-radius: 20px;
-                border: 0px;
-
-                background-color: var(--theme-color);
-                color: white;
                 font-size: 1.125rem;
-                cursor: pointer;
             }
         }
     }
@@ -190,16 +191,7 @@
         }
 
         button {
-            margin: 0px;
-            margin-top: 1.5%;
-            padding: 0.5vh 1.5vw;
-            border-radius: 20px;
-            border: 0px;
-
-            background-color: var(--theme-color);
-            color: white;
             font-size: 1.125rem;
-            cursor: pointer;
             margin-top: 2vh;
             align-self: center;
         }

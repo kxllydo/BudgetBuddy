@@ -238,8 +238,13 @@ const Activity = () => {
 }
 */
 
-const fetchActivity = (setData) => {
-    fetch("/get-data", {
+
+/*
+    TODO: Bug with both select components in popup.
+*/
+
+const fetchActivity = (setData, viewData) => {
+    fetch(`/get-data/${viewData.date.getFullYear()}/${viewData.date.getMonth() + 1}/${viewData.order}/${viewData.asc}`, {
         method: "GET",
         credentials: "include",
     }).then(async response => {
@@ -278,17 +283,17 @@ const MyActivity = ({ data, setData }) => {
         acts = [];
         for (let i = 0; i < data.length; i++) {
             acts.push(
-                <tr data-serial = {data[i][0]} onClick = {(event) => {setData(event.currentTarget);}}>
-                    <td act-col = "act_date">
+                <tr key = {i} data-serial = {data[i][0]} onClick = {(event) => {setData(event.currentTarget);}}>
+                    <td>
                         {data[i][1].replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")}
                     </td>
-                    <td act-col = "category">
+                    <td>
                         {data[i][2].charAt(0).toUpperCase() + data[i][2].slice(1)}
                     </td>
-                    <td act-col = "merchant">
+                    <td>
                         {data[i][3]}
                         </td>
-                    <td act-col = "price">
+                    <td>
                         {"$" + data[i][4].toFixed(2)}
                     </td>
                 </tr>
@@ -365,9 +370,9 @@ const MyActivityPopup = ({ open, setOpen, data, setData }) => {
                     </div>
                     <div className = "my-activity-form-field">
                         <label htmlFor = "my-activity-category">Category</label>
-                        <select required name = "my-activity-category" id="my-activity-category" defaultValue = {data && data.children[1].innerText || ""}>
-                            {!data && <option value = "" hidden selected>Choose a category</option>}
-                            {categories.map(category => <option value = {category.split(" ").join("-")}>{category}</option>)}
+                        <select required name = "my-activity-category" id = "my-activity-category" defaultValue = {data && data.children[1].innerText || ""}>
+                            {!data && <option value = "" hidden disabled>Choose a category</option>}
+                            {categories.map(category => <option key = {category} value = {category.split(" ").join("-")}>{category}</option>)}
                         </select>
                     </div>
                     <div className = "my-activity-form-field">
@@ -394,23 +399,82 @@ const MyActivityPopup = ({ open, setOpen, data, setData }) => {
                         )
                     }
 
-                    <button>{data && "Edit" || "Add"} Activity</button>
+                    <button className = "primary-btn">{data && "Edit" || "Add"} Activity</button>
                 </form>
             </div>
         </Popup>
     );
 }
 
+const MyActivityViewDatePopup = ({ data, setData, open, setOpen }) => {
+    useEffect(() => {
+        if (!open) {
+            const form = document.querySelector("#my-activity-view-data-form");
+            form.reset();
+        }
+    }, [null, open])
+
+    const handleSubmit = event => {
+        event.preventDefault();
+
+        const form = document.querySelector("#my-activity-view-data-form")
+        const viewData = new FormData(form);
+
+        const viewDate = viewData.get("my-activity-view-date");
+        const viewOrder = viewData.get("my-activity-view-order");
+        const viewOrder2 = viewData.get("my-activity-view-order2");
+
+        setData({
+            date: new Date(viewDate + "T00:00:00"),
+            order: viewOrder,
+            asc: viewOrder2 != null
+        });
+        setOpen(false);
+    }
+
+    return (
+        <Popup className = "my-activity-form-popup" open = {open} setOpen = {setOpen}>
+            <h1>Change My Activity View</h1>
+
+            <form id = "my-activity-view-data-form" onSubmit={handleSubmit}>
+                <div className = "my-activity-form-field">
+                    <label htmlFor = "my-activity-view-date">Change View's Month</label>
+                    <input required type = "date" id = "my-activity-view-date" name = "my-activity-view-date" defaultValue = {data.date.getFullYear() + "-" + (data.date.getMonth() + 1).toString().padStart(2, "0") + "-" + data.date.getDate().toString().padStart(2, "0")} />
+                </div>
+
+                <div className = "my-activity-form-field">
+                    <label htmlFor = "my-activity-view-order">Change View's Order</label>
+                    <select required id = "my-activity-view-order" name = "my-activity-view-order" defaultValue = {data.order}>
+                        <option value = "act_date">Date</option>
+                        <option value = "category">Category</option>
+                        <option value = "merchant">Merchant</option>
+                        <option value = "price">Price</option>
+                    </select>
+                </div>
+
+                <div className = "my-activity-form-field">
+                    <label htmlFor = "my-activity-view-order2">Check for Ascending</label>
+                    <input type = "checkbox" id = "my-activity-view-order2" name = "my-activity-view-order2" defaultChecked = {data.asc}/>
+                </div>
+
+                <button className = "primary-btn" type = "submit">Save</button>
+            </form>
+        </Popup>
+    );
+}
+
 const Activity = () => {
     const [data, setData] = useState([]);
+    const [viewData, setViewData] = useState({date: new Date(), order: "act_date", asc: false});
 
-    const [showMyActivityPopup, setMyActivityPopup] = useState(false);
-    const [presetActivityData, setPresetActivityData] = useState(null);
+    const [showDatePopup, setDatePopup] = useState(false);
+    const [showMyActivityPopup, setMyActivityPopup] = useState(false); 
+    const [presetActivityData, setPresetActivityData] = useState(null); // for clicking on <tr>
 
     useEffect(() => {
-        if (!showMyActivityPopup)
-            fetchActivity(setData);
-    }, [null, showMyActivityPopup]);
+        if (!showMyActivityPopup && !showDatePopup)
+            fetchActivity(setData, viewData);
+    }, [null, showMyActivityPopup, showDatePopup]);
 
     useEffect(() => {
         if (presetActivityData)
@@ -428,7 +492,7 @@ const Activity = () => {
 
             <DisplayHolder className = "activity-display-holder">
                 <div className = "activity-holder-header">
-                    <h1>My Activity</h1>
+                    <h1>My Activity for <span id = "my-activity-view-date-display" onClick = {() => setDatePopup(true)}>{(viewData.date.getMonth() + 1).toString().padStart(2, "0") + "/" + viewData.date.getFullYear()}</span></h1>
                     <button className = "primary-btn" onClick = {() => setMyActivityPopup(true)}>Add Activity</button>
                 </div>
 
@@ -436,6 +500,7 @@ const Activity = () => {
             </DisplayHolder>
 
             <MyActivityPopup open = {showMyActivityPopup} setOpen = {setMyActivityPopup} data = {presetActivityData} setData = {setPresetActivityData}/>
+            <MyActivityViewDatePopup data = {viewData} open = {showDatePopup} setOpen = {setDatePopup} setData = {setViewData} />
         </div>
     );
 }
