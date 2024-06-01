@@ -28,4 +28,24 @@
         grid-column: 3 / span 2;
         grid-row: 2 / span 2;
     }
+
+    #spent-most-chart, #spent-least-chart {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+
+        .category {
+            margin: 0px;
+            font-size: 1.5rem;
+        }
+        
+        .category-label {
+            text-decoration: underline;
+        }
+
+        .cost {
+            margin: 0px;
+            align-self: flex-end;
+        }
+    }
 }

@@ -5,30 +5,19 @@ import DisplayHolder from "@components/DisplayHolder";
 
 import "@styles/Dashboard.scss";
 
-const lineData = [
-    { name: 'Jan', uv: 400 },
-    { name: 'Feb', uv: 300 },
-    { name: 'Mar', uv: 200 },
-    { name: 'Apr', uv: 278 },
-    { name: 'May', uv: 189 },
-    { name: 'Jun', uv: 239 },
-  ];
-  
-  const SimpleLineChart = () => {
+const SimpleLineChart = ({ data }) => {
     return (
         <ResponsiveContainer width = "100%" height = "100%">
-            <LineChart width={550} height={240} data={lineData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-        </LineChart>
+            <LineChart data = {data} margin = {{ top: 30, right: 30, left: 0, bottom: 10 }}>
+                <CartesianGrid strokeDasharray = "3" />
+                <XAxis dataKey = "name" />
+                <YAxis />
+                <Tooltip />
+                <Line type = "monotone" dataKey = "value" stroke = "#8884d8" />
+            </LineChart>
         </ResponsiveContainer>
-
     );
-  };
+};
 
 const barData = [
     { name: 'Jan', uv: 400 },
@@ -70,34 +59,30 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 const PieChartComponent = ({ data }) => {
-    let pieData = [];
-    if (data) {
-        pieData = data.map(row => {return {"name": row[0], "value": row[1]}});
-    }
-
-    return (
-        <ResponsiveContainer width = "100%" height = "100%">
-            <PieChart width = "100%">
-                <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={renderCustomizedLabel}
-                    outerRadius={90}
-                    fill="#8884d8"
-                    dataKey="value"
-                >
-                    {pieData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
-                    ))}
-                </Pie> 
-            
-                <Tooltip />
-                <Legend layout="vertical" align="right" verticalAlign="middle"/>
-            </PieChart>
-        </ResponsiveContainer>
-    );
+    if (data)
+        return (
+            <ResponsiveContainer width = "100%" height = "100%">
+                <PieChart width = "100%">
+                    <Pie
+                        data={data}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        outerRadius={90}
+                        fill="#8884d8"
+                        dataKey="value"
+                    >
+                        {data.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
+                        ))}
+                    </Pie> 
+                
+                    <Tooltip />
+                    <Legend layout="vertical" align="right" verticalAlign="middle"/>
+                </PieChart>
+            </ResponsiveContainer>
+        );
 };
 
 const Dashbo2ard = () => {
@@ -134,46 +119,67 @@ const Dashbo2ard = () => {
     );
 }
 
-const fetchPieData = (setData) => {
-    fetch("/get-category-spending", {
-        method: "GET",
-        credentials: "include",
-    }).then(async response => {
-        if (!response.ok)
-            throw new Error("Error fetching data!");
-        setData(await response.json());
-    }).catch(error => console.log(error));
-}
-
 const Dashboard = () => {
-    const [pieData, setPieData] = useState([]);
+    const [pieData, setPieData] = useState(null);
+    const [barData, setBarData] = useState(null);
+    const [minmaxData, setMinMaxData] = useState(null);
 
+    // pieData
     useEffect(() => {
-        fetchPieData(setPieData);
+        fetch("/get-category-spending", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            if (!response.ok)
+                throw new Error("Error fetching data!");
+            setPieData(await response.json());
+        }).catch(error => console.log(error));
+    }, []);
+
+    // barData
+    useEffect(() => {
+        fetch("/get-monthly-spending", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            if (!response.ok)
+                throw new Error("Error fetching monthly spending.");
+            setBarData(await response.json());
+        }).catch(error => console.log(error))
+    }, []);
+
+    // minmaxData
+    useEffect(() => {
+        fetch("/get-minmax-spending", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            setMinMaxData(await response.json());
+        }).catch(error => console.log(error));
     }, []);
 
     return (
         <div className = "dashboard-page">
             <DisplayHolder id = "weekly-bar-chart">
-            
+
             </DisplayHolder>
 
             <DisplayHolder id = "category-pie-chart">
                 <PieChartComponent data = {pieData} />
             </DisplayHolder>
 
-            <DisplayHolder id = "spent-most-chart">
-
+            <DisplayHolder id = "spent-least-chart">
+                <p className = "category">Spent the least on <span className = "category-label">{minmaxData && minmaxData.min.category}</span></p>
+                <h1 className = "cost">${minmaxData && minmaxData.min.value}</h1>
             </DisplayHolder>
 
-            <DisplayHolder id = "spent-least-chart">
-
+            <DisplayHolder id = "spent-most-chart">
+                <p className = "category">Spent the most on <span className = "category-label">{minmaxData && minmaxData.max.category}</span></p>
+                <h1 className = "cost">${minmaxData && minmaxData.max.value}</h1>
             </DisplayHolder>
 
             <DisplayHolder id = "monthly-line-chart">
-                <button onClick = {() =>
-                    fetch("/get-monthly-spending", {method: "GET", credentials: "include",}).then(async response => console.log(await response.json()))
-                }>Click Me!</button>
+                <SimpleLineChart data = {barData} />
             </DisplayHolder>
         </div>
     )

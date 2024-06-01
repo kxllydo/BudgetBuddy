@@ -1,19 +1,11 @@
 from random import random, randint
 
 # passwords
-# alex aLeX
-# bob bob
-# slay slaying
-# crunch chocolatebar
-# danimals yogurt
+# alex alex
 
-users = ["alex", "slay", "bob", "crunch", "danimals"]
+users = ["alex"]
 categories = {
-    "alex": ["Groceries", "Shopping", "School"],
-    "slay": ["School", "Shopping"],
-    "bob": ["A", "B", "C"],
-    "crunch": ["A"],
-    "danimals": ["Yogurts", "Actors", "Personnel", "Ad Budget"]
+    "alex": ["Category #1", "Category #2"],
 }
 stores = ["Giant", "Aramark", "Drexel", "Temple", "Barnes & Nobles", "Trader Joe's", "Dunkin'", "Bleep", "Bloop Blap", "Vanilla Ice Cream", "Strawberry"]
 

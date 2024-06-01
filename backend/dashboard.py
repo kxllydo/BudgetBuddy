@@ -19,7 +19,7 @@ def get_category_spending():
 
     try:
         username = session["user"]
-        data = execute("SELECT category, SUM(price) AS total FROM activity WHERE user = %s AND YEAR(act_date) = %s AND MONTH(act_date) = %s GROUP BY category", (username, current_time.year, current_time.month), fetchAll = True)
+        data = execute("SELECT category, TRUNCATE(SUM(price), 2) AS total FROM activity WHERE user = %s AND YEAR(act_date) = %s AND MONTH(act_date) = %s GROUP BY category", (username, current_time.year, current_time.month), fetchAll = True)
         data = [{f"{_nameKey}": row[0], f"{_dataKey}": row[1]} for row in data]
         return jsonify(data), 200
     except:
@@ -37,7 +37,7 @@ def get_monthly_spending():
 
     try:
         username = session["user"]
-        temp_data = execute("SELECT MONTH(act_date) AS month, SUM(price) AS total FROM activity WHERE user = %s AND YEAR(act_date) = %s GROUP BY month ORDER BY month ASC", (username, current_time.year), fetchAll = True)
+        temp_data = execute("SELECT MONTH(act_date) AS month, TRUNCATE(SUM(price), 2) AS total FROM activity WHERE user = %s AND YEAR(act_date) = %s GROUP BY month ORDER BY month ASC", (username, current_time.year), fetchAll = True)
         data = [{f"{_nameKey}": month + 1, f"{_dataKey}": 0} for month in range(12)]
 
         for row in temp_data:
@@ -51,3 +51,29 @@ def get_monthly_spending():
     except Exception as e:
         print(e)
         return jsonify({"message": "get monthly spending failed"}), 400
+    
+@dashboard_bp.route("/get-minmax-spending", methods = ["GET"])
+def get_minmax_spending():
+    current_time = datetime.datetime.now()
+
+    try:
+        username = session["user"]
+        temp_data = execute("SELECT category, MIN(price) as minimum, MAX(price) as maximum FROM activity WHERE user = %s AND YEAR(act_date) = %s AND MONTH(act_date) = %s GROUP BY category", (username, current_time.year, current_time.month), fetchAll = True)
+
+        minCategory = temp_data[0][0]
+        minValue    = temp_data[0][1]
+        maxCategory = temp_data[0][0]
+        maxValue    = temp_data[0][2]
+
+        for row in temp_data:
+            if row[1] < minValue:
+                minValue = row[1]
+                minCategory = row[0]
+            if row[2] > maxValue:
+                maxValue = row[2]
+                maxCategory = row[0]
+        data = {"min": {"category": minCategory, "value": minValue}, "max": {"category": maxCategory, "value": maxValue}}
+        return jsonify(data), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"message": "get min/max spending failed"}), 400

@@ -5,22 +5,14 @@ from database import execute
 
 act_bp = Blueprint("activities", __name__)
 
-@act_bp.route("/get-card", methods = ["GET"])
-def get_card():
-    pass
+@act_bp.route("/actbp-test", methods = ["GET"])
+def get_test():
+    print(session)
+    print("user" in session)
 
-@act_bp.route("/add-card", methods = ["POST"])
-def add_card():
-    pass
+    return {"message": "annyoeng"}, 200
 
-@act_bp.route("/edit_card", methods = ["PUT"])
-def edit_card():
-    pass
-
-@act_bp.route("/delete_card", methods = ["DELETE"])
-def delete_card():
-    pass
-
+# TODO : figure out why flask doesn't like month = 6?
 @act_bp.route("/get-data/<int:year>/<int:month>/<string:order>/<asc>", methods = ["GET"])
 def get_data(year, month, order, asc):
     try:
