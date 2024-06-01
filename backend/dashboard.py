@@ -20,15 +20,14 @@ def get_category_spending():
     try:
         username = session["user"]
         data = execute("SELECT category, TRUNCATE(SUM(price), 2) AS total FROM activity WHERE user = %s AND YEAR(act_date) = %s AND MONTH(act_date) = %s GROUP BY category", (username, current_time.year, current_time.month), fetchAll = True)
-        data = [{f"{_nameKey}": row[0], f"{_dataKey}": row[1]} for row in data]
+        if data: data = [{f"{_nameKey}": row[0], f"{_dataKey}": row[1]} for row in data]
+        else: data = [{f"{_nameKey}": "N/A", f"{_dataKey}": 1}]
         return jsonify(data), 200
     except:
         return jsonify({"message": "get category spending failed"}), 400
     
 @dashboard_bp.route("/get-weekly-spending", methods = ["GET"])
 def get_weekly_spending():
-    current_time = datetime.datetime.now()
-
     pass
 
 @dashboard_bp.route("/get-monthly-spending", methods = ["GET"])
@@ -44,7 +43,6 @@ def get_monthly_spending():
             if data[row[0] - 1][f"{_nameKey}"]:
                 data[row[0] - 1][f"{_dataKey}"] = row[1]
         for row in data:
-            print(row)
             row[f"{_nameKey }"] = MONTH_NAMES[row[f"{_nameKey }"] - 1]
 
         return jsonify(data), 200
@@ -59,20 +57,25 @@ def get_minmax_spending():
     try:
         username = session["user"]
         temp_data = execute("SELECT category, MIN(price) as minimum, MAX(price) as maximum FROM activity WHERE user = %s AND YEAR(act_date) = %s AND MONTH(act_date) = %s GROUP BY category", (username, current_time.year, current_time.month), fetchAll = True)
+        
+        if temp_data:
+            minCategory = temp_data[0][0]
+            minValue    = temp_data[0][1]
+            maxCategory = temp_data[0][0]
+            maxValue    = temp_data[0][2]
 
-        minCategory = temp_data[0][0]
-        minValue    = temp_data[0][1]
-        maxCategory = temp_data[0][0]
-        maxValue    = temp_data[0][2]
+            for row in temp_data:
+                if row[1] < minValue:
+                    minValue = row[1]
+                    minCategory = row[0]
+                if row[2] > maxValue:
+                    maxValue = row[2]
+                    maxCategory = row[0]
+            data = {"min": {"category": minCategory, "value": minValue}, "max": {"category": maxCategory, "value": maxValue}}
+        else: data = {"min": {"category": "N/A", "value": "0.00"}, "max": {"category": "N/A", "value": "0.00"}}
 
-        for row in temp_data:
-            if row[1] < minValue:
-                minValue = row[1]
-                minCategory = row[0]
-            if row[2] > maxValue:
-                maxValue = row[2]
-                maxCategory = row[0]
-        data = {"min": {"category": minCategory, "value": minValue}, "max": {"category": maxCategory, "value": maxValue}}
+        print(temp_data)
+
         return jsonify(data), 200
     except Exception as e:
         print(e)
