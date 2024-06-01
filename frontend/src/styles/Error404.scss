@@ -1,0 +1,27 @@
+.error404-container {
+    h1, h2, h3 {
+        margin: 0px;
+    }
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    
+    flex-grow: 1;
+
+    h1 {
+        margin-bottom: 5vh;
+    }
+
+    h2, h3 {
+        font-weight: normal;
+        margin-bottom: 2vh;
+    }
+
+    button {
+        margin-top: 2vh;
+        font-size: 1.125rem;
+    }
+}
