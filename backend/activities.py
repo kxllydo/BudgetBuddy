@@ -5,6 +5,14 @@ from database import execute
 
 act_bp = Blueprint("activities", __name__)
 
+@act_bp.route("/actbp-test", methods = ["GET"])
+def get_test():
+    print(session)
+    print("user" in session)
+
+    return {"message": "annyoeng"}, 200
+
+# TODO : figure out why flask doesn't like month = 6?
 @act_bp.route("/get-data/<int:year>/<int:month>/<string:order>/<asc>", methods = ["GET"])
 def get_data(year, month, order, asc):
     try:
