@@ -249,13 +249,6 @@ const Activity = () => {
 
     return (
         <div className = "activity-page">
-            <DisplayHolder className = "linked-cards-display-holder">
-                <div className = "activity-holder-header">
-                    <h1>My Linked Cards</h1>
-                    <button>Add Card</button>
-                </div>
-            </DisplayHolder>
-
             <DisplayHolder className = "activity-display-holder">
                 <div className = "activity-holder-header">
                     <h1>My Activity for <span id = "my-activity-view-date-display" onClick = {() => setDatePopup(true)}>{(viewData.date.getMonth() + 1).toString().padStart(2, "0") + "/" + viewData.date.getFullYear()}</span></h1>
