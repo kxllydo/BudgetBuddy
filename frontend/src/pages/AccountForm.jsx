@@ -1,5 +1,5 @@
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
@@ -28,9 +28,9 @@ const FormField = ({ id, name, type, placeholder, required, children }) => {
     )
 }
 
-const UsernameField = ({ email }) => {
+const UsernameField = () => {
     return (
-        <FormField type = "text" id = "username" name = "username" placeholder = { email ? "Enter your username/email" : "Enter your username"} required>
+        <FormField type = "text" id = "username" name = "username" placeholder = "Enter your username" required>
             <FaUser className = "account-form-icon" />
         </FormField>
     )
@@ -153,17 +153,40 @@ const RegistrationForm = () => {
 }
 
 const ForgotPasswordForm = () => {
-    // TODO: add functionality?
+    const outletContext = useOutletContext();
+    const setLoggedIn = outletContext["setLoggedIn"];
+    const navigate = useNavigate();
+    const [useEmail, setUseEmail] = useState(false);
+
+    const sendLink = (event) => {
+        event.preventDefault();
+        const form = document.querySelector("#forgot-password-form");
+        const fpData = new FormData(form);
+
+        fetch("/send-forgot-password-link", {
+            method: "POST",
+            body: fpData,
+            credentials: "include",
+        }).then(response => {
+            if (!response.ok)
+                throw new Error("Failed to send link.");
+            
+            setLoggedIn(true);
+            navigate(PATHS.DashboardPath, {"replace": true});
+        }).catch(error => alert(error));
+    }
+    
     return (
         <div className = "account-form-wrapper forgot-password-form-wrapper">
             <h1>Forgot Your Password?</h1>
-            <p>Enter your username, and we'll send you an email for a one-time access link to login. You can reset your password in the settings once you're logged in.</p>
+            <p>Enter your {useEmail ? "email" : "username"}, and we'll send you an email for a one-time link to reset your password.</p>
 
-            <form>
-                <UsernameField email = "yes" />
+            <form id = "forgot-password-form" onSubmit = {sendLink}>
+                {useEmail ? <EmailField /> : <UsernameField />}
+                <span> Use <a onClick = {() => {setUseEmail(!useEmail)}}> {useEmail ? "username" : "email"} </a> instead.</span>
 
                 <div className = "form-button">
-                    <button>&gt;</button>
+                    <button type = "submit">&gt;</button>
                 </div>
 
                 <div className = "wrong-account-page">
