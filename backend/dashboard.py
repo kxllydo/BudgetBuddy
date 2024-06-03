@@ -10,11 +10,6 @@ dashboard_bp = Blueprint("dashboard", __name__)
 _nameKey = "name"
 _dataKey = "value"
 
-# MONTH_NAMES = ["January", "February", "March", "April", "May",
-#                 "June", "July", "August", "Septemebr", "October",
-#                 "November", "December"]
-# DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-
 @dashboard_bp.route("/get-category-spending", methods = ["GET"])
 def get_category_spending():
     current_time = datetime.datetime.now()
