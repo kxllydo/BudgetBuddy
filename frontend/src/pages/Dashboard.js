@@ -186,7 +186,7 @@ const Dashboard = () => {
     return (
         <div className = "dashboard-page">
             <DisplayHolder id = "weekly-bar-chart">
-
+                <SimpleBarChart />
             </DisplayHolder>
 
             <DisplayHolder id = "category-pie-chart">
