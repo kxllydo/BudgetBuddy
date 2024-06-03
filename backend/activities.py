@@ -77,17 +77,23 @@ def getWeekData():
         day_date = datetime.strptime(day, "%Y-%m-%d")
         weekday = day_date.strftime('%a')
 
-        amount = execute('SELECT price FROM activity WHERE user = %s AND act_date = %s', (user, day))
+        amount = execute('SELECT price FROM activity WHERE user = %s AND act_date = %s', (user, day), True)
         
         help['name'] = weekday
 
         if amount is not None:
             total = 0
             for cost in amount:
-                total += cost
+                for item in cost:
+                    intCost = int(item)
+                    total += intCost
             help['uv'] = total
         else:
             help['uv'] = 0
         weekCosts.append(help)
+    
+    # for stuff in weekCosts:
+    #     for key, value in stuff.items():
+    #         print (f'{key} : {value}')
 
     return weekCosts
