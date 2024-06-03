@@ -83,9 +83,9 @@ def getWeekData():
                 for item in cost:
                     intCost = int(item)
                     total += intCost
-            help['uv'] = total
+            help['costs'] = total
         else:
-            help['uv'] = 0
+            help['costs'] = 0
         weekCosts.append(help)
     
     # for stuff in weekCosts:

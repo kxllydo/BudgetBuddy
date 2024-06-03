@@ -62,7 +62,7 @@ const SimpleBarChart = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="uv" fill="#71b571" />
+            <Bar dataKey="costs" fill="#71b571" />
         </BarChart>
         </ResponsiveContainer>
     );
