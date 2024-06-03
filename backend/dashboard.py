@@ -1,5 +1,7 @@
 from flask import Blueprint
 from flask import jsonify, request, session
+from calendar import month_name as MONTH_NAMES
+from calendar import day_name as DAY_NAMES
 import datetime
 
 from database import execute
@@ -8,10 +10,10 @@ dashboard_bp = Blueprint("dashboard", __name__)
 _nameKey = "name"
 _dataKey = "value"
 
-MONTH_NAMES = ["January", "February", "March", "April", "May",
-                "June", "July", "August", "Septemebr", "October",
-                "November", "December"]
-DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+# MONTH_NAMES = ["January", "February", "March", "April", "May",
+#                 "June", "July", "August", "Septemebr", "October",
+#                 "November", "December"]
+# DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
 @dashboard_bp.route("/get-category-spending", methods = ["GET"])
 def get_category_spending():
