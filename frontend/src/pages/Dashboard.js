@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 import "@styles/Dashboard.css";
@@ -28,19 +28,44 @@ const lineData = [
     );
   };
 
-const barData = [
-    { name: 'Jan', uv: 400 },
-    { name: 'Feb', uv: 300 },
-    { name: 'Mar', uv: 200 },
-    { name: 'Apr', uv: 278 },
-    { name: 'May', uv: 189 },
-    { name: 'Jun', uv: 239 },
-  ];
+// const barData = () => {
+//     fetch ('/weekly-costs', {
+//         method: 'GET',
+//         credentials : 'include',
+//     })
+// }
+//     [
+//     { name: 'Mon', uv: 400 },
+//     { name: 'Tue', uv: 300 },
+//     { name: 'Wed', uv: 200 },
+//     { name: 'Thur', uv: 278 },
+//     { name: 'Fri', uv: 189 },
+//     { name: 'Sat', uv: 239 },
+//     { name: 'Sun', uv: 239 }
+//   ];
   
 const SimpleBarChart = () => {
+    const [costs, setCosts] = useState([])
+    
+    const barData = async () => {
+        const response = await fetch ('/weekly-costs', {
+            method: 'GET',
+            credentials : 'include',
+        });
+
+        const data = await response.json();
+        setCosts(data);
+        console.log(data)
+    };
+
+    useEffect(()=> {
+        barData();
+    }, []);
+
+
     return (
         <ResponsiveContainer width = "100%" height = "100%">
-        <BarChart width={600} height={240} data={barData} margin={{ top: 45, right: 30, left: 20, bottom: 5 }}>
+        <BarChart width={600} height={240} data={costs} margin={{ top: 45, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />

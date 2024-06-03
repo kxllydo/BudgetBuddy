@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import jsonify, request, session
-
+from datetime import datetime, timedelta
 from database import execute
 
 act_bp = Blueprint("activities", __name__)
@@ -57,3 +57,37 @@ def add_data():
     print(username, date, category, merchant, price)
     execute("INSERT INTO activity (act_date, merchant, price, user, category) VALUES (%s, %s, %s, %s, %s)", (date, merchant, price, username, category), save = True)
     return jsonify({"message": "worked.."}), 200
+
+def getWeeks(start_date):
+    date = datetime.strptime(start_date, "%Y-%m-%d")
+    start_of_week = date - timedelta(days=date.weekday() + 1)
+    
+    week_dates = [(start_of_week + timedelta(days=i)).strftime("%Y-%m-%d") for i in range(7)]
+    return week_dates
+
+
+@act_bp.route('/weekly-costs')
+def getWeekData():
+    date = datetime.now()
+    weekCosts = []
+    days = getWeeks(date.strftime("%Y-%m-%d"))
+    user = 'box'#session['user']
+    for day in days:
+        help = {}
+        day_date = datetime.strptime(day, "%Y-%m-%d")
+        weekday = day_date.strftime('%a')
+
+        amount = execute('SELECT price FROM activity WHERE user = %s AND act_date = %s', (user, day))
+        
+        help['name'] = weekday
+
+        if amount is not None:
+            total = 0
+            for cost in amount:
+                total += cost
+            help['uv'] = total
+        else:
+            help['uv'] = 0
+        weekCosts.append(help)
+
+    return weekCosts
