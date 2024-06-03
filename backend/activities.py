@@ -67,7 +67,7 @@ def getWeekData():
     date = datetime.now()
     weekCosts = []
     days = getWeeks(date.strftime("%Y-%m-%d"))
-    user = 'box'#session['user']
+    user = session['user']
     for day in days:
         help = {}
         day_date = datetime.strptime(day, "%Y-%m-%d")
