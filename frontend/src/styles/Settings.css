@@ -116,3 +116,30 @@
 .settings-cancel-btn:hover{
     background-color: rgb(193, 193, 193); /* Example background color on hover */
 }
+
+#delete-account-background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display:none;
+}
+
+#delete-account-container{
+    background-color: rgb(255, 255, 255);
+    grid-row-start: 2;
+    width: 40%;
+    height:fit-content;
+    margin-left: 30%;
+    margin-top: 14%;
+    border-radius: 15px;
+    box-shadow: 1px 2px 1px 1px rgb(206, 205, 205);
+    padding-bottom: 15px;
+}
+
+#message{
+    text-align: center;
+    margin: 3% 3% 0 3%;
+}
