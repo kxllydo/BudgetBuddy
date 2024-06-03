@@ -65,6 +65,13 @@ def categoryColors(category):
     color = response[0][0]
     return jsonify({'color' : color}), 200
 
+@auxiliary_bp.route('/delete-account', methods = ['POST'])
+def deleteAccount():
+    user = session['user']
+    execute('DELETE FROM users WHERE user = %s', (user, ), save=True)
+    session.clear()
+    return jsonify({'deleted' : user}), 200
+
 def getId(table, category, user):
     query = f'SELECT id FROM {table} WHERE user = %s AND category = %s'
     return execute(query, (user, category))[0]

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 import DisplayHolder from "@components/DisplayHolder";
 
@@ -95,6 +96,44 @@ const TypeForm = ({type}) => {
     )
 }
 
+const DeleteAccountForm = () => {
+    const cancelDelete = (event) => {
+        event.preventDefault();
+        const bg = document.getElementById('delete-account-background');
+        if (bg.style.display == 'block'){
+            bg.style.display = 'none';
+        }
+    }
+
+    const navigate = useNavigate();
+    const outletContext = useOutletContext();
+    const setLoggedIn = outletContext["setLoggedIn"];
+
+    const deleteAccount = (event) => {
+        event.preventDefault();
+        fetch ('/delete-account', {
+            method: 'POST',
+            credentials: 'include',
+            }
+        )
+        navigate('/');
+        setLoggedIn(false);
+    }
+
+    return (
+        <div id='delete-account-background'>
+            <div id='delete-account-container'>
+                <div id='message'>
+                <p>Are you sure you want to delete your account? This action is permanent and can't be undone</p>
+                </div>
+                <div className = "settings-pair" style={{marginLeft:'30%', marginRight:'30%'}} >
+                    <button type = "submit" className="settings-submit-btn" style={{backgroundColor: 'red'}} onClick={deleteAccount}>Delete</button>
+                    <button className="settings-cancel-btn" onClick={cancelDelete}>Cancel </button>
+                </div>
+            </div>
+        </div>
+    )
+}
 const Settings = () => {
     const colorFormAppear = (event) => {
         event.preventDefault();
@@ -104,10 +143,15 @@ const Settings = () => {
         button.style.display = 'none';
     }
 
+    const deleteFormAppear = (event) =>{
+        event.preventDefault();
+        const bg = document.getElementById('delete-account-background');
+        bg.style.display = 'block';
+    }
+
     return (
         <div id = "settings-body">
             <h1>Settings</h1>
-
             <DisplayHolder className = "settings-container">
                 <h2>Account</h2>
 
@@ -137,7 +181,8 @@ const Settings = () => {
                         <p className = "subtext">Why are you leaving me?</p>
                     </div>
                     <div className = "settings-input" id = "settings-delete">
-                        <button className = "settings-button" id = "delete-account-button">Delete Account</button>
+                        <button className = "settings-button" id = "delete-account-button" onClick={deleteFormAppear}>Delete Account</button>
+                        <DeleteAccountForm />
                     </div>
                 </div>
 
@@ -156,59 +201,6 @@ const Settings = () => {
         </div>
     );
 }
-
-const Setti2ngs = () => {
-    return (
-        <div id = "settings-body">
-            <h1>Settings</h1>
-            <div id = "settings-container">
-                <h2> Account </h2>
-                
-                <div className="settings-option">
-                    <div className = "settings-option-pair">
-                        <h3>Username</h3>
-                        <p className="subtext">Change your username</p>
-                    </div>
-                    <div className = "settings-input" id = "settings-user">
-                        <button className="settings-button" onClick={() => changeType("user")} id = "change-user-button">Change Username</button>
-                        <TypeForm type = 'user' />
-                    </div>
-                </div>
-
-                <div className="settings-option">
-                    <div className = "settings-option-pair">
-                        <h3>Email</h3>
-                        <p className="subtext">Change your email</p>
-                    </div>
-                    <button className="settings-button" onClick={() => changeType("email")} id = "change-email-button">Change Email</button>
-                    <TypeForm type = 'email' />
-                </div>
-
-                <div className="settings-option">
-                    <div className = "settings-option-pair">
-                        <h3>Password</h3>
-                        <p className="subtext">Change your password</p>
-                    </div>
-                    <div className = "settings-input" id = "settings-password">
-                        <button className="settings-button" onClick={() => changeType("password")}id = "change-password-button">Change Password</button>
-                        <TypeForm type = 'password' />
-                    </div>
-                </div>
-
-                <div className="settings-option">
-                    <div className = "settings-option-pair">
-                        <h3>Delete Account</h3>
-                        <p className="subtext">Why are you leaving me?</p>
-                    </div>
-                    <div className = "settings-input" id = "settings-delete">
-                        <button className="settings-button" style = {{backgroundColor:"rgb(229, 145, 145)"}} >Delete Account</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    );
-};
 
 
 const ColorForm = () => {
