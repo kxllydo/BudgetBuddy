@@ -39,22 +39,7 @@
     margin-left: 3.5%;
 }
 
-.budget-category{
-    list-style-type: none;
- 
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items:flex-start;
-}
-
-.budget-category > p{
-    margin-left: 1.5%;
-}
 #categories{
-    display:flex;
-    justify-content:space-between ;
-    flex-direction: column;
     margin-left: 2.5%;
 }
 
@@ -70,6 +55,15 @@
     border-radius: 5px;
     width: 0%;
     height: 100%;
+    background-color:rgb(69, 111, 69);
+}
+
+.bar-info{
+    float: right;
+    margin-right: 4%;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .goals{

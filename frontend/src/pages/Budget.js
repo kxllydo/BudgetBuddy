@@ -512,15 +512,14 @@ const CategoryProgressBar = ({categories}) => {
     return (
         <div>
             {categories.map((category, index) => (
-                <div key={index} className="budget-category">
-                    <p>{category}</p>
+                <div>
+                    <p style = {{marginLeft :'13px'}}>{category}</p>
                     <div className="total-bar">
                         <div className="progress-bar" id={category} style={{'width' : `${percent[category]}%`, 'backgroundColor' : `${color[category]}`}}>
                         </div>
-                        <div style = {{'float' : 'right'}}>
-                            <p style = {{'font-size' : '13px'}}>$ {spent[category]} / {cap[category]}</p>
-                            <br />
-                            </div>
+                    </div>
+                    <div className='bar-info'>
+                        <p style = {{'font-size' : '13px', float: 'right', margin:'none', padding: '0'}}>$ {spent[category]} / {cap[category]}</p>
                     </div>
                 </div>
             ))}
