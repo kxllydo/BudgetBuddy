@@ -21,7 +21,6 @@ const Sidebar = () => {
             <div className = "top-options">
                 <Option title = "Dashboard" link = {PATHS.DashboardPath} image = {require("@images/sidebar/dashboard.png")} />
                 <Option title = "Activity" link = {PATHS.ActivityPath} image = {require("@images/sidebar/activity.png")} />
-                <Option title = "Reports" link = {"/reports"} image = {require("@images/sidebar/reports.png")} />
                 <Option title = "Budget" link = {PATHS.BudgetPath} image = {require("@images/sidebar/budget.png")} />
             </div>
 
