@@ -12,9 +12,8 @@ import "@styles/Activity.scss";
 // fetch("/get-data/2024/05/act_date/true").then(async r => console.log(await r.json()));
 
 const fetchActivity = (setData, viewData) => {
-    console.log("***********************************************************");
-    console.log(`/get-data/${viewData.date.getFullYear()}/${viewData.date.getMonth() + 1}/${viewData.order}/${viewData.asc}`)
-    
+    // console.log("***********************************************************");
+    // console.log(`/get-data/${viewData.date.getFullYear()}/${viewData.date.getMonth() + 1}/${viewData.order}/${viewData.asc}`)
 
     fetch(`/get-data/${viewData.date.getFullYear()}/${(viewData.date.getMonth() + 1).toString().padStart(2, "0")}/${viewData.order}/${viewData.asc}`, {
         method: "GET",
