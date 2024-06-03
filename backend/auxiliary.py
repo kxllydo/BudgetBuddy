@@ -62,7 +62,16 @@ def change (type):
 def categoryColors(category):
     user = session['user']
     response = execute('SELECT color FROM preferences WHERE user = %s AND category = %s', (user, category), True)
-    color = response[0][0]
+    print(response)
+    lastIndex = len(response) - 1
+    color = ''
+    print(lastIndex)
+    if (lastIndex == 0):
+        color = response[0][0]
+    elif (lastIndex >= 1):
+        color = response[lastIndex][0]
+    else:
+        color = '#486c44'
     return jsonify({'color' : color}), 200
 
 @auxiliary_bp.route('/delete-account', methods = ['POST'])

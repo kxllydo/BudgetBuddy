@@ -519,7 +519,11 @@ const CategoryProgressBar = ({categories}) => {
                         </div>
                     </div>
                     <div className='bar-info'>
+                    {spent[category] === 'unset' ? (
+                        <p style={{fontSize : '13px'}}>Unset</p>
+                    ) : (
                         <p style = {{'font-size' : '13px', float: 'right', margin:'none', padding: '0'}}>$ {spent[category]} / {cap[category]}</p>
+                    )}
                     </div>
                 </div>
             ))}
