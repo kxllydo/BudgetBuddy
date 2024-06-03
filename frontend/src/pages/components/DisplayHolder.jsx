@@ -1,13 +1,13 @@
 import "@styles/components/DisplayHolder.scss";
 
-const DisplayHolder = ({children, className}) => {
+const DisplayHolder = ({children, id, className}) => {
     if (className)
         className = " " + className;
     else
         className = "";
 
     return (
-        <div className = {"display-container" + className}>
+        <div id = {id} className = {"display-container" + className}>
             {children}
         </div>
     )

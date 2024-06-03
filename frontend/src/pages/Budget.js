@@ -352,7 +352,7 @@ const EditForm = ({categories}) => {
                     </select>
                 </div>
                 <div className='format-option-pair'>
-                    <label htmlfor = "new-category" className='budget-popup-label'>New Category Name:</label>
+                    <label htmlFor = "new-category" className='budget-popup-label'>New Category Name:</label>
                     <input name='new-category' text='number' className='change-form-input'/>
                 </div>
 
@@ -382,11 +382,11 @@ const ChangeForm = ({categories}) => {
             <div className="format-option-pair">
                 <form id = "edit-type" style = {{marginTop: "6%"}} onChange={editHandler}>
                     <input type="radio" id="add" name="edit-type" value="add"/>  
-                    <label for="add" style = {{marginRight: "20px"}}>Add</label>
+                    <label htmlFor="add" style = {{marginRight: "20px"}}>Add</label>
                     <input type="radio" id="delete" name="edit-type" value="delete" />  
-                    <label for="delete" style = {{marginRight: "20px"}}>Delete</label>
+                    <label htmlFor="delete" style = {{marginRight: "20px"}}>Delete</label>
                     <input type="radio" id="edit" name="edit-type" value="edit" />  
-                    <label for="edit" >Edit</label>
+                    <label htmlFor="edit" >Edit</label>
                 </form>
             </div>
 
@@ -561,23 +561,6 @@ const BudgetCategories = ({categories}) => {
 const Budget = () =>{
     const [data, setData] = useState({});
     const [categories, setCategories] = useState([]);
-
-    useEffect(() => {
-        fetch("http://127.0.0.1:5000/")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setData(data);
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
-            });
-    }, []);
 
     const getCategories = async () => {
         try {

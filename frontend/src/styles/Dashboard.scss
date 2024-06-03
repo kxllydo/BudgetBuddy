@@ -1,0 +1,51 @@
+.dashboard-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: calc(50vh - 50px) calc(25vh - 50px) calc(25vh - 50px);
+    gap: 25px;
+
+    #weekly-bar-chart {
+        grid-column: 1 / span 3;
+        grid-row: 1 / span 1;
+    }
+
+    #category-pie-chart {
+        grid-column: 4 / span 1;
+        grid-row: 1 / span 1;
+    }
+
+    #spent-most-chart {
+        grid-column: 1 / span 2;
+        grid-row: 2 / span 1;
+    }
+
+    #spent-least-chart {
+        grid-column: 1 / span 2;
+        grid-row: 3 / span 1;
+    }
+
+    #monthly-line-chart {
+        grid-column: 3 / span 2;
+        grid-row: 2 / span 2;
+    }
+
+    #spent-most-chart, #spent-least-chart {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+
+        .category {
+            margin: 0px;
+            font-size: 1.5rem;
+        }
+        
+        .category-label {
+            text-decoration: underline;
+        }
+
+        .cost {
+            margin: 0px;
+            align-self: flex-end;
+        }
+    }
+}

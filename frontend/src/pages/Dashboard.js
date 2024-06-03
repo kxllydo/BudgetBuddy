@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { useState, useEffect } from "react";
+import { PieChart, BarChart, LineChart, ResponsiveContainer, Line,  Bar, XAxis, YAxis, CartesianGrid, Pie, Cell, Tooltip, Legend } from "recharts";
 
-import "@styles/Dashboard.css";
+import DisplayHolder from "@components/DisplayHolder";
 
-const lineData = [
-    { name: 'Jan', uv: 400 },
-    { name: 'Feb', uv: 300 },
-    { name: 'Mar', uv: 200 },
-    { name: 'Apr', uv: 278 },
-    { name: 'May', uv: 189 },
-    { name: 'Jun', uv: 239 },
-  ];
-  
-  const SimpleLineChart = () => {
+import "@styles/Dashboard.scss";
+
+const SimpleLineChart = ({ data }) => {
     return (
         <ResponsiveContainer width = "100%" height = "100%">
-            <LineChart width={550} height={240} data={lineData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-        </LineChart>
+            <LineChart data = {data} margin = {{ top: 30, right: 30, left: 0, bottom: 10 }}>
+                <CartesianGrid strokeDasharray = "3" />
+                <XAxis dataKey = "name" />
+                <YAxis />
+                <Tooltip />
+                <Line type = "monotone" dataKey = "value" stroke = "#8884d8" />
+            </LineChart>
         </ResponsiveContainer>
-
     );
-  };
+};
 
 // const barData = () => {
 //     fetch ('/weekly-costs', {
@@ -76,13 +67,6 @@ const SimpleBarChart = () => {
         </ResponsiveContainer>
     );
 };
-
-
-const pieData = [
-    { name: 'Food', value: 400 },
-    { name: 'Bills', value: 300 },
-    { name: 'Housing', value: 300 },
-  ];
   
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
@@ -99,31 +83,34 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     );
 };
 
-const PieChartComponent = () => {
-    return (
-        <PieChart width = {400} height = {180}>
-            <Pie
-                data={pieData}
-                cx="40%"
-                cy="50%"
-                labelLine={false}
-                label={renderCustomizedLabel}
-                outerRadius={90}
-                fill="#8884d8"
-                dataKey="value"
-                >
-                {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
-                ))}
-            </Pie> 
-        
-            <Tooltip />
-            <Legend layout="vertical" align="right" verticalAlign="middle"/>
-            </PieChart>
-    );
+const PieChartComponent = ({ data }) => {
+    if (data)
+        return (
+            <ResponsiveContainer width = "100%" height = "100%">
+                <PieChart width = "100%">
+                    <Pie
+                        data={data}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        outerRadius={90}
+                        fill="#8884d8"
+                        dataKey="value"
+                    >
+                        {data.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
+                        ))}
+                    </Pie> 
+                
+                    <Tooltip />
+                    <Legend layout="vertical" align="right" verticalAlign="middle"/>
+                </PieChart>
+            </ResponsiveContainer>
+        );
 };
 
-const Dashboard = () => {
+const Dashbo2ard = () => {
     return(
         <div className = "dashboard-body">
             <div className = "graph">
@@ -155,6 +142,72 @@ const Dashboard = () => {
             </div>
         </div>
     );
+}
+
+const Dashboard = () => {
+    const [pieData, setPieData] = useState(null);
+    const [barData, setBarData] = useState(null);
+    const [minmaxData, setMinMaxData] = useState(null);
+
+    // pieData
+    useEffect(() => {
+        fetch("/get-category-spending", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            if (!response.ok)
+                throw new Error("Error fetching data!");
+            setPieData(await response.json());
+        }).catch(error => console.log(error));
+    }, []);
+
+    // barData
+    useEffect(() => {
+        fetch("/get-monthly-spending", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            if (!response.ok)
+                throw new Error("Error fetching monthly spending.");
+            setBarData(await response.json());
+        }).catch(error => console.log(error))
+    }, []);
+
+    // minmaxData
+    useEffect(() => {
+        fetch("/get-minmax-spending", {
+            method: "GET",
+            credentials: "include",
+        }).then(async response => {
+            setMinMaxData(await response.json());
+        }).catch(error => console.log(error));
+    }, []);
+
+    return (
+        <div className = "dashboard-page">
+            <DisplayHolder id = "weekly-bar-chart">
+
+            </DisplayHolder>
+
+            <DisplayHolder id = "category-pie-chart">
+                <PieChartComponent data = {pieData} />
+            </DisplayHolder>
+
+            <DisplayHolder id = "spent-least-chart">
+                <p className = "category">Spent the least on <span className = "category-label">{minmaxData && minmaxData.min.category}</span></p>
+                <h1 className = "cost">${minmaxData && minmaxData.min.value}</h1>
+            </DisplayHolder>
+
+            <DisplayHolder id = "spent-most-chart">
+                <p className = "category">Spent the most on <span className = "category-label">{minmaxData && minmaxData.max.category}</span></p>
+                <h1 className = "cost">${minmaxData && minmaxData.max.value}</h1>
+            </DisplayHolder>
+
+            <DisplayHolder id = "monthly-line-chart">
+                <SimpleLineChart data = {barData} />
+            </DisplayHolder>
+        </div>
+    )
 }
  
 export {PieChartComponent, SimpleBarChart, SimpleLineChart};

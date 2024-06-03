@@ -61,6 +61,6 @@ def logout():
 
 @auth_bp.route("/is_logged_in", methods=["GET"])
 def is_logged_in():
-    if "user_id" in session:
+    if "user" in session:
         return jsonify({"logged_in": True}), 200
     return jsonify({"logged_in": False}), 401
