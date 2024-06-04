@@ -84,7 +84,7 @@
     font-size: 20px;
 }
 
-#add-category {
+#add-cat {
     cursor: pointer;
     background-color:  rgb(81, 130, 81);
     color: white;
@@ -174,7 +174,7 @@
 background-color: rgb(69, 111, 69);
 }
 
-#add-category:hover{
+#add-cat:hover{
 background-color: rgb(69, 111, 69);
 }
 

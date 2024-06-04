@@ -5,8 +5,8 @@ from database import execute
 
 auxiliary_bp = Blueprint("auxiliary", __name__)
 
-def exists(table, attribute, user, condition = ""):
-    if condition == "category":
+def exists(table, attribute, user, condition = "", category = False):
+    if category:
         query = f'SELECT {attribute} FROM {table} WHERE user = %s AND category = %s'
         response = execute(query, (user, condition))
     elif (condition == ''):
@@ -62,10 +62,8 @@ def change (type):
 def categoryColors(category):
     user = session['user']
     response = execute('SELECT color FROM preferences WHERE user = %s AND category = %s', (user, category), True)
-    print(response)
     lastIndex = len(response) - 1
     color = ''
-    print(lastIndex)
     if (lastIndex == 0):
         color = response[0][0]
     elif (lastIndex >= 1):

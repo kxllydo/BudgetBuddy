@@ -5,6 +5,7 @@ import DisplayHolder from "@components/DisplayHolder";
 
 import "@styles/Settings.css";
 
+
 const changeType = (type) => {
     const id = `change-${type}-button`;
     const form = `${type}-form`

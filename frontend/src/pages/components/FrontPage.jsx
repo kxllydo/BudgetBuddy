@@ -9,7 +9,7 @@ const Navbar = () => {
 
     return (
         <nav className = "navbar">
-            <Link className = "logo" to = {PATHS.HomePath}>Expenses</Link>
+            <Link className = "logo" to = {PATHS.HomePath}>Budget Buddy</Link>
 
             <ul>
                 <li><Link className = "primary-btn" to = {PATHS.AboutPath}>About</Link></li>
