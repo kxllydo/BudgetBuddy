@@ -5,41 +5,90 @@ import "@styles/Budget.css";
 
 
 
-export const exitHandler = () => {
+const getCategories = async () => {
+    try {
+        const response = await fetch("/display-categories", {
+            method: 'GET',
+            credentials: 'include',
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch categories');
+        }
+        
+        const data = await response.json();
+        return(data.categories);
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        return [];
+    }
+};
+const exitHandler =  () => {
     var popupForm = document.getElementById("category-form-background");
     popupForm.style.display = 'none';
 };
 
-
-
-const ProgressPie = () => {
-    const data = [
-        { name: 'Spent', value: 500},
-        {name: 'Total', value:3000}
-    ];
-
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-    return(
-    <PieChart width={1000} height={180}>
-    <Pie
-        data={data}
-        cx= "50%"
-        cy={160}
-        startAngle={180}
-        endAngle={0}
-        innerRadius={130}
-        outerRadius={150}
-        fill="#8884d8"
-        paddingAngle={1}
-        dataKey="value"
-    >
-        {data.map((entry, index) => (
-        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-    </Pie>
-    </PieChart>
-    )
+const formHandler = async (event, func, type, setCategories) => {
+    event.preventDefault();
+    let elementID = `${func}-${type}`;
+    let form = document.getElementById(elementID);
+    let data = new FormData(form);
+    try{
+        const response = await fetch (`/${elementID}`, {
+            method: 'POST',
+            credentials: 'include',
+            body: data,
+        });
+        if (!response.ok){
+            throw new Error (`Failed to ${func} ${type}`);
+        }
+        exitHandler();
+    } catch (error) {
+        console.error(`Error ${func}ing ${type}:`, error);
+        if (func == 'edit' || func == 'add'){
+            if (func == 'edit' && type == 'cap'){
+                alert(`${type} doesn't exist. Try adding a ${type} first`);
+            }else if (func == 'add' && type == 'cap'){
+                alert('Cap for that category already exists! Try editing instead');
+            }else{
+                alert (`There is already an existing category with that name. Try a different name`);
+            }
+        }
+    }
 };
+
+
+
+
+
+// const ProgressPie = () => {
+//     const data = [
+//         { name: 'Spent', value: 500},
+//         {name: 'Total', value:3000}
+//     ];
+
+//     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+//     return(
+//     <PieChart width={1000} height={180}>
+//     <Pie
+//         data={data}
+//         cx= "50%"
+//         cy={160}
+//         startAngle={180}
+//         endAngle={0}
+//         innerRadius={130}
+//         outerRadius={150}
+//         fill="#8884d8"
+//         paddingAngle={1}
+//         dataKey="value"
+//     >
+//         {data.map((entry, index) => (
+//         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+//         ))}
+//     </Pie>
+//     </PieChart>
+//     )
+// };
 
 const AddForm = ({categories}) => {
     const [state, setState] = useState("category");
@@ -49,54 +98,7 @@ const AddForm = ({categories}) => {
     const optionHandler = (event) => {
         const selectedState = event.target.value;
         setState(selectedState);
-    };
-
-    const capHandler = async (event) => {
-        event.preventDefault();
-        const form = document.querySelector("#cap-adder");
-        const capData = new FormData(form);
-        try {
-            const response = await fetch ("/add-cap", {
-                method: 'POST',
-                body: capData,
-                credentials: 'include',
-            });
-            if (!response.ok){
-                throw new Error('Failed to add cap');
-            }
-            exitHandler();
-            } catch (error) {
-                console.error ('Error adding cap: ', error);
-                alert ('Cap for that category already exists! Try editing instead');
-            }
-
-
-        for (const entry of capData.entries()) {
-            console.log(entry[0], entry[1]);
-        }
-    };
-
-    const categoryHandler = async (event) => {
-        event.preventDefault();
-        const form = document.querySelector("#category-adder");
-        const categoryData = new FormData(form);
-        
-        try {
-            const response = await fetch ("/add-category", {
-                method: 'POST',
-                body: categoryData,
-                credentials: 'include',
-            });
-            if (!response.ok) {
-                throw new Error('Failed to add category');
-            }
-            exitHandler();
-        } catch (error) {
-            console.error('Error adding category:', error);
-            alert('Category already exists! Add a new one');
-        }
-    };
-    
+    };    
 
     const newCategory = (event) => {
         setCategory(event.target.value);
@@ -104,7 +106,6 @@ const AddForm = ({categories}) => {
 
     const categoryPicker = (event) => {
         setPicked(event.target.value);
-        console.log(picked);
     };
 
     return (
@@ -118,7 +119,7 @@ const AddForm = ({categories}) => {
             </div>
 
             { state == "cap" && (
-                <form id = "cap-adder"> 
+                <form id = "add-cap"> 
                 <div className="format-option-pair">
                 <label htmlFor="expense-cap" className="budget-popup-label">Expense Cap:</label>
                 <div className='before-money-input'>
@@ -136,19 +137,19 @@ const AddForm = ({categories}) => {
                 </div>
 
             <div className="popup-submit-div">
-            <button type="submit" value="Submit" className="popup-submit" onClick={capHandler} >Submit</button>
+            <button type="submit" value="Submit" className="popup-submit" onClick={(event) => formHandler(event, 'add', 'cap')} >Submit</button>
             <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
             </div>
         </form> )}
     
             {state == "category" && (
-            <form id = "category-adder">
+            <form id = "add-category">
                 <div className="format-option-pair">
                     <label htmlFor="category-input" className = "budget-popup-label">Category Name:</label>
                     <input type = "text" id = "category-input" name = "category-input" className='change-form-input' onChange={newCategory} required></input>
                 </div>
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className = "popup-submit" onClick={categoryHandler}>Submit</button>
+                    <button type="submit" value="Submit" className = "popup-submit" onClick={(event) => formHandler(event, 'add', 'category')}>Submit</button>
                     <button type = "button" value = "quit" className = "popup-exit" onClick = {exitHandler}>Exit</button>
                 </div>
             </form>
@@ -168,40 +169,7 @@ const DeleteForm = ({categories}) => {
 
     const categoryPicker = (event) => {
         setPicked(event.target.value);
-        console.log(picked);
     };
-
-    const deleteCap = (event) => {
-        event.preventDefault();
-        const form = document.getElementById("cap-remover");
-        const capData = new FormData(form);
-        for (var pair of capData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-        }
-
-        fetch ('/delete-cap', {
-            method: 'POST',
-            body: capData,
-            credentials: 'include',
-        });
-        exitHandler();
-    }
-
-    const deleteCategory = (event) => {
-        event.preventDefault();
-        const form = document.getElementById("category-remover");
-        const categoryData = new FormData(form);
-        for (var pair of categoryData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-        }
-
-        fetch ('/delete-category', {
-            method: 'POST',
-            body: categoryData,
-            credentials: 'include',
-        });
-        exitHandler();
-    }
 
     return (
         <div>
@@ -214,7 +182,7 @@ const DeleteForm = ({categories}) => {
             </div>
         
         { state == "cap" && (
-            <form id = "cap-remover"> 
+            <form id = "delete-cap"> 
             <div className="format-option-pair">
                 <label htmlFor="cap-category" className="budget-popup-label">Category</label>
                 <select name="cap-category" className="choices" id="cap-categories" onChange={categoryPicker}>
@@ -225,14 +193,14 @@ const DeleteForm = ({categories}) => {
                 </div>
 
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className="popup-submit" onClick={deleteCap}>Submit</button>
+                    <button type="submit" value="Submit" className="popup-submit" onClick={(event) => formHandler(event, 'delete', 'cap')}>Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
             </form>
         )}
 
         { state == "category" && (
-            <form id = "category-remover"> 
+            <form id = "delete-category"> 
             <div className="format-option-pair">
                 <label htmlFor="category" className="budget-popup-label">Category</label>
                 <select name="category" className="choices" id="cap-categories" onChange={categoryPicker}>
@@ -244,7 +212,7 @@ const DeleteForm = ({categories}) => {
 
                 <div className="popup-submit-div">
                     <button type="submit" value="Submit" className="popup-submit" 
-                    onClick={deleteCategory}>Submit</button>
+                    onClick={(event)=>formHandler(event, 'delete', 'category')}>Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
             </form>
@@ -265,48 +233,8 @@ const EditForm = ({categories}) => {
 
     const categoryPicker = (event) => {
         setPicked(event.target.value);
-        console.log(picked);
     };
 
-    const editCap = async (event) =>{
-        event.preventDefault();
-        const form = document.getElementById('edit-cap');
-        const editData = new FormData(form);
-        try{
-            const response = await fetch ('/edit-cap', {
-                method: 'POST',
-                credentials: 'include',
-                body: editData,
-            });
-            if (!response.ok){
-                throw new Error ('Failed to edit cap');
-            }
-            exitHandler();
-        } catch (error) {
-            console.error('Error editing cap:', error);
-            alert("Cap doesn't exist. Try adding a cap first");
-        }
-    };
-
-    const editCategory = async (event) =>{
-        event.preventDefault();
-        const form = document.getElementById('edit-category')
-        const categoryData = new FormData(form)
-        try{
-            const response = await fetch ('/edit-category', {
-                method: 'POST',
-                credentials: 'include',
-                body: categoryData,
-            });
-            if (!response.ok){
-                throw new Error ('Failed to edit category')
-            }
-            exitHandler();
-        } catch (error) {
-            console.error ('Error editing category', error);
-            alert('There is already an existing category with that name. Try a different name');
-        }
-    }
     return (
         <div>
         <div className="format-option-pair">
@@ -335,7 +263,7 @@ const EditForm = ({categories}) => {
                 </div>
 
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className="popup-submit" onClick={editCap} >Submit</button>
+                    <button type="submit" value="Submit" className="popup-submit" onClick={(event)=>formHandler(event, 'edit', 'cap')} >Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
             </form>
@@ -357,7 +285,7 @@ const EditForm = ({categories}) => {
                 </div>
 
                 <div className="popup-submit-div">
-                    <button type="submit" value="Submit" className="popup-submit" onClick={editCategory}
+                    <button type="submit" value="Submit" className="popup-submit" onClick={(event)=>formHandler(event, 'edit', 'category')}
                    >Submit</button>
                     <button type="button" className="popup-exit" onClick={exitHandler}>Exit</button>
                 </div>
@@ -492,7 +420,6 @@ const CategoryProgressBar = ({categories}) => {
                 throw new Error ('Failed to fetch color data');
             }
             const data = await response.json();
-            console.log(data.color);
             return {category, color: data.color};
         }catch (error) {
             console.error('Error:', error);
@@ -507,7 +434,6 @@ const CategoryProgressBar = ({categories}) => {
         fillDict('color');
     }, [categories])
 
-    console.log(color);
 
     return (
         <div>
@@ -544,12 +470,11 @@ const BudgetCategories = ({categories}) => {
 
     return(
         <div className="budget-summary">
-
            <ChangeForm categories={categories} />
             <div className="budget-category-header">
                 <h1> Budget by Category</h1>
                 <div className = "category-button">
-                    <button id = "add-category" onClick = {popupForm}>Edit</button>
+                    <button id = "add-cat" onClick = {popupForm}>Edit</button>
                 </div>
             </div>
 
@@ -565,28 +490,9 @@ const Budget = () =>{
     const [data, setData] = useState({});
     const [categories, setCategories] = useState([]);
 
-    const getCategories = async () => {
-        try {
-            const response = await fetch("/display-categories", {
-                method: 'GET',
-                credentials: 'include',
-            });
-            
-            if (!response.ok) {
-                throw new Error('Failed to fetch categories');
-            }
-            
-            const data = await response.json();
-            setCategories(data.categories);
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-            return [];
-        }
-    };
-
     useEffect(() => {
         const fetchCategories =  async() =>{
-            await getCategories();
+            setCategories(await getCategories());
         }
         fetchCategories();
     }, []);
@@ -595,18 +501,17 @@ const Budget = () =>{
     return (
         <div className = "budget-page">
             <div className = "budget-body sidebar-page">
-                <div className="progress-tracker">
+                {/* <div className="progress-tracker">
                     <h1 className = "goals"> Goal: Spend Less than 1k </h1>
                     <ResponsiveContainer>
                         <ProgressPie />
                     </ResponsiveContainer>
-                </div>
+                </div> */}
                 <BudgetCategories categories={categories} />
             </div>
-            
          </div>
     );
 };
 
-export {ProgressPie, BudgetCategories, ChangeForm, AddForm, DeleteForm, CategoryProgressBar};
+export {BudgetCategories, ChangeForm, AddForm, DeleteForm, CategoryProgressBar};
 export default Budget;

@@ -39,7 +39,7 @@ def addCategory():
     exist = execute('SELECT category FROM categories WHERE user = %s AND category = %s', (username, category))
 
     print(exist)
-    if _exists('categories', 'category', username, category):
+    if _exists('categories', 'category', username, category, True):
          return jsonify({'message': 'Category already exists'}), 400
     else:
         execute("INSERT INTO categories (category, user) VALUES (%s, %s)", (category, username), save = True)
@@ -51,7 +51,7 @@ def addCap():
     category = request.form['cap-categories']
     username = session['user']
 
-    if _exists('expenseCap', 'cap', username, category):
+    if _exists('expenseCap', 'cap', username, category, True):
         return jsonify({'message': 'Cap already exists for that category. Try editing instead'}), 400
     else:
         execute("INSERT INTO expenseCap (cap, category, user) VALUES (%s, %s, %s)", (expenseCap, category, username ), save = True)
